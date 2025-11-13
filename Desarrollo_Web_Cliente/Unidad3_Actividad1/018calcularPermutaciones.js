@@ -1,30 +1,32 @@
 function calcularPermutaciones(array) {
+  // Caso base: si solo hay un elemento, la única permutación es el mismo array
   if (array.length === 1) {
-    return [array]; // Caso base: solo un elemento
+    return [array]; // Devuelve un array dentro de un array
   }
 
-  const resultado = [];
+  const resultado = []; // Aquí vamos a guardar todas las permutaciones
 
+  // Recorremos cada elemento del array
   for (let i = 0; i < array.length; i++) {
-    // Tomamos el elemento actual
-    const elemento = array[i];
+    const elemento = array[i]; // Tomamos un elemento
 
-    // Creamos un array sin el elemento actual
+    // Creamos un array con todos los elementos menos el actual
     const resto = array.slice(0, i).concat(array.slice(i + 1));
 
-    // Generamos todas las permutaciones del resto
+    // Calculamos todas las permutaciones posibles del resto (recursión)
     const permutacionesResto = calcularPermutaciones(resto);
 
-    // Añadimos el elemento actual a cada permutación del resto
+    // Para cada permutación del resto, agregamos el elemento actual al principio
     for (const perm of permutacionesResto) {
       resultado.push([elemento, ...perm]);
     }
   }
 
-  return resultado;
+  return resultado; // Devolvemos todas las permutaciones encontradas
 }
 
 // Ejemplo de uso
-console.log(calcularPermutaciones([1, 2, 3]));
-
+const entrada = [1, 2, 3];
+const salida = calcularPermutaciones(entrada);
+console.log(salida);
 
