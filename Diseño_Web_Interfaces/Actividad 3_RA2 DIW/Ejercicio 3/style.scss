@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700&display=swap');
+
+/* VARIABLES */
+// FUENTES
+$font-primary: 'Nunito', sans-serif;
+
+// TAMAÑOS
+$body-font-size: 1rem;
+$h1-size: 2rem; // 200% del body
+$h2-size: 2rem; // 100% extra del body
+$h3-size: 1.5rem; // 50% más que body
+
+// PESOS
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 700;
+
+// COLORES
+$color-text: #000;
+$color-link: #ff0000;
+$color-bg-header: #f0f0f0;
+$color-bg-nav: #f0f0f0;
+$color-bg-footer: #222;
+$color-text-footer: #fff;
+
+// ANCHO MÁXIMO
+$max-width-page: 1400px;
+
+/*ESTILOS GLOBALES */
+html {
+    box-sizing: border-box; // Evita problemas con padding/margin  
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: $font-primary;
+    font-weight: $font-weight-regular;
+    font-size: $body-font-size;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; // Centra la página horizontalmente
+
+}
+
+.container {
+    max-width: $max-width-page;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 1rem; // padding para móviles
+}
+
+h1,
+h2,
+h3 {
+    font-family: $font-primary;
+    font-weight: $font-weight-bold;
+    margin: 0.5em 0;
+}
+
+h1 {
+    font-size: $h1-size;
+
+}
+
+h2 {
+    font-size: $h2-size;
+
+
+}
+
+h3 {
+    font-size: $h3-size;
+
+}
+
+a {
+    text-decoration: none;
+    color: $color-link;
+    transition: color 0.3s;
+}
+
+/*HEADER*/
+header {
+    width: 100%;
+    background-color: $color-bg-header;
+    padding: 1rem;
+    text-align: center;
+}
+
+header img {
+    max-width: 200px; // ajustable según logo
+    cursor: pointer; // indica que es clicable para recargar  
+}
+
+header h1 {
+    margin: 0; // reset de márgenes
+    font-size: $h1-size;
+    cursor: pointer; // clicable para recargar   
+}
+
+header h2 {
+    margin: 0; // reset de márgenes
+    font-size: $h2-size;
+    font-weight: $font-weight-regular;
+}
+
+/*NAV*/
+nav {
+    width: 100%;
+    background-color: $color-bg-nav;
+    margin-top: 0.5rem; // separación del header   
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0 0.5rem;
+}
+
+nav ul li a {
+    text-transform: uppercase;
+    font-size: 1.1rem; // 110% del cuerpo
+    font-weight: $font-weight-regular;
+    color: $color-text;
+    padding: 0.5rem 1rem; // pequeño padding entre items
+    transition: all 0.3s;
+}
+
+nav ul li a:hover {
+    font-weight: $font-weight-bold;
+    color: $color-link;
+}
+
+/*SECTION*/
+section {
+    font-weight: $font-weight-bold;
+    color: $color-link;
+    min-height: 20em; // altura mínima
+    padding: 2rem 1rem; // opcional, para que el contenido no quede pegado
+}
+
+/*FOOTER*/
+footer {
+    background-color: $color-bg-footer;
+    color: $color-text-footer;
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+footer div,
+footer p {
+    margin-bottom: 1rem;
+    background-color: $color-bg-footer;
+}
+
+footer p {
+    font-size: 0.8rem; // 80% del body   
+}
+
+footer p a:hover {
+    color: $color-link;
+}
+
+/* Si tienes iconos en el footer */
+footer div img {
+    width: 3em;
+    display: inline-block;
+    margin: 0 0.5em;
+}
