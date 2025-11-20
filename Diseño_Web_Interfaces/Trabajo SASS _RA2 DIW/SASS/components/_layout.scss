@@ -1,0 +1,30 @@
+body {
+  font-family: $font-base;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: $primary-color;
+  padding: $spacing-medium;
+
+  nav {
+    display: flex;
+    gap: $spacing-small;
+  }
+}
+
+section {
+  padding: $spacing-medium;
+
+  article {
+    margin-bottom: $spacing-medium;
+  }
+}
+
+footer {
+  background-color: $secondary-color;
+  text-align: center;
+  padding: $spacing-medium;
+}

@@ -10,6 +10,7 @@ class Cliente(models.Model):
     activo = models.BooleanField(default=True)          # Si el cliente está activo
     fecha_alta = models.DateField(auto_now_add=True)    # Fecha de registro
 
+    #METODO PARA OBTENER EL NOMBRE DEL CLIENTE
     def __str__(self):
         return f"{self.nombre} ({self.nif})"
     
@@ -49,7 +50,7 @@ class Pedido(models.Model):
     estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
 
     def __str__(self):
-        return f"{self.codigo} - {self.cliente.nombre}"
+        return f"{self.codigo} - {self.cliente.nombre} - {self.importe_total}"
     
     
     #--------------------METODOS PARA PEDIDOS--------------------------------------------#

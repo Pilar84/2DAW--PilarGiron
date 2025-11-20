@@ -1,0 +1,20 @@
+// Mixins de flexbox
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+// Mixins de responsivo
+@mixin respond($breakpoint) {
+  @if $breakpoint == mobile {
+    @media (max-width: 767px) { @content; }
+  } @else if $breakpoint == tablet {
+    @media (max-width: 1023px) { @content; }
+  }
+}
+
+// Mixins de borde
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
