@@ -1,30 +1,177 @@
+// ==== GENERAL ====
 body {
   font-family: $font-base;
+  background-color: $background-color;
   color: $text-color;
   margin: 0;
   padding: 0;
 }
 
-header {
-  background-color: $primary-color;
-  padding: $spacing-medium;
-
-  nav {
-    display: flex;
-    gap: $spacing-small;
-  }
+.container {
+  max-width: $max-width;
+  margin: auto;
+  padding: 0 $spacing-medium;
 }
 
-section {
-  padding: $spacing-medium;
+.section {
+  padding: $spacing-large 0;
+}
 
-  article {
+.section__title {
+  font-size: $font-size-section-title;
+  margin-bottom: $spacing-medium;
+  text-align: center;
+  color: $primary-color;
+  letter-spacing: 1px;
+}
+
+// ==== HERO ====
+.hero {
+  background: linear-gradient(135deg, $primary-color, $secondary-color);
+  color: $white;
+  padding: $spacing-large 0;
+  text-align: center;
+
+  &__title {
+    font-size: 2.6rem;
+    font-weight: 700;
+    margin-bottom: $spacing-small;
+  }
+
+  &__subtitle {
+    font-size: $font-size-subtitle;
+    opacity: 0.9;
     margin-bottom: $spacing-medium;
   }
+
+  &__buttons {
+    @include flex-center;
+    gap: $spacing-small;
+    margin-top: $spacing-small;
+
+    a {
+      text-decoration: none;
+    }
+  }
 }
 
-footer {
-  background-color: $secondary-color;
+// ==== BOTONES ====
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  border-radius: $border-radius;
+  background-color: $gray-light;
+  color: $text-color;
+  transition: 0.25s ease;
+  box-shadow: $shadow-soft;
+
+  &:hover {
+    background-color: $accent-color;
+  }
+
+  &--primary {
+    background-color: $primary-color;
+    color: $white;
+
+    &:hover {
+      background-color: darken($primary-color, 8%);
+    }
+  }
+}
+
+// ==== ABOUT ====
+.about__text {
   text-align: center;
+  max-width: 800px;
+  margin: auto;
+  color: $text-light;
+  line-height: 1.6;
+}
+
+// ==== PROJECTS ====
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: $spacing-medium;
+
+  @include respond(tablet) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond(mobile) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-card {
+  background-color: $white;
   padding: $spacing-medium;
+  border-radius: $border-radius;
+  box-shadow: $shadow-soft;
+  text-align: center;
+  transition: 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  &__img {
+    height: 150px;
+    background-color: $gray-light;
+    border-radius: $border-radius;
+    margin-bottom: $spacing-small;
+  }
+
+  &__title {
+    font-weight: 600;
+    margin-bottom: $spacing-small;
+    color: $primary-color;
+  }
+
+  &__desc {
+    color: $text-light;
+    font-size: 0.9rem;
+  }
+}
+
+// ==== SKILLS ====
+.skills__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-small;
+  justify-content: center;
+}
+
+.skill {
+  background-color: $white;
+  padding: 0.5rem 1rem;
+  border-radius: $border-radius;
+  box-shadow: $shadow-soft;
+  font-size: 0.9rem;
+}
+
+// ==== EDUCATION ====
+.education__content {
+  text-align: center;
+  color: $text-light;
+
+  h3 {
+    color: $primary-color;
+  }
+}
+
+// ==== CONTACT ====
+.contact__text {
+  text-align: center;
+  margin-bottom: $spacing-medium;
+  color: $text-light;
+}
+
+// ==== FOOTER ====
+.footer {
+  background-color: $gray-light;
+  padding: $spacing-medium;
+  text-align: center;
+  color: $text-light;
+  font-size: 0.9rem;
 }

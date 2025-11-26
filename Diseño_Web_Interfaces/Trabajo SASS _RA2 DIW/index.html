@@ -1,18 +1,29 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mi Portafolio - Desarrolladora Web</title>
-    <link rel="stylesheet" href="components/styles.css" />
+    <link rel="stylesheet" href="SASS/CSS/style.css">
 </head>
 
 <body>
+    <div class="header-top">
+        <div class="header-top__contact">
+            <a href="mailto:pilargijor@hotmail.es" title="Enviar email">📧</a>
+            <a href="tel:651885750" title="Llamar">📱</a>
+        </div>
+
+        <nav class="header-top__nav">
+            <a href="#contact" class="btn btn--small">Contacto</a>
+        </nav>
+    </div>
 
     <!-- ===== HEADER / HERO ===== -->
     <header class="hero" id="home">
         <div class="hero__content container">
-            <h1 class="hero__title">Tu Nombre</h1>
+            <h1 class="hero__title">MARIA DEL PILAR GIRÓN JORDÁN</h1>
             <p class="hero__subtitle">Desarrolladora de Aplicaciones Web</p>
 
             <div class="hero__buttons">
@@ -28,8 +39,8 @@
         <div class="container">
             <h2 class="section__title">Sobre mí</h2>
             <p class="about__text">
-                Soy desarrolladora de aplicaciones web con experiencia en frontend y backend. 
-                Me apasiona crear interfaces modernas, limpias y funcionales, aplicando buenas prácticas 
+                Soy desarrolladora de aplicaciones web con experiencia en frontend y backend.
+                Me apasiona crear interfaces modernas, limpias y funcionales, aplicando buenas prácticas
                 de accesibilidad y rendimiento.
             </p>
         </div>
@@ -64,21 +75,68 @@
 
     <!-- ===== SKILLS ===== -->
     <section class="skills section" id="skills">
-        <div class="container">
-            <h2 class="section__title">Tecnologías</h2>
+    <div class="container">
+        <h2 class="section__title">Tecnologías</h2>
+
+        <div class="skills__category">
+            <h3>Frontend</h3>
             <div class="skills__list">
-                <span class="skill">HTML5</span>
-                <span class="skill">CSS3</span>
-                <span class="skill">SASS</span>
-                <span class="skill">JavaScript</span>
-                <span class="skill">TypeScript</span>
-                <span class="skill">Node.js</span>
-                <span class="skill">React</span>
-                <span class="skill">Git</span>
-                <span class="skill">SQL / MongoDB</span>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+                    <span>HTML5</span>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+                    <span>CSS3</span>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS">
+                    <span>SASS</span>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+                    <span>JavaScript</span>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+                    <span>React</span>
+                </div>
             </div>
         </div>
-    </section>
+
+        <div class="skills__category">
+            <h3>Backend</h3>
+            <div class="skills__list">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+                    <span>Node.js</span>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+                    <span>MongoDB</span>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+                    <span>MySQL</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="skills__category">
+            <h3>Herramientas</h3>
+            <div class="skills__list">
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+                    <span>Git</span>
+                </div>
+                <div class="skill">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
+                    <span>GitHub</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <!-- ===== FORMACIÓN ===== -->
     <section class="education section" id="education">
@@ -96,14 +154,17 @@
         <div class="container">
             <h2 class="section__title">Contacto</h2>
             <p class="contact__text">Puedes escribirme para oportunidades o colaboraciones.</p>
+            <p class="contact__email">pilargijor@hotmail.es</p>
+            <p class="contact_telefono">651885750</p>
 
             <a href="mailto:tucorreo@example.com" class="btn btn--primary">Enviar Email</a>
         </div>
     </section>
 
     <footer class="footer">
-        <p>&copy; 2025 Tu Nombre — Portafolio Personal</p>
+        <p>&copy; 2025 Desarrollado por Pilar Girón</p>
     </footer>
 
 </body>
+
 </html>
