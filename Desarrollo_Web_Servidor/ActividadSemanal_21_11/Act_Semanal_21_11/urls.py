@@ -30,4 +30,10 @@ urlpatterns = [
     path('clientes/totalpagado/', views.mostrar_total_pagado_por_cliente),
     path('pedidos/pagado/<str:codigo>', views.marcar_pedido_pagado),
     path('pedidos/crear/', views.crear_nuevo_pedido),
+    path('pedidos/actualizar/', views.actualizar_importe_pedido),
+    path('pedidos/mostrar_pedido/<str:codigo>', views.mostrar_pedido_concreto),
+    path('estado/', views.estado_sistema),
+    path('numero_clientes/', views.numero_clientes),
+    path('saludar/<str:nombre>/', views.saludo),
+
 ]

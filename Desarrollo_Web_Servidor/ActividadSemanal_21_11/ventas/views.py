@@ -165,3 +165,78 @@ def crear_nuevo_pedido(request):
 
     return JsonResponse({"error": "Método no permitido"}, status=405)
 
+'''Crea una vista que actualice el importe de un pedido mediante POST. 
+o Datos por POST: codigo del pedido y nuevo_importe. 
+o Devuelve JSON indicando el resultado. '''
+@csrf_exempt
+def actualizar_importe_pedido(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            codigo = data.get("codigo")
+            nuevo_importe = data.get("nuevo_importe")
+
+            if not codigo or nuevo_importe is None:
+                return JsonResponse({"error": "Debe enviar 'codigo' y 'nuevo_importe'"}, status=400)
+
+            # Buscar el pedido
+            pedido = Pedido.objects.get(codigo=codigo)
+
+            # Actualizar importe
+            pedido.importe_total = nuevo_importe
+            pedido.save()
+
+            return JsonResponse({
+                "message": "Importe actualizado correctamente",
+                "codigo": pedido.codigo,
+                "nuevo_importe": float(pedido.importe_total)
+            }, status=200)
+
+        except Pedido.DoesNotExist:
+            return JsonResponse({"error": "Pedido no encontrado"}, status=404)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+
+    return JsonResponse({"error": "Método no permitido"}, status=405)
+
+'''Crea una vista que devuelva JSON con la información de un pedido concreto. 
+o Parámetro por URL: código del pedido. '''
+def mostrar_pedido_concreto(request, codigo):
+    try:
+        pedido = Pedido.objects.get(codigo=codigo)
+        return JsonResponse({
+            "id": pedido.id,
+            "codigo": pedido.codigo,
+            "importe_total": pedido.importe_total,
+            "cliente_id": pedido.cliente_id,
+            "estado": pedido.estado
+        }, status=200)
+    except Pedido.DoesNotExist:
+        return JsonResponse({"error": "Pedido no encontrado"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=400)
+    
+'''Crea una vista de “estado del sistema” (healthcheck) que devuelva texto plano 
+indicando: "API operativa" '''
+def estado_sistema(request):
+    return HttpResponse("API operativa", content_type="text/plain")
+
+'''Crea una vista que indique en texto plano cuántos clientes existen actualmente. 
+o La vista debe generar un texto como: "Número de clientes: X". '''
+def numero_clientes(request):
+    count = Cliente.objects.count()
+    return HttpResponse(f"Numero de clientes: {count}", content_type="text/plain")
+
+'''Crea una vista que devuelva un mensaje simple (no JSON) tras recibir el nombre 
+de un cliente por URL, por ejemplo: 
+URL: /saludo/<nombre>/ 
+Respuesta: "Hola, <nombre>'''  
+
+def saludo(request, nombre):
+    return HttpResponse(f"Hola, {nombre}", content_type="text/plain")
+
+
+   
+
