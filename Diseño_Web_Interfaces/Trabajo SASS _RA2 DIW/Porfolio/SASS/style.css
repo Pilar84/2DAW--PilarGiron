@@ -1,0 +1,219 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background-color: #F2F2F2;
+  color: #2A2A2A;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 1.5rem;
+}
+
+/* ===================== HERO ===================== */
+.hero {
+  position: relative;
+  height: 100vh;
+  background: url("../assets/img/banner.jpg") center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  text-align: center;
+}
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.hero__content {
+  position: relative;
+  z-index: 2;
+}
+.hero__title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+}
+.hero__subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.hero__buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+}
+.hero__buttons a {
+  text-decoration: none;
+}
+
+/* ===================== BOTONES ===================== */
+.btn {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #FF6B6B;
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  background-color: #FFD93D;
+  color: #2A2A2A;
+}
+.btn--secondary {
+  background-color: #4ECDC4;
+}
+.btn--secondary:hover {
+  background-color: rgb(53.3480176211, 188.8519823789, 179.249339207);
+}
+
+/* ===================== ABOUT ===================== */
+.about__content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+}
+.about__text {
+  flex: 1 1 400px;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.about__image img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border: 4px solid #FF6B6B;
+}
+
+/* ===================== SKILLS ===================== */
+.skills__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.skills__list .skill {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.skills__list .skill:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+.skills__list .skill img {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 0.5rem;
+}
+
+/* ===================== TIMELINE ===================== */
+.timeline {
+  position: relative;
+  padding-left: 2.5rem;
+  border-left: 3px solid #FF6B6B;
+  margin: 2rem 0;
+}
+.timeline .timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 1rem;
+}
+.timeline .timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  background-color: #FF6B6B;
+  border-radius: 50%;
+}
+.timeline .timeline-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #FF6B6B;
+}
+.timeline .timeline-item p {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* ===================== PROYECTOS ===================== */
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 1023px) {
+  .projects__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 767px) {
+  .projects__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.project-card {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: 0.3s ease;
+}
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+.project-card__img {
+  width: 100%;
+  height: 150px;
+  background-color: #EDEDED;
+}
+.project-card__title {
+  margin: 0.5rem 0;
+  font-weight: 600;
+  color: #FF6B6B;
+}
+.project-card__desc {
+  font-size: 0.9rem;
+  color: #555;
+  padding-bottom: 0.8rem;
+}
+
+/* ===================== FOOTER ===================== */
+.footer {
+  background-color: #FF6B6B;
+  color: #ffffff;
+  padding: 1rem 0;
+  text-align: center;
+}
+.footer p {
+  margin: 0.3rem 0;
+}/*# sourceMappingURL=style.css.map */

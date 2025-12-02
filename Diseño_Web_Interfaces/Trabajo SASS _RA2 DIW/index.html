@@ -2,168 +2,146 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mi Portafolio - Desarrolladora Web</title>
-    <link rel="stylesheet" href="SASS/CSS/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Portafolio - Pilar Girón</title>
+  <link rel="stylesheet" href="SASS/CSS/style.css">
 </head>
 
 <body>
-    <div class="header-top">
-        <div class="header-top__contact">
-            <a href="mailto:pilargijor@hotmail.es" title="Enviar email">📧</a>
-            <a href="tel:651885750" title="Llamar">📱</a>
-        </div>
 
-        <nav class="header-top__nav">
-            <a href="#contact" class="btn btn--small">Contacto</a>
-        </nav>
+  <!-- ===== HERO / BANNER ===== -->
+  <header class="hero" id="home">
+    <div class="hero__content container">
+      <h1 class="hero__title">MARIA DEL PILAR GIRÓN JORDÁN</h1>
+      <p class="hero__subtitle">Desarrolladora de Aplicaciones y Diseño Web</p>
+      <div class="hero__buttons">
+        <a href="docs/cv.pdf" download class="btn btn--primary">Ver CV</a>
+        <a href="https://www.linkedin.com/in/pilar-gir%C3%B3n-jord%C3%A1n-229282269/" target="_blank" class="btn">LinkedIn</a>
+        <a href="https://github.com/Pilar84" target="_blank" class="btn">GitHub</a>
+      </div>
+      <div class="hero__banner">
+        <img src="assets/img/banner.jpg" alt="Banner de Pilar Girón">
+      </div>
     </div>
+  </header>
 
-    <!-- ===== HEADER / HERO ===== -->
-    <header class="hero" id="home">
-        <div class="hero__content container">
-            <h1 class="hero__title">MARIA DEL PILAR GIRÓN JORDÁN</h1>
-            <p class="hero__subtitle">Desarrolladora de Aplicaciones Web</p>
-
-            <div class="hero__buttons">
-                <a href="#" class="btn btn--primary">Ver CV</a>
-                <a href="https://linkedin.com" target="_blank" class="btn">LinkedIn</a>
-                <a href="https://github.com" target="_blank" class="btn">GitHub</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- ===== SOBRE MÍ ===== -->
-    <section class="about section" id="about">
-        <div class="container">
-            <h2 class="section__title">Sobre mí</h2>
-            <p class="about__text">
-                Soy desarrolladora de aplicaciones web con experiencia en frontend y backend.
-                Me apasiona crear interfaces modernas, limpias y funcionales, aplicando buenas prácticas
-                de accesibilidad y rendimiento.
-            </p>
-        </div>
-    </section>
-
-    <!-- ===== PROYECTOS ===== -->
-    <section class="projects section" id="projects">
-        <div class="container">
-            <h2 class="section__title">Proyectos</h2>
-
-            <div class="projects__grid">
-                <article class="project-card">
-                    <div class="project-card__img"></div>
-                    <h3 class="project-card__title">Proyecto 1</h3>
-                    <p class="project-card__desc">Descripción corta del proyecto.</p>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-card__img"></div>
-                    <h3 class="project-card__title">Proyecto 2</h3>
-                    <p class="project-card__desc">Descripción corta del proyecto.</p>
-                </article>
-
-                <article class="project-card">
-                    <div class="project-card__img"></div>
-                    <h3 class="project-card__title">Proyecto 3</h3>
-                    <p class="project-card__desc">Descripción corta del proyecto.</p>
-                </article>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== SKILLS ===== -->
-    <section class="skills section" id="skills">
+  <!-- ===== SOBRE MÍ ===== -->
+  <section class="about section" id="about">
     <div class="container">
-        <h2 class="section__title">Tecnologías</h2>
-
-        <div class="skills__category">
-            <h3>Frontend</h3>
-            <div class="skills__list">
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
-                    <span>HTML5</span>
-                </div>
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
-                    <span>CSS3</span>
-                </div>
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS">
-                    <span>SASS</span>
-                </div>
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
-                    <span>JavaScript</span>
-                </div>
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
-                    <span>React</span>
-                </div>
-            </div>
+      <h2 class="section__title">Sobre mí</h2>
+      <div class="about__content">
+        <p class="about__text">
+          Soy desarrolladora web con experiencia en frontend y backend. Me apasiona crear interfaces modernas, limpias
+          y funcionales, aplicando buenas prácticas de accesibilidad y rendimiento. Abierta a nuevas oportunidades y
+          colaboraciones.
+        </p>
+        <div class="about__image">
+          <img src="assets/img/cv-pilar.png" alt="CV de Pilar Girón" class="cv-img-rounded">
         </div>
-
-        <div class="skills__category">
-            <h3>Backend</h3>
-            <div class="skills__list">
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
-                    <span>Node.js</span>
-                </div>
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
-                    <span>MongoDB</span>
-                </div>
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
-                    <span>MySQL</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="skills__category">
-            <h3>Herramientas</h3>
-            <div class="skills__list">
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
-                    <span>Git</span>
-                </div>
-                <div class="skill">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub">
-                    <span>GitHub</span>
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
-</section>
+  </section>
 
-    <!-- ===== FORMACIÓN ===== -->
-    <section class="education section" id="education">
-        <div class="container">
-            <h2 class="section__title">Formación</h2>
-            <div class="education__content">
-                <h3>Desarrollo de Aplicaciones Web</h3>
-                <p>Centro / Escuela - Año</p>
-            </div>
+  <!-- ===== TECNOLOGÍAS ===== -->
+  <section class="skills section" id="skills">
+    <div class="container">
+      <h2 class="section__title">Tecnologías</h2>
+      <div class="skills__container">
+        <!-- Frontend -->
+        <div class="skills__category">
+          <h3>Frontend</h3>
+          <div class="skills__list">
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5"><span>HTML5</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3"><span>CSS3</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JS"><span>JS</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="SASS"><span>SASS</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-plain.svg" alt="Bootstrap"><span>Bootstrap</span></div>
+          </div>
         </div>
-    </section>
 
-    <!-- ===== CONTACTO ===== -->
-    <section class="contact section" id="contact">
-        <div class="container">
-            <h2 class="section__title">Contacto</h2>
-            <p class="contact__text">Puedes escribirme para oportunidades o colaboraciones.</p>
-            <p class="contact__email">pilargijor@hotmail.es</p>
-            <p class="contact_telefono">651885750</p>
-
-            <a href="mailto:tucorreo@example.com" class="btn btn--primary">Enviar Email</a>
+        <!-- Backend -->
+        <div class="skills__category">
+          <h3>Backend</h3>
+          <div class="skills__list">
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python"><span>Python</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg" alt="Django"><span>Django</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL"><span>MySQL</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg" alt="PHP"><span>PHP</span></div>
+          </div>
         </div>
-    </section>
 
-    <footer class="footer">
-        <p>&copy; 2025 Desarrollado por Pilar Girón</p>
-    </footer>
+        <!-- Herramientas -->
+        <div class="skills__category">
+          <h3>Herramientas</h3>
+          <div class="skills__list">
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git"><span>Git</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"><span>GitHub</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain.svg" alt="Docker"><span>Docker</span></div>
+            <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-plain.svg" alt="Figma"><span>Figma</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TIMELINE / FORMACIÓN Y CURSOS ===== -->
+  <section class="timeline section" id="timeline">
+    <div class="container">
+      <h2 class="section__title">Formación & Cursos</h2>
+      <div class="timeline__item">
+        <span class="timeline__date">2024 - Actualidad</span>
+        <h3>IPD Albor (Ilerna) Córdoba</h3>
+        <p>Técnico Superior Desarrollo Aplicaciones Web</p>
+      </div>
+      <div class="timeline__item">
+        <span class="timeline__date">2002 - 2005</span>
+        <h3>Diplomatura Universitaria en Educación</h3>
+        <p>Especialidad música</p>
+      </div>
+      <div class="timeline__item">
+        <span class="timeline__date">Junio 2024</span>
+        <h3>Microsoft IBM</h3>
+        <p>Power BI Desktop</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROYECTOS ===== -->
+  <section class="projects section" id="projects">
+    <div class="container">
+      <h2 class="section__title">Proyectos</h2>
+      <div class="projects__grid">
+        <article class="project-card">
+          <div class="project-card__img"></div>
+          <h3 class="project-card__title">Proyecto 1</h3>
+          <p class="project-card__desc">Descripción corta del proyecto.</p>
+        </article>
+        <article class="project-card">
+          <div class="project-card__img"></div>
+          <h3 class="project-card__title">Proyecto 2</h3>
+          <p class="project-card__desc">Descripción corta del proyecto.</p>
+        </article>
+        <article class="project-card">
+          <div class="project-card__img"></div>
+          <h3 class="project-card__title">Proyecto 3</h3>
+          <p class="project-card__desc">Descripción corta del proyecto.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer__content">
+      <div>
+        <h3>Contacto</h3>
+        <p>Email: pilargijor@hotmail.es</p>
+        <p>Teléfono: 651885750</p>
+      </div>
+      <p>&copy; 2025 Desarrollado por Pilar Girón</p>
+    </div>
+  </footer>
 
 </body>
 

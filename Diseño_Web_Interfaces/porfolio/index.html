@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Portafolio - Pilar Girón</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- Imagen fuera del nav -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <span class="logo">Pilar</span>
+      <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#historia">Sobre Mí</a></li>
+        <li><a href="#historia">Formación</a></li>
+        <li><a href="#historia">Experiencia</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#contacto" class="btn-nav">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="image-top">
+    <img src="docs/banner.jpg" alt="Diseño Web">
+  </div>
+
+  <!-- Sección Sobre mi -->
+  <section class="hero-content" id="inicio">
+    <div class="overlay"></div>
+    <div class="container">
+      <h1 class="title">Pilar Girón Jordán</h1>
+      <p class="description">
+        Desarrolladora de Aplicaciones y Diseño Web. Creando experiencias digitales que cautivan y funcionan a la
+        perfección. ¡Hablemos de tu próximo proyecto!
+      </p>
+      <a href="#contacto" class="btn">Contáctame</a>
+      <a href="docs/cv.pdf" target="_blank" class="btn">Descargar CV</a>
+    </div>
+  </section>
+
+  <section class="features" id="historia">
+    <div class="features-overlay"></div>
+    <div class="features-container">
+      <h2 class="features-title">Mi Historia</h2>
+      <div class="features-grid">
+        <!-- Tarjeta 1 -->
+        <div class="feature-card">
+          <div class="icon-circle">
+            <span class="icon">✔</span>
+          </div>
+          <h4 class="card-title">Sobre Mí</h4>
+          <ul class="card-tags">
+            <li>Diseño intuitivo</li>
+            <li>Soluciones creativas</li>
+            <li>Enfoque en el usuario</li>
+          </ul>
+        </div>
+        <!-- Tarjeta 2 -->
+        <div class="feature-card">
+          <div class="icon-circle">
+            <span class="icon">✔</span>
+          </div>
+          <h4 class="card-title">Formación</h4>
+          <ul class="card-tags">
+            <li>Título Superior en Desarrollo Aplicaciones Web</li>
+            <li>Diplomatura en Educación</li>
+          </ul>
+        </div>
+        <!-- Tarjeta 3 -->
+        <div class="feature-card">
+          <div class="icon-circle">
+            <span class="icon">✔</span>
+          </div>
+          <h4 class="card-title">Experiencia</h4>
+          <ul class="card-tags">
+            <li>Desarrollo Frontend</li>
+            <li>15 años de experiencia en clientes, CRM y administración, ahora en desarrollo web.</li>
+            <li>Desarrollo de Aplicaciones Web</li>
+
+
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--proyectos-->
+  <section class="projects-tabs" id="proyectos">
+    <div class="projects-overlay"></div>
+    <div class="projects-container">
+      <h2 class="projects-title">Proyectos</h2>
+      <ul class="tab-buttons">
+        <li class="active" data-tab="powerBi">Proyecto Final Power Bi</li>
+        <li data-tab="gestion">App Gestión</li>
+        <li data-tab="educativa">Plataforma Educativa</li>
+
+      </ul>
+      <div class="tab-content">
+        <div class="tab-panel active" id="powerBi">
+          <h4>Power Bi</h4>
+          <p>Realización proyecto final Power Bi. Análisis de datos de ventas para empresas de productos alimenticios
+          </p>
+
+          <!-- Contenedor horizontal -->
+          <div class="powerbi-gallery">
+            <img src="docs/powerbi1.jpg" alt="Power BI Página 1">
+            <img src="docs/powerbi2.jpg" alt="Power BI Página 2">
+            <img src="docs/powerbi3.jpg" alt="Power BI Página 3">
+          </div>
+        </div>
+      </div>
+      <div class="tab-panel" id="blog">
+        <h4>Blog Personal</h4>
+        <p>Espacio para compartir ideas y conocimientos.</p>
+        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1673407456341-8bddce1157eb.jpeg"
+          alt="Blog Personal">
+      </div>
+      <div class="tab-panel" id="gestion">
+        <h4>App Gestión</h4>
+        <p>Herramienta para organizar tareas y recursos.</p>
+        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1671740322646-7b9e6f6e266e.jpeg"
+          alt="App Gestión">
+      </div>
+      <div class="tab-panel" id="educativa">
+        <h4>Plataforma Educativa</h4>
+        <p>Sistema de aprendizaje interactivo.</p>
+        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1680587590161-3a1dd77a7609.jpeg"
+          alt="Plataforma Educativa">
+      </div>
+      <div class="tab-panel" id="dashboard">
+        <h4>Dashboard Analítico</h4>
+        <p>Visualización de datos en tiempo real.</p>
+        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1674897485462-5dd18134c62e.jpeg"
+          alt="Dashboard Analítico">
+      </div>
+      <div class="tab-panel" id="social">
+        <h4>Red Social</h4>
+        <p>Conecta con personas afines.</p>
+        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1666115884136-95be94587a5e.jpeg"
+          alt="Red Social">
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!--TECNOLOGIAS-->
+  <section class="technologies" id="tecnologias">
+    <div class="technologies-overlay"></div>
+    <div class="technologies-container">
+      <h2 class="technologies-title">Tecnologías</h2>
+
+      <details class="accordion-item">
+        <summary class="accordion-header">Frontend</summary>
+        <div class="skills__list">
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg"
+              alt="HTML5"><span>HTML5</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg"
+              alt="CSS3"><span>CSS3</span></div>
+          <div class="skill"><img
+              src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
+              alt="JS"><span>JS</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg"
+              alt="SASS"><span>SASS</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-plain.svg"
+              alt="Bootstrap"><span>Bootstrap</span></div>
+        </div>
+      </details>
+
+      <!-- Backend -->
+      <details class="accordion-item">
+        <summary class="accordion-header">Backend</summary>
+        <div class="skills__list">
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+              alt="Python"><span>Python</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"
+              alt="Django"><span>Django</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg"
+              alt="MySQL"><span>MySQL</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-plain.svg"
+              alt="PHP"><span>PHP</span></div>
+        </div>
+      </details>
+
+      <!-- Herramientas -->
+      <details class="accordion-item">
+        <summary class="accordion-header">Herramientas</summary>
+        <div class="skills__list">
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
+              alt="Git"><span>Git</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
+              alt="GitHub"><span>GitHub</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-plain.svg"
+              alt="Docker"><span>Docker</span></div>
+          <div class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-plain.svg"
+              alt="Figma"><span>Figma</span></div>
+        </div>
+      </details>
+  </section>
+
+  <!--CURSOS-->
+  <section class="courses" id="cursos">
+    <div class="courses-overlay"></div>
+    <div class="courses-container">
+      <h2 class="courses-title">Cursos Destacados</h2>
+      <div class="courses-grid">
+        <!-- Curso 1 -->
+        <div class="course-card">
+          <div class="course-header">
+            <h4 class="course-title">Curso Práctico Wordpress</h4>
+            <img src="https://r.mobirisesite.com/2069537/assets/images/geffb53fa74cca195272e5394df73-h_min2rkrs.jpg"
+              alt="Curso Wordpress">
+          </div>
+          <div class="course-body">
+            <ul class="course-list">
+              <li>Curso Práctico de Wordpress con Elementor</li>
+              <li>Usabilidad de plantillas y componentes</li>
+              <li>Fecha: Julio 2025</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Curso 2 -->
+        <div class="course-card">
+          <div class="course-header">
+            <h4 class="course-title">Microsoft Power BI</h4>
+            <img src="docs/certificadoPowerBi.jpg" alt="Certicficado Power BI" style="width:100%; border-radius:8px;">
+
+          </div>
+          <div class="course-body">
+            <ul class="course-list">
+              <li>Análisis de Datos con Power BI y creacción de informes interactivo</li>
+              <li>Extracción, modelado y visualización de datos</li>
+              <li>Fecha: Julio 2024</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Curso 3 -->
+        <div class="course-card">
+          <div class="course-header">
+            <h4 class="course-title">Análisis y visualización de datos con Excel y Power BI</h4>
+            <img src="docs/CertificadoAnalisis.jpg" alt="Certicficado Analisis" style="width:100%; border-radius:8px;">
+          </div>
+          <div class="course-body">
+            <ul class="course-list">
+              <li>Certificado por el centro de Desarrollo de competencias digitales</li>
+              <li>Extracción, transformación y carga de datos en Excel.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="contact" id="contacto">
+    <div class="contact-overlay"></div>
+    <div class="contact-container">
+      <h2 class="contact-title">Contacto</h2>
+      <p class="contact-description">Si tienes alguna pregunta o colaboración, no dudes en contactarme.</p>
+      <div class="contact-form">
+        <form>
+          <input type="text" placeholder="Nombre">
+          <input type="email" placeholder="Email">
+          <textarea placeholder="Mensaje"></textarea>
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <!--FOOTER-->
+  <footer class="footer" id="footer">
+    <div class="footer-overlay"></div>
+    <div class="footer-container">
+      <h2 class="footer-title">Redes</h2>
+      <ul class="footer-links">
+        <li><a href="https://www.linkedin.com/in/pilar-gir%C3%B3n-jord%C3%A1n-229282269/" target="_blank"
+            class="btn">LinkedIn</a></li>
+        <li><a href="https://github.com/Pilar84" target="_blank" class="btn">GitHub</a></li>
+        <li><a href="mailto:pilargijor@hotmail.es" target="_blank" class="btn">Email</a></li>
+      </ul>
+      <p class="footer-copy">© 2024 Pilar Girón Jordán. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+
+
+
+
+
+
+</body>
+
+</html>

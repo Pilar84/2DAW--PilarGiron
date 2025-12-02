@@ -1,28 +1,29 @@
-// =============================
-// VARIABLES DE DISEÑO
-// =============================
-$primary-color: #6C8DF5;
-$secondary-color: #A7C6ED;
-$accent-color: #F2C6DE;
-$background-color: #F8FAFF;
+// Colores
+$primary-color: #4A6CF7;      // Azul moderno
+$secondary-color: #6EA8FF;    // Azul claro
+$accent-color: #FF6B6B;       // Coral para botones
+$background-color: #F4F7FF;   
 $text-color: #2A2A2A;
-$text-light: #555;
-
-$white: #ffffff;
+$text-light: #777;
+$white: #fff;
 $gray-light: #E7ECF5;
 $gray-medium: #C7D0E0;
 
+// Tipografía
 $font-base: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 $font-size-base: 16px;
 $font-size-title: 2.2rem;
 $font-size-subtitle: 1.3rem;
 $font-size-section-title: 1.8rem;
 
+// Espaciado y diseño
 $spacing-small: 0.8rem;
 $spacing-medium: 1.5rem;
 $spacing-large: 3rem;
-
 $border-radius: 10px;
 $shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.08);
-
 $max-width: 1100px;
+
+// Timeline
+$timeline-border: $primary-color;
+$timeline-date-color: $secondary-color;

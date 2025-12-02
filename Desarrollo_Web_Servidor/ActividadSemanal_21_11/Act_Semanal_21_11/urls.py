@@ -21,10 +21,10 @@ from ventas import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('clientes/crear/', views.crear_cliente_view),  # nombre correcto
+    path('clientes/crear/', views.crear_cliente_view), 
     path('clientes/activos/', views.mostrar_clientes_activos),
     path('clientes/<int:id>/pedidos/', views.mostrar_clientes_con_pedidos),
-    path('clientes/', views.mostrar_clientes),  # ojo: aquí también estaba mal escrito
+    path('clientes/', views.mostrar_clientes), 
     path('pedidos/estado/<str:estado>', views.mostrar_pedidos_por_estado),
     path('pedidos/cliente/<int:id>', views.mostrar_pedidos_cliente_concreto),
     path('clientes/totalpagado/', views.mostrar_total_pagado_por_cliente),

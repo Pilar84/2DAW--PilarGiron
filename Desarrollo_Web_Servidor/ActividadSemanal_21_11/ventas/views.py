@@ -11,14 +11,20 @@ import json
 # Create your views here.
 #creamos vista JSON con listado Clientes
 def mostrar_clientes(request):
-    clientes=list(Cliente.objects.all().values())
-    return JsonResponse(clientes,safe=False)
+    orden = request.GET.get("orden", "asc")
+    
+    # Obtenemos el queryset ordenado
+    clientes_qs = Cliente.objects.all().order_by("nombre" if orden == "asc" else "-nombre").values()
+    
+    
+    return JsonResponse(list(clientes_qs), safe=False)
 
 # Vista para crear clientes
 @csrf_exempt
 def crear_cliente_view(request):
     if request.method == "POST":
         try:
+            # Obtenemos los datos del cuerpo de la solicitud
             data = json.loads(request.body)
 
             nif = data.get("nif")
@@ -28,7 +34,7 @@ def crear_cliente_view(request):
             fecha_alta = data.get("fecha_alta")
 
             cliente = crear_clientes(nif, nombre, email, activo, fecha_alta)
-
+            #comprueba si el cliente es una instancia de Cliente
             if isinstance(cliente, Cliente):
                 # Bloque de éxito
                 data = {
@@ -80,8 +86,12 @@ def mostrar_clientes_con_pedidos(request,id):
 '''Crea una vista que devuelva JSON con todos los clientes activos. '''
 
 def mostrar_clientes_activos(request):
+    
+    #aqui definicmos el query param por defecto asc
+    orden = request.GET.get("orden", "asc")
+    
     #con el  filter activo=True obtenemos los clientes activos
-    clientes=list(Cliente.objects.filter(activo=True).values())
+    clientes=list(Cliente.objects.filter(activo=True).order_by("fecha_alta" if orden == "asc" else "-fecha_alta").values())
     return JsonResponse(clientes,safe=False)
 
 
