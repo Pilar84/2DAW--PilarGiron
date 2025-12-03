@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Artista</title>
+</head>
+<body>
+    <!-- Mensajes de éxito o error -->
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li style="color: green;">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <h1>Editar Artista</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name" value="{{ artist.name }}"><br>
+
+        <label for="country">País:</label>
+        <input type="text" id="country" name="country" value="{{ artist.country }}"><br>
+
+        <label for="short_bio">Biografía corta:</label>
+        <textarea id="short_bio" name="short_bio">{{ artist.short_bio }}</textarea><br>
+
+        <label for="website">Sitio web:</label>
+        <input type="url" id="website" name="website" value="{{ artist.website }}"><br>
+
+        <button type="submit">Guardar cambios</button>
+        <a href="{% url 'artist_list' %}">Volver al listado de artistas</a>
+    </form>
+</body>
+</html>

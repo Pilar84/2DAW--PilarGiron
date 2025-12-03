@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear nuevo artista</title>
+</head>
+<body>
+    <h1>Crear nuevo artista</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" name="name"><br>
+
+        <label for="country">País:</label>
+        <input type="text" id="country" name="country"><br>
+
+        <label for="short_bio">Biografía corta:</label>
+        <textarea id="short_bio" name="short_bio"></textarea><br>
+
+        <label for="website">Sitio web:</label>
+        <input type="url" id="website" name="website"><br>
+
+        <button type="submit">Crear</button>
+        <a href="{% url 'artist_list' %}">Volver</a> al listado de artistas.
+    </form>
+</body>
+</html>

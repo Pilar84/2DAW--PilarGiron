@@ -1,11 +1,42 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Listado de Artistas</title>
 </head>
+
 <body>
+
+    <!-- Botón para volver a Home -->
+    <a href="{% url 'home' %}">
+        <button type="button">Volver a Home</button>
+    </a>
+
+    <!-- Mensajes de éxito o error -->
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+        <li style="color: green;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+
     <h1>Listado de Artistas</h1>
+
+    <!-- Formulario de filtrado por país -->
+    <form method="get" action="{% url 'artist_list' %}">
+        <label for="country">Filtrar por país:</label>
+        <input type="text" name="country" id="country" value="{{ country }}">
+        <button type="submit">Filtrar</button>
+        {% if country %}
+        <a href="{% url 'artist_list' %}">
+            <button type="button">Mostrar todos</button>
+        </a>
+        {% endif %}
+    </form>
+
 
     <table border="1">
         <tr>
@@ -31,4 +62,5 @@
 
     <a href="{% url 'artist_create' %}">Crear nuevo artista</a>
 </body>
+
 </html>

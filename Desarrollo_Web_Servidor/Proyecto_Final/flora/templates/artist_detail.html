@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Artista</title>
+</head>
+
+<body>
+    <!-- Botón para volver al listado -->
+    <a href="{% url 'artist_list' %}">
+        <button type="button">Volver al listado</button>
+    </a>
+    <!-- Botón para volver a Home -->
+    <a href="{% url 'home' %}">
+        <button type="button">Volver a Home</button>
+    </a>
+
+    <h1>{{ artist.name }}</h1>
+    <p><strong>País:</strong> {{ artist.country }}</p>
+    <p><strong>Biografía:</strong> {{ artist.short_bio }}</p>
+    <p><strong>Web:</strong> <a href="{{ artist.website }}" target="_blank">{{ artist.website }}</a></p>
+
+    <a href="{% url 'artist_edit' artist.id %}">Editar artista</a> |
+    <a href="{% url 'artist_delete' artist.id %}">Borrar artista</a>
+</body>
+
+</html>
