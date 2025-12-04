@@ -1,13 +1,9 @@
+import json
 from django.shortcuts import render, redirect
 from .models import Artist, Installation, Venue, Edition
 from django.contrib import messages
-
-
-
-
-
-
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 # Creación de artista
 def artist_create(request):
@@ -80,7 +76,30 @@ def artist_list_by_country(request, country):
 #listado
 def installation_list(request):
     installations = Installation.objects.all()
-    return render(request, 'installation_list.html', {'installations': installations})
+    data = []
+    for inst in installations:
+        data.append({
+            "id": inst.id,
+            "title": inst.title,
+            "opening_date": inst.opening_date.strftime("%Y-%m-%d"),
+            "short_description": inst.short_description,
+            "materials": inst.materials,
+            "artist": {
+                "id": inst.artist.id,
+                "name": inst.artist.name
+            },
+            "venue": {
+                "id": inst.venue.id,
+                "name": inst.venue.name
+            },
+            "edition": {
+                "id": inst.edition.id,
+                "year": inst.edition.year,
+                "theme": inst.edition.theme
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 #detalle incluyendo autor
 def installation_detail(request, installation_id):
@@ -88,89 +107,219 @@ def installation_detail(request, installation_id):
     return render(request, 'installation_detail.html', {'installation': installation})
 
 #creacion
+@csrf_exempt
 def installation_create(request):
     if request.method == 'POST':
-        title = request.POST.get('title')
-        opening_date = request.POST.get('opening_date')
-        short_description = request.POST.get('short_description')
-        materials = request.POST.get('materials')
-        artist_id = request.POST.get('artist')
-        venue_id = request.POST.get('venue')
-        edition_id = request.POST.get('edition')
-        artist = Artist.objects.get(id=artist_id)
-        venue = Venue.objects.get(id=venue_id)
-        edition = Edition.objects.get(id=edition_id)
-        installation = Installation(title=title, opening_date=opening_date, short_description=short_description, materials=materials, artist=artist, venue=venue, edition=edition)
-        installation.save()
-        return redirect('installation_detail', installation_id=installation.id)
-    else:
-        artists = Artist.objects.all()
-        venues = Venue.objects.all()
-        editions = Edition.objects.all()
-        return render(request, 'installation_create.html', {'artists': artists, 'venues': venues, 'editions': editions})    
+        try:
+            # Asumiendo que Bruno envía JSON
+            data = json.loads(request.body)
+            title = data.get('title')
+            opening_date = data.get('opening_date')
+            short_description = data.get('short_description')
+            materials = data.get('materials')
+            artist_id = data.get('artist')
+            venue_id = data.get('venue')
+            edition_id = data.get('edition')
+
+            artist = Artist.objects.get(id=artist_id)
+            venue = Venue.objects.get(id=venue_id)
+            edition = Edition.objects.get(id=edition_id)
+
+            installation = Installation(
+                title=title,
+                opening_date=opening_date,
+                short_description=short_description,
+                materials=materials,
+                artist=artist,
+                venue=venue,
+                edition=edition
+            )
+            installation.save()
+
+            # Devolver JSON con los datos creados
+            return JsonResponse({
+                "id": installation.id,
+                "title": installation.title,
+                "artist": installation.artist.name,
+                "venue": installation.venue.name,
+                "edition": {
+                    "id": edition.id,
+                    "year": edition.year,
+                    "theme": edition.theme
+                }
+            })
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)  
     
 #filtrado por edicion
 def installation_list_by_edition(request, edition_id):
     installations = Installation.objects.filter(edition_id=edition_id)
-    return render(request, 'installation_list.html', {'installations': installations})
+    data = []
+    for inst in installations:
+        data.append({
+            "id": inst.id,
+            "title": inst.title,
+            "opening_date": inst.opening_date.strftime("%Y-%m-%d"),
+            "short_description": inst.short_description,
+            "materials": inst.materials,
+            "artist": {
+                "id": inst.artist.id,
+                "name": inst.artist.name
+            },
+            "venue": {
+                "id": inst.venue.id,
+                "name": inst.venue.name
+            },
+            "edition": {
+                "id": inst.edition.id,
+                "year": inst.edition.year,
+                "theme": inst.edition.theme
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 
 #Ordenar por fecha de inauguración (de forma ascendente o descendente).
 def installation_list_by_opening_date(request, order):
     installations = Installation.objects.order_by('opening_date' if order == 'asc' else '-opening_date')
-    return render(request, 'installation_list.html', {'installations': installations})
+    data = []
+    for inst in installations:
+        data.append({
+            "id": inst.id,
+            "title": inst.title,
+            "opening_date": inst.opening_date.strftime("%Y-%m-%d"),
+            "short_description": inst.short_description,
+            "materials": inst.materials,
+            "artist": {
+                "id": inst.artist.id,
+                "name": inst.artist.name
+            },
+            "venue": {
+                "id": inst.venue.id,
+                "name": inst.venue.name
+            },
+            "edition": {
+                "id": inst.edition.id,
+                "year": inst.edition.year,
+                "theme": inst.edition.theme
+            }
+        })
+
+    return JsonResponse(data, safe=False)
+
 
 #VENUE
 
 #listado
 def venue_list(request):
     venues = Venue.objects.all()
-    return render(request, 'venue_list.html', {'venues': venues})
+    data = []
+    for venue in venues:
+        data.append({
+            "id": venue.id,
+            "name": venue.name,
+            "address": venue.address,
+            "description": venue.description,
+            "max_capacity": venue.max_capacity
+        })
+
+    return JsonResponse(data, safe=False)
+
 
 #detalle incluyendo obras
 def venue_detail(request, venue_id):
     venue = Venue.objects.get(id=venue_id)
-    return render(request, 'venue_detail.html', {'venue': venue})
+    try:
+        venue = Venue.objects.get(id=venue_id)
+        data = {
+            "id": venue.id,
+            "name": venue.name,
+            "address": venue.address,
+            "description": venue.description,
+            "max_capacity": venue.max_capacity
+        }
+        return JsonResponse(data)
+    except Venue.DoesNotExist:
+        return JsonResponse({"error": "Venue not found"}, status=404)
 
+@csrf_exempt
 #creacion
 def venue_create(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
-        address = request.POST.get('address')
-        description = request.POST.get('description')
-        max_capacity = request.POST.get('max_capacity')
+        data = json.loads(request.body)
+        name = data.get('name')
+        address = data.get('address')
+        description = data.get('description')
+        max_capacity = data.get('max_capacity')
         venue = Venue(name=name, address=address, description=description, max_capacity=max_capacity)
         venue.save()
-        return redirect('venue_detail', venue_id=venue.id)
-    else:
-        return render(request, 'venue_create.html')
+        return JsonResponse({'id': venue.id, 'name': venue.name})
     
-#EDICCIÓN
+#EDICIÓN
 
 #listado
 def edition_list(request):
     editions = Edition.objects.all()
-    return render(request, 'edition_list.html', {'editions': editions})
+    data = []
+    for edition in editions:
+        data.append({
+            "id": edition.id,
+            "year": edition.year,
+            "theme": edition.theme,
+            "start_date": edition.start_date,
+            "end_date": edition.end_date
+        })
+
+    return JsonResponse(data, safe=False)
 
 #detalle incluyendo obras
 def edition_detail(request, edition_id):
-    edition = Edition.objects.get(id=edition_id)
-    return render(request, 'edition_detail.html', {'edition': edition})
+    try:
+        edition = Edition.objects.get(id=edition_id)
+        data = {
+            "id": edition.id,
+            "year": edition.year,
+            "theme": edition.theme,
+            "start_date": edition.start_date,
+            "end_date": edition.end_date
+        }
+        return JsonResponse(data)
+    except Edition.DoesNotExist:
+        return JsonResponse({"error": "Edition not found"}, status=404)
 
 #creacion
+@csrf_exempt
 def edition_create(request):
     if request.method == 'POST':
-        year = request.POST.get('year')
-        theme = request.POST.get('theme')
-        start_date = request.POST.get('start_date')
-        end_date = request.POST.get('end_date')
-        edition = Edition(year=year, theme=theme, start_date=start_date, end_date=end_date)
-        edition.save()
-        return redirect('edition_detail', edition_id=edition.id)
-    else:
-        return render(request, 'edition_create.html')
-    
-    
+        try:
+            # Leer JSON desde el body
+            data = json.loads(request.body)
+            year = data.get('year')
+            theme = data.get('theme')
+            start_date = data.get('start_date')
+            end_date = data.get('end_date')
+
+            edition = Edition(
+                year=year,
+                theme=theme,
+                start_date=start_date,
+                end_date=end_date
+            )
+            edition.save()
+
+            return JsonResponse({
+                "id": edition.id,
+                "year": edition.year,
+                "theme": edition.theme,
+                "start_date": edition.start_date,
+                "end_date": edition.end_date
+            })
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+        
 #PAGINA DE INICIO
 
 def home(request):
