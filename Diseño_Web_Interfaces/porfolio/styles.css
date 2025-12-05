@@ -19,7 +19,7 @@
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #ffffff;
 }
@@ -35,6 +35,7 @@
   text-decoration: none;
   font-weight: 500;
   transition: color 0.3s ease;
+  font-size: 1.2rem;
 }
 
 .nav-links li a:hover {
@@ -106,7 +107,7 @@
 
 /* Descripción */
 .description {
-  font-size: 1.2rem;
+  font-size: 1,8rem;
   margin-bottom: 32px;
   max-width: 700px;
   margin-left: auto;
@@ -128,6 +129,34 @@
 .btn:hover {
   background-color: #e91e63;
 }
+.hero-banner {
+  position: relative;
+  width: 100%;
+  height: 80vh; /* ajusta según lo que quieras */
+  overflow: hidden;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(50%); /* reduce la luminosidad */
+  
+}
+
+.hero-content {
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.4); /* opcional para contraste */
+  padding: 20px;
+  border-radius: 8px;
+  font-size: 25px;
+}
+
 
 /* Sección "Mi Historia" */
 .features {
@@ -628,7 +657,7 @@
   position: relative;
   background-color: #001816;
   color: #ffffff;
-  padding: 20px 20px;
+  padding: 10px 20px;
   text-align: center;
   border-top: 3px solid #FA26A0; /* Línea diferenciadora */
 }
