@@ -1,0 +1,147 @@
+/* NAVBAR - responsive */
+.navbar {
+  position: fixed; /* fijo para que no tape el contenido al hacer scroll */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $color-black;
+  color: $color-white;
+  z-index: 1000;
+  padding: 12px 20px;
+  border-bottom: 2px solid $color-primary;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+/* contenedor */
+.nav-container {
+  max-width: $max-width;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* logo y links */
+.logo {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: $color-white;
+}
+
+/* links desktop */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+
+  li a {
+    color: $color-white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color $transition;
+    font-size: 1rem;
+    padding: 6px 8px;
+
+    &:hover {
+      color: #00bfff;
+    }
+  }
+}
+
+/* boton contacto (desktop) */
+.btn-nav {
+  background-color: $color-primary;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 700;
+
+  &:hover {
+    background-color: $color-secondary;
+  }
+}
+
+/* ====== HAMBURGER (MOBILE) ====== */
+/* HAMBURGER */
+.nav-toggle {
+  display: none; /* se activa solo en móvil */
+  cursor: pointer;
+  padding: 6px;
+}
+
+.nav-toggle .hamburger {
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: $color-white;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.nav-toggle .hamburger::before,
+.nav-toggle .hamburger::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 26px;
+  height: 2px;
+  background: $color-white;
+  transition: all 0.3s ease;
+}
+
+.nav-toggle .hamburger::before {
+  top: -8px;
+}
+
+.nav-toggle .hamburger::after {
+  top: 8px;
+}
+
+/* Animación al abrir */
+.nav-toggle.active .hamburger {
+  background: transparent;
+}
+
+.nav-toggle.active .hamburger::before {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.nav-toggle.active .hamburger::after {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* MOBILE */
+@include responsive(tablet) {
+  .nav-toggle {
+    display: block; 
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 12px;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: $color-black;
+    padding: 14px;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-container {
+    justify-content: flex-start; /* hamburger a la izquierda, logo después */
+    align-items: center;
+  }
+
+  .logo {
+    margin-left: 12px;
+  }
+}

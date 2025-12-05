@@ -1,0 +1,77 @@
+/* =========================================
+   MIXINS GENERALES
+   ========================================= */
+
+/* Centrado con flexbox */
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Flex con opciones personalizadas */
+@mixin flex($direction: row, $justify: center, $align: center, $wrap: nowrap) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+  flex-wrap: $wrap;
+}
+
+/* Grid automático */
+@mixin grid($columns, $gap: 20px) {
+  display: grid;
+  grid-template-columns: repeat($columns, 1fr);
+  gap: $gap;
+}
+
+/* Contenedor centrado */
+@mixin container($max-width: 1200px, $padding: 20px) {
+  max-width: $max-width;
+  margin: 0 auto;
+  padding: 0 $padding;
+}
+
+/* Sombra suave */
+@mixin soft-shadow {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Redondeado */
+@mixin rounded($radius: 10px) {
+  border-radius: $radius;
+}
+
+/* Transición */
+@mixin transition($time: 0.3s, $type: ease) {
+  transition: all $time $type;
+}
+
+/* Hover de elevación */
+@mixin hover-lift($distance: -5px) {
+  transition: 0.3s ease;
+  &:hover {
+    transform: translateY($distance);
+  }
+}
+
+/* =========================================
+   MEDIA QUERIES
+   ========================================= */
+
+$break-mobile: 480px;
+$break-tablet: 768px;
+$break-laptop: 1024px;
+
+/* Mixin responsive */
+@mixin responsive($size) {
+  @if $size == mobile {
+    @media (max-width: #{$break-mobile}) { @content; }
+  }
+  @else if $size == tablet {
+    @media (max-width: #{$break-tablet}) { @content; }
+  }
+  @else if $size == laptop {
+    @media (max-width: #{$break-laptop}) { @content; }
+  }
+}

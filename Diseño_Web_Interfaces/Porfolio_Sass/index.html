@@ -9,46 +9,59 @@
 </head>
 
 <body>
-  <!-- Imagen fuera del nav -->
+  <a href="https://wa.me/34651885750" class="whatsapp-button" target="_blank" aria-label="Contactar por WhatsApp">
+    <img src="docs/iconoWhatsapp.png" alt="WhatsApp">
+  </a>
+
+  <!-- NAVBAR -->
   <nav class="navbar">
     <div class="nav-container">
-      <span class="logo">Pilar</span>
+      <!-- Botón hamburguesa (izquierda en móvil) -->
+      <div class="nav-toggle" aria-label="Abrir menú">
+        <span class="hamburger"></span>
+      </div>
+
+      <!-- Logo -->
+      <a href="index.html" class="logo">
+        <img src="docs/logo.png" alt="Logo" style="height: 40px;">
+      </a>
+
+      <!-- Links del menú -->
       <ul class="nav-links">
         <li><a href="#inicio">Inicio</a></li>
         <li><a href="#historia">Sobre Mí</a></li>
         <li><a href="#cursos">Cursos</a></li>
         <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#tecnologias">Tecnologías</a></li>
+        <li><a href="#footer">Redes</a></li>
         <li><a href="#contacto" class="btn-nav">Contacto</a></li>
       </ul>
     </div>
   </nav>
 
+  <!-- HERO BANNER -->
   <section class="hero-banner" id="inicio">
     <img src="docs/banner1.jpg" alt="Diseño Web" class="banner-img">
     <div class="hero-content">
       <h1 class="title">Pilar Girón Jordán</h1>
       <p class="description">
-        Desarrolladora de Aplicaciones y Diseño Web. Creando experiencias digitales que cautivan y funcionan a la
-        perfección. 
-      <p>¡Hablemos de tu próximo proyecto!</p>
-
+        Desarrolladora de Aplicaciones y Diseño Web.
+        Creando soluciones digitales que transforman tu negocio, aumentando eficiencia y visibilidad.
       </p>
+      <p>¡Hablemos de tu próximo proyecto!</p>
       <a href="#contacto" class="btn">Contáctame</a>
       <a href="docs/cv.pdf" target="_blank" class="btn">Descargar CV</a>
     </div>
   </section>
 
-
+  <!-- FEATURES -->
   <section class="features" id="historia">
     <div class="features-overlay"></div>
     <div class="features-container">
       <h2 class="features-title">Mi Historia</h2>
       <div class="features-grid">
-        <!-- Tarjeta 1 -->
         <div class="feature-card">
-          <div class="icon-circle">
-            <span class="icon">✔</span>
-          </div>
+          <div class="icon-circle"><span class="icon">✔</span></div>
           <h4 class="card-title">Sobre Mí</h4>
           <ul class="card-tags">
             <li>Diseño intuitivo</li>
@@ -56,36 +69,28 @@
             <li>Enfoque en el usuario</li>
           </ul>
         </div>
-        <!-- Tarjeta 2 -->
         <div class="feature-card">
-          <div class="icon-circle">
-            <span class="icon">✔</span>
-          </div>
+          <div class="icon-circle"><span class="icon">✔</span></div>
           <h4 class="card-title">Formación</h4>
           <ul class="card-tags">
             <li>Título Superior en Desarrollo Aplicaciones Web</li>
             <li>Diplomatura en Educación</li>
           </ul>
         </div>
-        <!-- Tarjeta 3 -->
         <div class="feature-card">
-          <div class="icon-circle">
-            <span class="icon">✔</span>
-          </div>
+          <div class="icon-circle"><span class="icon">✔</span></div>
           <h4 class="card-title">Experiencia</h4>
           <ul class="card-tags">
             <li>Desarrollo Frontend</li>
             <li>15 años de experiencia en clientes, CRM y administración, ahora en desarrollo web.</li>
             <li>Desarrollo de Aplicaciones Web</li>
-
-
           </ul>
         </div>
       </div>
     </div>
   </section>
 
-  <!--proyectos-->
+  <!-- PROYECTOS -->
   <section class="projects-tabs" id="proyectos">
     <div class="projects-overlay"></div>
     <div class="projects-container">
@@ -94,57 +99,62 @@
         <li class="active" data-tab="powerBi">Proyecto Final Power Bi</li>
         <li data-tab="gestion">App Gestión</li>
         <li data-tab="educativa">Plataforma Educativa</li>
-
       </ul>
+
       <div class="tab-content">
         <div class="tab-panel active" id="powerBi">
           <h4>Power Bi</h4>
           <p>Realización proyecto final Power Bi. Análisis de datos de ventas para empresas de productos alimenticios
           </p>
+        </div>
 
-          <!-- Contenedor horizontal -->
-          <div class="powerbi-gallery">
-            <img src="docs/powerbi1.jpg" alt="Power BI Página 1">
-            <img src="docs/powerbi2.jpg" alt="Power BI Página 2">
-            <img src="docs/powerbi3.jpg" alt="Power BI Página 3">
-          </div>
+        <div class="tab-panel" id="blog">
+          <h4>Blog Personal</h4>
+          <p>Espacio para compartir ideas y conocimientos.</p>
+          <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1673407456341-8bddce1157eb.jpeg"
+            alt="Blog Personal">
+        </div>
+        <div class="tab-panel" id="gestion">
+          <h4>App Gestión</h4>
+          <p>Herramienta para organizar tareas y recursos.</p>
+          <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1671740322646-7b9e6f6e266e.jpeg"
+            alt="App Gestión">
+        </div>
+        <div class="tab-panel" id="educativa">
+          <h4>Plataforma Educativa</h4>
+          <p>Sistema de aprendizaje interactivo.</p>
+          <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1680587590161-3a1dd77a7609.jpeg"
+            alt="Plataforma Educativa">
+        </div>
+        <div class="tab-panel" id="dashboard">
+          <h4>Dashboard Analítico</h4>
+          <p>Visualización de datos en tiempo real.</p>
+          <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1674897485462-5dd18134c62e.jpeg"
+            alt="Dashboard Analítico">
+        </div>
+        <div class="tab-panel" id="social">
+          <h4>Red Social</h4>
+          <p>Conecta con personas afines.</p>
+          <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1666115884136-95be94587a5e.jpeg"
+            alt="Red Social">
         </div>
       </div>
-      <div class="tab-panel" id="blog">
-        <h4>Blog Personal</h4>
-        <p>Espacio para compartir ideas y conocimientos.</p>
-        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1673407456341-8bddce1157eb.jpeg"
-          alt="Blog Personal">
+
+      <!-- CARRUSEL POWER BI -->
+      <div class="powerbi-carousel">
+        <button class="arrow left">&#10094;</button>
+        <div class="powerbi-gallery">
+          <img src="docs/powerbi1.jpg" alt="PowerBI 1">
+          <img src="docs/powerbi2.jpg" alt="PowerBI 2">
+          <img src="docs/powerbi3.jpg" alt="PowerBI 3">
+        </div>
+        <button class="arrow right">&#10095;</button>
       </div>
-      <div class="tab-panel" id="gestion">
-        <h4>App Gestión</h4>
-        <p>Herramienta para organizar tareas y recursos.</p>
-        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1671740322646-7b9e6f6e266e.jpeg"
-          alt="App Gestión">
-      </div>
-      <div class="tab-panel" id="educativa">
-        <h4>Plataforma Educativa</h4>
-        <p>Sistema de aprendizaje interactivo.</p>
-        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1680587590161-3a1dd77a7609.jpeg"
-          alt="Plataforma Educativa">
-      </div>
-      <div class="tab-panel" id="dashboard">
-        <h4>Dashboard Analítico</h4>
-        <p>Visualización de datos en tiempo real.</p>
-        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1674897485462-5dd18134c62e.jpeg"
-          alt="Dashboard Analítico">
-      </div>
-      <div class="tab-panel" id="social">
-        <h4>Red Social</h4>
-        <p>Conecta con personas afines.</p>
-        <img src="https://r.mobirisesite.com/2069537/assets/images/photo-1666115884136-95be94587a5e.jpeg"
-          alt="Red Social">
-      </div>
-    </div>
+
     </div>
   </section>
 
-  <!--TECNOLOGIAS-->
+  <!-- TECNOLOGÍAS -->
   <section class="technologies" id="tecnologias">
     <div class="technologies-overlay"></div>
     <div class="technologies-container">
@@ -167,7 +177,6 @@
         </div>
       </details>
 
-      <!-- Backend -->
       <details class="accordion-item">
         <summary class="accordion-header">Backend</summary>
         <div class="skills__list">
@@ -182,7 +191,6 @@
         </div>
       </details>
 
-      <!-- Herramientas -->
       <details class="accordion-item">
         <summary class="accordion-header">Herramientas</summary>
         <div class="skills__list">
@@ -196,15 +204,15 @@
               alt="Figma"><span>Figma</span></div>
         </div>
       </details>
+    </div>
   </section>
 
-  <!--CURSOS-->
+  <!-- CURSOS -->
   <section class="courses" id="cursos">
     <div class="courses-overlay"></div>
     <div class="courses-container">
       <h2 class="courses-title">Cursos Destacados</h2>
       <div class="courses-grid">
-        <!-- Curso 1 -->
         <div class="course-card">
           <div class="course-header">
             <h4 class="course-title">Curso Práctico Wordpress</h4>
@@ -219,24 +227,19 @@
             </ul>
           </div>
         </div>
-
-        <!-- Curso 2 -->
         <div class="course-card">
           <div class="course-header">
             <h4 class="course-title">Microsoft Power BI</h4>
             <img src="docs/certificadoPowerBi.jpg" alt="Certicficado Power BI" style="width:100%; border-radius:8px;">
-
           </div>
           <div class="course-body">
             <ul class="course-list">
-              <li>Análisis de Datos con Power BI y creacción de informes interactivo</li>
+              <li>Análisis de Datos con Power BI y creación de informes interactivo</li>
               <li>Extracción, modelado y visualización de datos</li>
               <li>Fecha: Julio 2024</li>
             </ul>
           </div>
         </div>
-
-        <!-- Curso 3 -->
         <div class="course-card">
           <div class="course-header">
             <h4 class="course-title">Análisis y visualización de datos con Excel y Power BI</h4>
@@ -270,8 +273,7 @@
     </div>
   </section>
 
-
-  <!--FOOTER-->
+  <!-- FOOTER -->
   <footer class="footer" id="footer">
     <div class="footer-overlay"></div>
     <div class="footer-container">
@@ -286,11 +288,52 @@
     </div>
   </footer>
 
+  <!-- JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggle = document.querySelector(".nav-toggle");
+      const navLinks = document.querySelector(".nav-links");
+      if (!toggle || !navLinks) return;
 
+      toggle.addEventListener("click", function () {
+        navLinks.classList.toggle("open");
+        toggle.classList.toggle("active");
+      });
 
+      navLinks.querySelectorAll("a").forEach(a => {
+        a.addEventListener("click", () => navLinks.classList.remove("open"));
+      });
 
+      window.addEventListener("resize", () => {
+        if (window.innerWidth > 768) {
+          navLinks.classList.remove("open");
+          toggle.classList.remove("active");
+        }
+      });
+    });
+  </script>
 
+  <!-- CARRUSEL POWER BI JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const carousel = document.querySelector(".powerbi-carousel");
+      if (!carousel) return;
 
+      const gallery = carousel.querySelector(".powerbi-gallery");
+      const leftArrow = carousel.querySelector(".arrow.left");
+      const rightArrow = carousel.querySelector(".arrow.right");
+
+      const scrollAmount = 450 + 10; // ancho de la imagen + gap
+
+      leftArrow.addEventListener("click", () => {
+        gallery.scrollBy({ left: -scrollAmount, behavior: "smooth" });
+      });
+
+      rightArrow.addEventListener("click", () => {
+        gallery.scrollBy({ left: scrollAmount, behavior: "smooth" });
+      });
+    });
+  </script>
 
 </body>
 
