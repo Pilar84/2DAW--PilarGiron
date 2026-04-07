@@ -7,7 +7,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     #path("api/library/", include("core.urls")),
     path("api/health/", health),
-    path("api/library/add/", add_library_entry),
+    path("api/library/entries/", add_library_entry),
 ]   
 
 
