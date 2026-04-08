@@ -125,7 +125,46 @@ def add_library_entry(request):
         
     )
     
+    #creo la vista para la ruta de listado de entradas de la biblioteca (GET /api/library/entries/)
     
+@require_GET
+def list_library_entries(request):
+    entries = LibraryEntry.objects.all()
+
+    result = []
+    for entry in entries:
+        result.append({
+            "id": entry.id,
+            "external_game_id": entry.external_game_id,
+            "status": entry.status,
+            "hours_played": entry.hours_played,
+        })
+
+    return JsonResponse(result, safe=False, status=200)
+
+        
+#creo la vista para la ruta de detalle de una entrada de la biblioteca (GET /api/library/entries/<id>/)
+@require_GET
+def get_library_entry(request, entry_id):
+    try:
+        entry = LibraryEntry.objects.get(id=entry_id)
+    except LibraryEntry.DoesNotExist:
+        return error_response(
+            "not_found",
+            "La entrada solicitada no existe",
+            status=404
+        )
+
+    return JsonResponse(
+        {
+            "id": entry.id,
+            "external_game_id": entry.external_game_id,
+            "status": entry.status,
+            "hours_played": entry.hours_played,
+        },
+        status=200
+    )
+
     
     
     

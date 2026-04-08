@@ -1,13 +1,22 @@
 from django.contrib import admin
-from django.urls import path, include
-from library.views import health
-from library.views import add_library_entry 
+from django.urls import path
+from library.views import (
+    health,
+    add_library_entry,
+    list_library_entries,
+    get_library_entry
+)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    #path("api/library/", include("core.urls")),
     path("api/health/", health),
-    path("api/library/entries/", add_library_entry),
-]   
 
+    # LISTADO (GET)
+    path("api/library/entries/", list_library_entries),
 
+    # CREAR (POST)
+    path("api/library/entries/add/", add_library_entry),
+
+    # DETALLE (GET)
+    path("api/library/entries/<int:entry_id>/", get_library_entry),
+]
