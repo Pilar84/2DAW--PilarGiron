@@ -106,10 +106,13 @@ def add_library_entry(request):
         )
     except IntegrityError:
         return error_response(
-            "duplicate_entry",
-            "Ya existe una entrada con este external_game_id"
-        )
-
+        "duplicate_entry",
+                "El juego ya existe en la biblioteca",
+                {
+                    "external_game_id": "duplicate"
+                }
+            )
+        
     
     return JsonResponse(
         {
