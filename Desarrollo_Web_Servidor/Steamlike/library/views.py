@@ -102,7 +102,7 @@ def library_entries(request):
             status=201
         )
 
-        
+'''
 #creo la vista para la ruta de detalle de una entrada de la biblioteca (GET /api/library/entries/<id>/)
 @require_GET
 def get_library_entry(request, entry_id):
@@ -124,12 +124,14 @@ def get_library_entry(request, entry_id):
         },
         status=200
     )
-''' 
+ '''
 #vista para actualizar una entrada de la biblioteca 
+
+#usamos PATCH porque solo queremos actualizar algunos campos de la entrada, no todos como haria PUT
 @csrf_exempt
-@require_http_methods(["PATCH"])
-def update_library_entry(request, entry_id): 
-    #aqui vamos a comprobar que la entrada existe
+@require_http_methods(["GET", "PATCH"])
+def library_entry_detail(request, entry_id):
+    # comprobar que existe
     try:
         entry = LibraryEntry.objects.get(id=entry_id)
     except LibraryEntry.DoesNotExist:
@@ -138,16 +140,85 @@ def update_library_entry(request, entry_id):
             "La entrada solicitada no existe",
             status=404
         )
-    #aqui vamos a leer el JSON del cuerpo de la solicitud
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
+
+    # GET - aqui obtenemos el detalle de la entrada de la biblioteca
+    if request.method == "GET":
+        return JsonResponse(
+            {
+                "id": entry.id,
+                "external_game_id": entry.external_game_id,
+                "status": entry.status,
+                "hours_played": entry.hours_played,
+            },
+            status=200
+        )
+
+    # PATCH con esto actualizamos la entrada de la biblioteca, solo los campos que se envien en el body de la peticion
+    if request.method == "PATCH":
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return error_response(
+                "validation_error",
+                "Datos de entrada inválidos"
+            )
+
+        if not data:
+            return error_response(
+                "validation_error",
+                "Datos de entrada inválidos"
+            )
+
+        allowed_fields = {"status", "hours_played"}
+        for field in data:
+            if field not in allowed_fields:
+                return error_response(
+                    "validation_error",
+                    "Datos de entrada inválidos",
+                    {field: "Campo no permitido"}
+                )
+
+        errors = {}
+
+        if "status" in data:
+            if not isinstance(data["status"], str):
+                errors["status"] = "Debe ser una cadena de texto"
+            elif data["status"] not in LibraryEntry.ALLOWED_STATUSES:
+                errors["status"] = "Valor no permitido"
+
+        if "hours_played" in data:
+            if not isinstance(data["hours_played"], int):
+                errors["hours_played"] = "Debe ser un número entero"
+            elif data["hours_played"] < 0:
+                errors["hours_played"] = "Debe ser mayor o igual que 0"
+
+        if errors:
+            return error_response(
+                "validation_error",
+                "Datos de entrada inválidos",
+                errors
+            )
+
+        if "status" in data:
+            entry.status = data["status"]
+        if "hours_played" in data:
+            entry.hours_played = data["hours_played"]
+
+        entry.save()
+
+        return JsonResponse(
+            {
+                "id": entry.id,
+                "external_game_id": entry.external_game_id,
+                "status": entry.status,
+                "hours_played": entry.hours_played,
+            },
+            status=200
         )
     
-'''
+    
+    
+
     
     
     
