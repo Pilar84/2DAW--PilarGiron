@@ -57,6 +57,7 @@ def library_entries(request):
         status = data.get("status")
         hours_played = data.get("hours_played")
 
+        #diccionario para almacenar los errores 
         errors = {}
 
         if not isinstance(external_game_id, str) or not external_game_id.strip():
@@ -85,6 +86,7 @@ def library_entries(request):
                 status=status,
                 hours_played=hours_played
             )
+        #Captura el error si el juego ya existe.
         except IntegrityError:
             return error_response(
                 "duplicate_entry",
@@ -102,29 +104,6 @@ def library_entries(request):
             status=201
         )
 
-'''
-#creo la vista para la ruta de detalle de una entrada de la biblioteca (GET /api/library/entries/<id>/)
-@require_GET
-def get_library_entry(request, entry_id):
-    try:
-        entry = LibraryEntry.objects.get(id=entry_id)
-    except LibraryEntry.DoesNotExist:
-        return error_response(
-            "not_found",
-            "La entrada solicitada no existe",
-            status=404
-        )
-
-    return JsonResponse(
-        {
-            "id": entry.id,
-            "external_game_id": entry.external_game_id,
-            "status": entry.status,
-            "hours_played": entry.hours_played,
-        },
-        status=200
-    )
- '''
 #vista para actualizar una entrada de la biblioteca 
 
 #usamos PATCH porque solo queremos actualizar algunos campos de la entrada, no todos como haria PUT
