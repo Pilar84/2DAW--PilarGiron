@@ -66,3 +66,43 @@ class LibraryEntryExternalIdLengthTests(TestCase):
         # Comprobaciones
         with self.assertRaises(TypeError):
             entry.external_id_length()
+
+#------------------------------------------------------------------#
+#metodo para comprobar external_id_upper() 
+class LibraryEntryExternalIdUpperTests(TestCase):
+    
+    #metodo para comprobar que convierte a mayusculas correctamente
+    def test_external_id_upper_converts_to_uppercase(self):
+        
+        # Precondiciones
+        entry = LibraryEntry(external_game_id="abc123")
+
+        # Llamada
+        resultado = entry.external_id_upper()
+
+        # Comprobaciones
+        self.assertEqual(resultado, "ABC123")
+    
+    #metodo para comprobar cadena vacia
+    def test_external_id_upper_returns_none_if_external_game_id_is_none(self):
+        # Precondiciones
+        entry = LibraryEntry(external_game_id="")
+
+        # Llamada
+        resultado = entry.external_id_upper()
+
+        # Comprobaciones
+        self.assertIsNone(resultado, "")
+        
+    #metodo para comprobar que hours_played devuelve un entero
+    def test_hours_played_returns_integer(self):
+        # Precondiciones
+        entry = LibraryEntry(hours_played=5)
+
+        # Llamada
+        horas = entry.hours_played
+
+        # Comprobaciones
+        self.assertIsInstance(horas, int)   
+        
+    

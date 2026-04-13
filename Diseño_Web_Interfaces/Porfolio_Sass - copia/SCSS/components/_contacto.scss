@@ -1,0 +1,67 @@
+.contact {
+  position: relative;
+  background-color: $color-dark;
+  color: $color-white;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.contact-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: $color-overlay;
+  z-index: 1;
+}
+
+.contact-container {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.contact-title {
+  font-size: 2.5rem;
+  margin-bottom: 24px;
+}
+
+.contact-description {
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  color: #bbbbbb;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  input,
+  textarea {
+    padding: 14px;
+    border: 1px solid $color-primary;
+    border-radius: 6px;
+    background-color: $color-white;
+    transition: border-color $transition;
+
+    &:focus {
+      border-color: $color-secondary;
+      box-shadow: 0 0 8px rgba(250, 38, 160, 0.6);
+      outline: none;
+    }
+  }
+
+  button {
+    padding: 14px;
+    background-color: $color-primary;
+    color: $color-white;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color $transition;
+
+    &:hover {
+      background-color: $color-secondary;
+    }
+  }
+}
