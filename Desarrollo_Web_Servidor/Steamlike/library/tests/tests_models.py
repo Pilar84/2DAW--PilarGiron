@@ -84,25 +84,99 @@ class LibraryEntryExternalIdUpperTests(TestCase):
         self.assertEqual(resultado, "ABC123")
     
     #metodo para comprobar cadena vacia
-    def test_external_id_upper_returns_none_if_external_game_id_is_none(self):
+    def test_external_id_upper_returns_empty_string_if_external_game_id_is_none(self):
         # Precondiciones
-        entry = LibraryEntry(external_game_id="")
+        entry = LibraryEntry(external_game_id=None)
 
         # Llamada
         resultado = entry.external_id_upper()
 
         # Comprobaciones
-        self.assertIsNone(resultado, "")
-        
+        self.assertEqual(resultado, "")
+
+class LibraryEntryHoursPlayedLabelTests(TestCase):    
     #metodo para comprobar que hours_played devuelve un entero
-    def test_hours_played_returns_integer(self):
+    def test_hours_played_label_none_when_hours_played_is_zero(self):
+        # Precondiciones
+        entry = LibraryEntry(hours_played=0)
+
+        # Llamada
+        resultado = entry.hours_played_label()
+
+        # Comprobaciones
+        self.assertEqual(resultado, "none")
+        
+    #metodo para comprobar que hours_played devuelve low
+    def test_hours_played_label_low_when_hours_played_is_less_than_10(self):
         # Precondiciones
         entry = LibraryEntry(hours_played=5)
 
         # Llamada
-        horas = entry.hours_played
+        resultado = entry.hours_played_label()
 
         # Comprobaciones
-        self.assertIsInstance(horas, int)   
+        self.assertEqual(resultado, "low")
         
+    #metodo para comprobar que hours_played devuelve high
+    def test_hours_played_label_high_when_hours_played_is_10_or_more(self):
+        # Precondiciones
+        entry = LibraryEntry(hours_played=10)
+
+        # Llamada
+        resultado = entry.hours_played_label()
+
+        # Comprobaciones
+        self.assertEqual(resultado, "high")
+        
+class LibraryEntryStatusValueTests(TestCase):
+    def test_status_value_returns_zero_for_wishlist(self):
+        # Precondiciones
+        entry = LibraryEntry(status=LibraryEntry.STATUS_WISHLIST)
+
+        # Llamada
+        resultado = entry.status_value()
+
+        # Comprobaciones
+        self.assertEqual(resultado, 0)
+    
+    def test_status_value_playing(self):
+        # Precondiciones
+        entry = LibraryEntry(status=LibraryEntry.STATUS_PLAYING)
+
+        # Llamada
+        resultado = entry.status_value()
+
+        # Comprobaciones
+        self.assertEqual(resultado, 1)
+    
+    def test_status_value_completed(self):
+        # Precondiciones
+        entry = LibraryEntry(status=LibraryEntry.STATUS_COMPLETED)
+
+        # Llamada
+        resultado = entry.status_value()
+
+        # Comprobaciones
+        self.assertEqual(resultado, 2)
+    
+    def test_status_value_dropped(self):
+        # Precondiciones
+        entry = LibraryEntry(status=LibraryEntry.STATUS_DROPPED)
+
+        # Llamada
+        resultado = entry.status_value()
+
+        # Comprobaciones
+        self.assertEqual(resultado, 3)
+    
+    def test_status_value_invalid_status(self):
+        # Precondiciones
+        entry = LibraryEntry(status="invalid_status")
+
+        # Llamada
+        resultado = entry.status_value()
+
+        # Comprobaciones
+        self.assertEqual(resultado, -1)
+    
     
