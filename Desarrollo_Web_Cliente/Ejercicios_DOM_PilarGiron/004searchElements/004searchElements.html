@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="004searchElements.css" rel="stylesheet" type="text/css" />
+    <script defer src="004searchElements.js"></script>
+    <title>004 search Elements</title>
+  </head>
+  <body>
+    <form name="search">
+      <label
+        >Buscar en la página:
+        <input type="text" name="search" />
+      </label>
+      <input type="submit" value="Search!" />
+    </form>
+    <hr />
+    <form name="search-person">
+      Buscar a los visitantes:
+      <table id="age-table">
+        <tr>
+          <td>Edad:</td>
+          <td id="age-list">
+            <label>
+              <input type="radio" name="age" value="young" />menor de 18</label
+            >
+            <label>
+              <input type="radio" name="age" value="mature" />18-50</label
+            >
+            <label>
+              <input type="radio" name="age" value="senior" />mayor de 50</label
+            >
+          </td>
+        </tr>
+        <tr>
+          <td>Más:</td>
+          <td>
+            <input type="text" name="info[0]" />
+            <input type="text" name="info[1]" />
+            <input type="text" name="info[2]" />
+          </td>
+        </tr>
+      </table>
+      <input type="submit" value="Search!" />
+    </form>
+  </body>
+</html>

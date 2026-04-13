@@ -1,0 +1,12 @@
+.red {
+  background-color: red;
+}
+
+table{
+  border: 1px solid black; 
+  font-size: 3rem;
+}
+
+table td{
+  border: 2px solid black; 
+}
