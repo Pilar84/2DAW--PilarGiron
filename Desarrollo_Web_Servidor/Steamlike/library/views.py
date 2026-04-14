@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import IntegrityError
 from .errores import error_response
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.models import User
 
 
 
@@ -88,8 +89,12 @@ def library_entries(request):
             )
 
         try:
+            #usamos usuario demo
+            user = User.objects.get(username="demo")
+            
             #Creamos la entrada en la base de datos
             entry = LibraryEntry.objects.create(
+                user=user,
                 external_game_id=external_game_id,
                 status=status,
                 hours_played=hours_played
