@@ -24,4 +24,22 @@ elem.textContent = text;
 //Resutado: Los tres comandos insertarán el texto "Hola Mundo" dentro del div con id "elem".
 
 
+/*
+Este ejercicio compara tres formas de insertar texto en el DOM.
+
+Si el texto es plano:
+- createTextNode
+- innerHTML
+- textContent
+hacen exactamente lo mismo.
+
+Si el texto contiene HTML:
+- innerHTML lo interpreta
+- los otros lo muestran como texto literal
+
+Por eso no siempre son iguales.
+*/
+
+
+
 

@@ -9,5 +9,11 @@ alert(document.body.lastChild.nodeType);
 </html>
 */
 
-// El script muestra 1 porque el último hijo del body es un nodo de tipo elemento (<script>).
+/*El script muestra 1 porque el último hijo del body es un nodo de tipo elemento (<script>).
+
+document.body.lastChild es el <script>.
+Los elementos HTML tienen nodeType = 1.
+
+Por eso el alert muestra 1.
+*/
 

@@ -12,5 +12,16 @@ if (href.includes("://") && !href.startsWith("http://internal.com")) {
     link.style.color = "purple";
 }
 
+/*
+Este ejercicio pinta de color purple los enlaces externos.
+
+Un enlace es externo si:
+- Su href contiene ://
+- No empieza por http://internal.com
+
+Se recorren todos los <a> y se cambia el estilo
+solo a los que cumplen esas condiciones.
+*/
+
 
 
