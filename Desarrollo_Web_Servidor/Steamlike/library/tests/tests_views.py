@@ -18,3 +18,13 @@ class LibraryEntryExternalIdLengthTests(TestCase):
         self.assertEqual(response.json()["status"], "ok")
         # Asegura que la respuesta no contiene información que no debería aparecer.
         self.assertNotIn("paco", response.json())
+        
+
+
+class HealthViewInvalidMethodTests(TestCase):
+    def test_health_endpoint_rejects_post_method(self):
+        # Llamada usando un método incorrecto (POST)
+        response = self.client.post("/api/health/")
+
+        # Comprobación del código HTTP
+        self.assertEqual(response.status_code, 405)
