@@ -19,7 +19,7 @@ services:
     depends_on:
       - db
     volumes:
-      - .:/app
+      - .:/app/Steamlike
     ports:
       - "8000:8000"
     command: python manage.py runserver 0.0.0.0:8000

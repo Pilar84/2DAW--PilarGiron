@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from auth_api.views import me 
 from library.views import (
     health,
     library_entries,    
@@ -18,6 +19,8 @@ urlpatterns = [
     
     #aqui añadimos la ruta para el registro de usuarios
     path("api/auth/", include("auth_api.urls")),
+    
+    path("api/users/me/", me), 
     
     
 ]

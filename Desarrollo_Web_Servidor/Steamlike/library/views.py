@@ -24,12 +24,20 @@ def health(request):
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def library_entries(request):
-    # el metodo get para listar las entradas de la biblioteca
+
+    # Comprobación de autenticación (para GET y POST)
+    if not request.user.is_authenticated:
+        return error_response(
+            "unauthorized",
+            "No autenticado",
+            status=401
+        )
+
+    # GET: listar SOLO las entradas del usuario autenticado
     if request.method == "GET":
-        #obtenemos todas las entradas de la base de datos y las convertimos a una lista para devolverlas en formato JSON
-        entries = LibraryEntry.objects.all()
+        entries = LibraryEntry.objects.filter(user=request.user)
+
         result = []
-        #recorremos las entradas de la biblioteca y las añadimos a la lista de resultados con el formato adecuado para devolverlo en formato JSON
         for entry in entries:
             result.append({
                 "id": entry.id,
@@ -40,47 +48,41 @@ def library_entries(request):
 
         return JsonResponse(result, safe=False, status=200)
 
-    # el metodo post para crear una nueva entrada en la biblioteca
+    # POST: crear entrada asociada al usuario autenticado
     if request.method == "POST":
         try:
-            # Convertimos el body (JSON) en un diccionario de Python
             data = json.loads(request.body)
         except json.JSONDecodeError:
             return error_response(
                 "validation_error",
                 "Datos de entrada inválidos"
             )
-        #Si no hay datos, devolvemos error
+
         if not data:
             return error_response(
                 "validation_error",
                 "Datos de entrada inválidos"
             )
-        #Extraemos los campos enviados por el cliente
+
         external_game_id = data.get("external_game_id")
         status = data.get("status")
         hours_played = data.get("hours_played")
 
-        #diccionario para almacenar los errores 
         errors = {}
 
-        # Comprobamos que external_game_id sea texto y no esté vacío
         if not isinstance(external_game_id, str) or not external_game_id.strip():
             errors["external_game_id"] = "Campo obligatorio"
 
-        # Validamos el campo status
         if not isinstance(status, str):
             errors["status"] = "Debe ser una cadena de texto"
         elif status not in LibraryEntry.ALLOWED_STATUSES:
             errors["status"] = "Valor no permitido"
 
-        # Validamos hours_played
         if not isinstance(hours_played, int):
             errors["hours_played"] = "Debe ser un número entero"
         elif hours_played < 0:
             errors["hours_played"] = "Debe ser mayor o igual que 0"
-            
-        # Si hay errores, devolvemos respuesta de error
+
         if errors:
             return error_response(
                 "validation_error",
@@ -89,24 +91,19 @@ def library_entries(request):
             )
 
         try:
-            #usamos usuario demo
-            user = User.objects.get(username="demo")
-            
-            #Creamos la entrada en la base de datos
             entry = LibraryEntry.objects.create(
-                user=user,
+                user=request.user,
                 external_game_id=external_game_id,
                 status=status,
                 hours_played=hours_played
             )
-        #Captura el error si el juego ya existe.
         except IntegrityError:
             return error_response(
                 "duplicate_entry",
                 "El juego ya existe en la biblioteca",
                 {"external_game_id": "duplicate"}
             )
-        # Devolvemos la entrada creada correctamente
+
         return JsonResponse(
             {
                 "id": entry.id,
