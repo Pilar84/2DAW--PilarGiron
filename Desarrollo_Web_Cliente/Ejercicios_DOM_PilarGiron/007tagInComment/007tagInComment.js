@@ -1,6 +1,6 @@
 <script>
     let body = document.body;
-    body.innerHTML = "<!--" + body.tagName + "-->";
+    body.innerHTML = "&lt;!--" + body.tagName + "--&gt;";
     alert( body.firstChild.data ); // ¿qué hay aquí?
 </script>
 
