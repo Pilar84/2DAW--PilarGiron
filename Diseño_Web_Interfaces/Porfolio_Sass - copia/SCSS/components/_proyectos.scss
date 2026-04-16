@@ -1,0 +1,111 @@
+.projects-tabs {
+  position: relative;
+  background-color: $color-dark;
+  color: $color-white;
+  padding: 1px 0;
+  text-align: center;
+}
+
+.projects-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(8, 8, 19, 0.5);
+  z-index: 1;
+}
+
+.projects-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.projects-title {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+}
+
+.tab-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 40px;
+  list-style: none;
+
+  li {
+    border: 2px solid $color-primary;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color $transition;
+
+    &.active,
+    &:hover {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+}
+
+.tab-panel {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  }
+}
+.powerbi-carousel {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.powerbi-gallery {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  scroll-behavior: smooth;  /* movimiento suave */
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.powerbi-gallery img {
+  flex: 0 0 auto;
+  width: 450px; /* o ajustable */
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.powerbi-gallery img:hover {
+  transform: scale(1.05);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0 10px;
+  cursor: pointer;
+  z-index: 2;
+  border-radius: 50%;
+}
+
+.arrow.left {
+  left: 0;
+}
+
+.arrow.right {
+  right: 0;
+}

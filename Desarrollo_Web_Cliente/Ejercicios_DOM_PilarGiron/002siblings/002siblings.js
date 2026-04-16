@@ -11,7 +11,11 @@ Demuéstralo.
 
 
 /*¿Es cierto que elem.children[0].previousSibling siempre es null ?
+<<<<<<< HEAD
 No es falso, porque children[0] devuelve el primer nodo hijo del elemento, y previousSibling devuelve cualquier tipo de nodo hermano anterior, incluyendo nodos de texto o comentarios.*/
+=======
+No es falso, porque children[0] devuelve el primer nodo hijo del elemento, y previousSibling devuelve cualquier tipo de nodo.*/
+>>>>>>> optativa-semana1
 const elem = document.getElementById('elem');
 
 //lastChild.nextSibling, devuelve null
