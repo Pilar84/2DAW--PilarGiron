@@ -44,7 +44,9 @@ def library_entries(request):
                 "external_game_id": entry.external_game_id,
                 "status": entry.status,
                 "hours_played": entry.hours_played,
+                "user": entry.user.username
             })
+            
 
         return JsonResponse(result, safe=False, status=200)
 
@@ -110,6 +112,7 @@ def library_entries(request):
                 "external_game_id": entry.external_game_id,
                 "status": entry.status,
                 "hours_played": entry.hours_played,
+                "user": entry.user.username
             },
             status=201
         )
@@ -121,10 +124,25 @@ def library_entries(request):
 @csrf_exempt
 @require_http_methods(["GET", "PATCH"])
 def library_entry_detail(request, entry_id):
+
+    # comprobar que el usuario está autenticado
+    if not request.user.is_authenticated:
+        return error_response(
+            "unauthorized",
+            "No autenticado",
+            status=401
+        )
+
     # comprobar que existe por el id, si no existe devolvemos un error 404
     try:
-        entry = LibraryEntry.objects.get(id=entry_id)
+        # buscar la entrada SOLO si pertenece al usuario autenticado
+        entry = LibraryEntry.objects.get(
+            id=entry_id,
+            user=request.user
+        )
     except LibraryEntry.DoesNotExist:
+        # devolver 404 también si la entrada no es del usuario
+        # (para no revelar la existencia de recursos ajenos)
         return error_response(
             "not_found",
             "La entrada solicitada no existe",
@@ -139,6 +157,7 @@ def library_entry_detail(request, entry_id):
                 "external_game_id": entry.external_game_id,
                 "status": entry.status,
                 "hours_played": entry.hours_played,
+                "user": entry.user.username
             },
             status=200
         )
@@ -158,6 +177,7 @@ def library_entry_detail(request, entry_id):
                 "validation_error",
                 "Datos de entrada inválidos"
             )
+
         # Campos que se pueden modificar
         allowed_fields = {"status", "hours_played"}
         for field in data:
@@ -170,21 +190,20 @@ def library_entry_detail(request, entry_id):
 
         errors = {}
 
-        #Validamos status si se envía
+        # Validamos status si se envía
         if "status" in data:
             if not isinstance(data["status"], str):
                 errors["status"] = "Debe ser una cadena de texto"
             elif data["status"] not in LibraryEntry.ALLOWED_STATUSES:
                 errors["status"] = "Valor no permitido"
-        
-        # Validamos hours_played si se envía
 
+        # Validamos hours_played si se envía
         if "hours_played" in data:
             if not isinstance(data["hours_played"], int):
                 errors["hours_played"] = "Debe ser un número entero"
             elif data["hours_played"] < 0:
                 errors["hours_played"] = "Debe ser mayor o igual que 0"
-                
+
         # Si hay errores, los devolvemos
         if errors:
             return error_response(
@@ -192,17 +211,16 @@ def library_entry_detail(request, entry_id):
                 "Datos de entrada inválidos",
                 errors
             )
-            
-        #Actualizamos los campos enviados Y los guardamos en la base de datos
+
+        # Actualizamos los campos enviados Y los guardamos en la base de datos
         if "status" in data:
             entry.status = data["status"]
         if "hours_played" in data:
             entry.hours_played = data["hours_played"]
 
         entry.save()
-        
-        # Devolvemos la entrada actualizada
 
+        # Devolvemos la entrada actualizada
         return JsonResponse(
             {
                 "id": entry.id,
@@ -212,6 +230,7 @@ def library_entry_detail(request, entry_id):
             },
             status=200
         )
+
     
     
     
