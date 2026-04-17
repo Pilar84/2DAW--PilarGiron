@@ -14,18 +14,19 @@ from django.contrib.auth.models import User
 
 
 
-
+#aqui realizamos un consulta de prueba para comprobar que la API funciona correctamente, esta vista no requiere autenticación ni nada, es solo para comprobar que la API está funcionando y que se pueden hacer peticiones a ella
 @require_GET
 def health(request):
     return JsonResponse({"status": "ok"})
 
-# aqui vamos a crear la vista POST
+# aqui vamos a crear la vista GET y POST para la ruta /library/ que nos permita listar las entradas de la biblioteca del usuario autenticado y crear nuevas entradas en la biblioteca, respectivamente
 # el decorador este sirve para no comprobar el token de seguridad CSRF, porque es una API
 @csrf_exempt
 @require_http_methods(["GET", "POST"])
 def library_entries(request):
 
     # Comprobación de autenticación (para GET y POST)
+    # si el usuaruio no está autenticado, devolvemos un error 401 Unauthorized
     if not request.user.is_authenticated:
         return error_response(
             "unauthorized",
@@ -33,7 +34,7 @@ def library_entries(request):
             status=401
         )
 
-    # GET: listar SOLO las entradas del usuario autenticado
+    # GET: listar SOLO los juegos del usuario autenticado
     if request.method == "GET":
         entries = LibraryEntry.objects.filter(user=request.user)
 
@@ -50,7 +51,7 @@ def library_entries(request):
 
         return JsonResponse(result, safe=False, status=200)
 
-    # POST: crear entrada asociada al usuario autenticado
+    # POST: crear entrada de juego asociada al usuario autenticado
     if request.method == "POST":
         try:
             data = json.loads(request.body)
@@ -99,6 +100,7 @@ def library_entries(request):
                 status=status,
                 hours_played=hours_played
             )
+        #si el juego ya existe en la biblioteca, devolvemos un error 409 Conflict
         except IntegrityError:
             return error_response(
                 "duplicate_entry",
