@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class LibraryEntry(models.Model):
     STATUS_WISHLIST = "wishlist"
@@ -11,6 +12,14 @@ class LibraryEntry(models.Model):
         STATUS_PLAYING,
         STATUS_COMPLETED,
         STATUS_DROPPED,
+    )
+    
+    # Cada entrada de la biblioteca está asociada a un usuario
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,# si se borra el usuario, se borran sus entradas de la biblioteca
+        null=True,  # se usa para no romper datos ya existentes 
+        blank=True 
     )
 
     external_game_id = models.CharField(max_length=100, unique=True)

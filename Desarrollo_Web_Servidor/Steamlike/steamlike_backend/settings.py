@@ -36,6 +36,8 @@ INSTALLED_APPS = [
 
     # Local apps
     "library",
+    
+    "auth_api", 
 ]
 
 MIDDLEWARE = [
