@@ -1,6 +1,6 @@
 from django.test import TestCase
-
 from library.models import LibraryEntry
+from django.contrib.auth.models import User
 
 class DemoTest(TestCase):
     def test_demo(self):
