@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_GET
 from django.db import IntegrityError
 import json
+from .utils import load_json
 
 from library.errores import error_response
 
@@ -15,19 +16,9 @@ from library.errores import error_response
 @require_POST
 def register(request):
     #  aqui vamos aleer el JSON
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
-
-    if not data:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
+    data, error = load_json(request)
+    if error:
+        return error
 
     # en este punto Extraemos los campos usuario y contraseña del JSON recibido
     username = data.get("username")
@@ -78,18 +69,11 @@ def register(request):
 @require_POST
 def login_view(request):
     #  aqui vamos a leer el JSON
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
-    if not data:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
+    data, error = load_json(request)
+    if error:
+        return error
+
+        
     # Extraemos los campos usuario y contraseña del JSON recibido
     username = data.get("username")
     password = data.get("password")
@@ -144,7 +128,62 @@ def me(request):
     )
 
     
+@csrf_exempt
+@require_POST
+
+def change_password(request): 
     
+    # Ejercicio 2 - Comprobar autenticacion
+    if not request.user.is_authenticated:
+        return error_response(
+            "unauthorized",
+            "No autenticado",
+            status=401
+        )
+        
+    # Ejercicio 2 - Leer JSON
+    data, error = load_json(request)
+    if error:
+        return error
+
+        
+    current_password = data.get("current_password")
+    new_password = data.get("new_password")
+    
+    errors = {}
+    
+    #Validar campos obligatorios
+    if not isinstance(current_password, str) or not current_password.strip():
+        errors["current_password"] = "Campo obligatorio"
+        
+    if not isinstance(new_password, str) or not new_password.strip():
+        errors["new_password"] = "Campo obligatorio"
+    elif len(new_password) < 8:
+        errors["new_password"] = "Debe tener al menos 8 caracteres"
+        
+    if errors:
+        return error_response(
+            "validation_error",
+            "Datos de entrada inválidos",
+            errors
+        )
+        
+    # Comprobar contraseña actual 
+    if not request.user.check_password(current_password):
+        return error_response(
+            "validation_error",
+            "Contraseña actual incorrecta",
+            {"current_password": "Contraseña actual incorrecta"}
+        )   
+        
+    #Actuaizar contraseña
+    request.user.set_password(new_password)
+    request.user.save()
+    
+    #Respuesta correcta
+    return JsonResponse ({"ok": True}, status=200)
+
+
     
 
 
