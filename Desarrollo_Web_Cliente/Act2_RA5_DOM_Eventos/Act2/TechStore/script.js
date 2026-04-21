@@ -112,7 +112,16 @@ setTimeout(() => {
 // Pista: El botón está dentro de un <article>. Usa `parentElement` para seleccionar el artículo completo y luego el método `remove()`.
 
 // TU CÓDIGO AQUÍ:
-
+// seleccionamos todos los botones con la clase btn-eliminar
+const btnEliminar = document.querySelectorAll('.btn-eliminar');
+//recorremos todos los botones
+btnEliminar.forEach((btn) => {
+   //asignamos el evento click
+   btn.addEventListener('click', () => {
+      //eliminamos el producto
+      btn.parentElement.remove();
+   });
+});
 
 
 // -------------------------------------------------------------------------
@@ -126,15 +135,53 @@ setTimeout(() => {
 
 // TU CÓDIGO AQUÍ:
 
+// EJERCICIO 6: Intercambiador de vistas
+
+const imagenes = document.querySelectorAll('.producto-img');
+
+imagenes.forEach((imagen) => {
+   imagen.addEventListener('click', () => {
+
+      // 1. Intercambiar src y data-img-alt
+      const srcActual = imagen.src;
+      imagen.src = imagen.dataset.imgAlt;
+      imagen.dataset.imgAlt = srcActual;
+
+      // 2. Alternar clase CSS
+      imagen.classList.toggle('img-enfocada');
+
+      // 3. Texto flotante
+      if (imagen.classList.contains('img-enfocada')) {
+         const etiqueta = document.createElement('span');
+         etiqueta.textContent = "Vista detalle";
+         etiqueta.classList.add('texto-detalle');
+         imagen.parentElement.appendChild(etiqueta);
+      } else {
+         const etiqueta = imagen.parentElement.querySelector('.texto-detalle');
+         if (etiqueta) etiqueta.remove();
+      }
+   });
+});
 
 
 // -------------------------------------------------------------------------
 // EJERCICIO EXTRA (Reto): Destacar producto.
-// Al pasar el ratón ('mouseenter') por encima de una tarjeta de producto (<article>), 
+// Al pasar el ratón ('mouseenter') por encima de una tarjeta de producto (<article>),
 // añádele la clase 'destacado'.
 // Al quitar el ratón ('mouseleave'), quítale la clase 'destacado'.
 
 // TU CÓDIGO AQUÍ:
+const tarjetas = document.querySelectorAll('article');
+
+tarjetas.forEach((tarjeta) => {
+   tarjeta.addEventListener('mouseenter', () => {
+      tarjeta.classList.add('destacado');
+   });
+   tarjeta.addEventListener('mouseleave', () => {
+      tarjeta.classList.remove('destacado');
+   });
+});
+
 
 
 // -------------------------------------------------------------------------
@@ -148,3 +195,16 @@ setTimeout(() => {
 // Pista: Usa `event.target` o `this` dentro de la función del evento para referirte a la imagen concreta.
 
 // TU CÓDIGO AQUÍ:
+
+const imagenesZoom = document.querySelectorAll('.producto-img');
+
+imagenesZoom.forEach((imagen) => {
+   imagen.addEventListener('mouseenter', () => {
+      imagen.classList.add('img-agrandada');
+   });
+
+   imagen.addEventListener('mouseleave', () => {
+      imagen.classList.remove('img-agrandada');
+   });
+});
+
