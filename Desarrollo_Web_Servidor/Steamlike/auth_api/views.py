@@ -8,6 +8,8 @@ from django.views.decorators.http import require_GET
 from django.db import IntegrityError
 import json
 from .utils import load_json
+from .utils import require_auth
+from django.contrib.auth import logout 
 
 from library.errores import error_response
 
@@ -107,9 +109,20 @@ def login_view(request):
         status=200
     )
     
-    
-#aqui vamos a crear la vista para obtener los datos del usuario logueado, que recibira una petición GET y devolvera una respuesta con los datos del usuario logueado (id y username) si el usuario está autenticado, o un error si no lo está
+# Vamos a implementar el logout
+@csrf_exempt
+@require_POST
+def logout_view(request):
+    # Da igual si está autenticado o no: siempre cerramos sesión
+    logout(request)
 
+    # 204 → No Content (respuesta vacía)
+    return JsonResponse({}, status=204)
+
+
+
+
+#aqui vamos a crear la vista para obtener los datos del usuario logueado, que recibira una petición GET y devolvera una respuesta con los datos del usuario logueado (id y username) si el usuario está autenticado, o un error si no lo está
 @require_GET
 def me(request):
     if not request.user.is_authenticated:
@@ -134,12 +147,9 @@ def me(request):
 def change_password(request): 
     
     # Ejercicio 2 - Comprobar autenticacion
-    if not request.user.is_authenticated:
-        return error_response(
-            "unauthorized",
-            "No autenticado",
-            status=401
-        )
+    auth_error = require_auth(request)
+    if auth_error:
+        return auth_error
         
     # Ejercicio 2 - Leer JSON
     data, error = load_json(request)
@@ -183,7 +193,5 @@ def change_password(request):
     #Respuesta correcta
     return JsonResponse ({"ok": True}, status=200)
 
-
-    
 
 

@@ -14,3 +14,14 @@ def load_json(request):
         return None, error_response("validation_error", "Datos de entrada inválidos")
 
 
+
+#funcion de autenticacion de usuarios
+def require_auth(request):
+    if not request.user.is_authenticated:
+        return error_response(
+            "unauthorized",
+            "No autenticado",
+            status=401
+        )
+    return None
+    
