@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda DOM</title>
+    <link rel="stylesheet" href="style.css">
+    
+
+</head>
+<body>
+
+    <header>
+        <h1>TechStore 💻</h1>
+        <div class="acciones-header">
+            <button id="btn-tema">Modo Oscuro</button>
+            <div class="carrito">
+                🛒 Carrito: <span id="contador-carrito">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="contenedor-mensajes"></div>
+
+       <section class="productos" id="lista-productos">
+            <article class="tarjeta-producto">
+                <img src="img/teclado.jpg" alt="Teclado Mecánico" class="producto-img">
+                <h2>Teclado Mecánico</h2>
+                <p class="precio">75.00 €</p>
+                <button class="btn-comprar">Añadir al carrito</button>
+                <button class="btn-eliminar">Eliminar producto</button>
+            </article>
+
+            <article class="tarjeta-producto">
+                <img src="img/raton.jpg" alt="Ratón Inalámbrico" class="producto-img">
+                <h2>Ratón Inalámbrico</h2>
+                <p class="precio">45.00 €</p>
+                <button class="btn-comprar">Añadir al carrito</button>
+                <button class="btn-eliminar">Eliminar producto</button>
+            </article>
+
+            <article class="tarjeta-producto">
+                <img src="img/monitor.jpg" alt="Monitor 4K" class="producto-img">
+                <h2>Monitor 4K</h2>
+                <p class="precio">250.00 €</p>
+                <button class="btn-comprar">Añadir al carrito</button>
+                <button class="btn-eliminar">Eliminar producto</button>
+            </article>
+        </section>
+
+        <section class="newsletter">
+            <h2>¡Suscríbete para ofertas!</h2>
+            <form id="form-newsletter">
+                <input type="email" id="email-input" placeholder="Tu correo electrónico" required>
+                <button type="submit">Suscribirme</button>
+            </form>
+            <p id="mensaje-suscripcion"></p>
+        </section>
+    </main>
+
+</body>
+
+<script src="script.js"></script>
+
+</html>

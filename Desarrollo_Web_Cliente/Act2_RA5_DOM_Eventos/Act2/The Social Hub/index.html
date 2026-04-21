@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Social Hub - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">SocialHub 🌐</div>
+        <div class="nav-icons">
+            
+            <div class="perfil-mini">
+                <img src="img/calamardo.jpg" alt="Avatar">
+            </div>
+            <div id="notificaciones" class="icono">🔔 <span id="num-notificaciones">3</span></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="card-perfil">
+                <img src="img/calamardo.jpg" alt="Foto de perfil" id="foto-perfil">
+                <h2 id="nombre-usuario">Calamardo Pérez</h2>
+                <p id="bio-usuario">Amante del código y del café ☕</p>
+                <button id="btn-editar-perfil">Editar Perfil</button>
+                <div class="stats">
+                    <div><strong>Seguidores</strong><br><span id="count-seguidores">150</span></div>
+                    <div><strong>Siguiendo</strong><br><span>89</span></div>
+                </div>
+                <button id="btn-seguir" class="siguiendo">Siguiendo</button>
+            </div>
+        </aside>
+
+        <main class="feed">
+            <section class="crear-post">
+                <textarea id="post-texto" placeholder="¿Qué estás pensando?"></textarea>
+                <div class="post-footer">
+                    <span id="char-count">0/150</span>
+                    <button id="btn-publicar">Publicar</button>
+                </div>
+            </section>
+
+            <section id="lista-posts">
+                <article class="post">
+                    <div class="post-header"><strong>@dev_master</strong> hace 2h</div>
+                    <div class="post-content">¡Hoy he aprendido a usar el DOM de JavaScript! 🚀</div>
+                    <div class="post-actions">
+                        <button class="btn-like">❤️ <span class="likes-count">12</span></button>
+                        <button class="btn-borrar">Eliminar</button>
+                    </div>
+                </article>
+            </section>
+        </main>
+    </div>
+</body>
+
+<script src="script.js" defer></script>
+
+</html>
