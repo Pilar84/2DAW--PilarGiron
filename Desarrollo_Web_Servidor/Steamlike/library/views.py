@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
 
-from Desarrollo_Web_Servidor.Steamlike.auth_api.utils import require_auth
+from auth_api.utils import require_auth
 from .models import LibraryEntry    
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -230,6 +230,9 @@ def library_entry_detail(request, entry_id):
             status=200
         )
     
+    #------------------------------------------------------------------------------    
+#EJERCICIO 4
+#------------------------------------------------------------------------------    
     #ejercicio 4 - añadimos metodo PUT para actualizar toda la entrada de la biblioteca, en este caso el cliente debe enviar todos los campos (external_game_id, status y hours_played) y se actualizan todos los campos de la entrada, si falta algún campo se devuelve un error de validación
     if request.method == "PUT":
         try:
@@ -291,7 +294,10 @@ def library_entry_detail(request, entry_id):
             status=200
         )
 
-'''Ejercicio 5 – Análisis del endpoint PATCH
+##------------------------------------------------------------------------------    
+#EJERCICIO 5
+#------------------------------------------------------------------------------    
+'''Ejercicio 5 Análisis del endpoint PATCH
 
 Este endpoint usa PATCH porque solo actualiza algunos campos, no toda la entrada
 (como haría PUT). Es correcto comprobar que el usuario esté autenticado y que la
