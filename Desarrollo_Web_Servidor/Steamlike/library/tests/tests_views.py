@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from library.models import LibraryEntry
 
 class LibraryEntryExternalIdLengthTests(TestCase):
+    
+    # Test que comprueba que el endpoint /api/health/:
     def test_health(self):
         # Precondiciones
 
@@ -36,6 +38,9 @@ class HealthViewInvalidMethodTests(TestCase):
 # EJERCICIO 4 — LISTADO DE ENTRADAS
 #-----------------------------
 class LibraryEntriesListTests(TestCase):
+    
+    # Crea dos usuarios y varias entradas asociadas a cada uno
+    # para comprobar aislamiento y filtrado por usuario autenticado
     def setUp(self):
         self.user1 = User.objects.create_user(username="pilar", password="12345678")
         self.user2 = User.objects.create_user(username="juan", password="12345678")
@@ -68,7 +73,7 @@ class LibraryEntriesListTests(TestCase):
             hours_played=0      
         )
         
-       
+    # Test que comprueba que sin autenticación
     def test_list_without_authentication(self):
         # Llamada sin login
         response = self.client.get("/api/library/entries/")
@@ -77,7 +82,8 @@ class LibraryEntriesListTests(TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()["error"], "unauthorized")
         self.assertEqual(response.json()["message"], "No autenticado")
-
+        
+    # Test que comprueba que un usuario autenticado:
     def test_list_authenticated_user1(self):
         # Login user1
         self.client.post(
@@ -97,6 +103,7 @@ class LibraryEntriesListTests(TestCase):
         external_ids = {entry["external_game_id"] for entry in data}
         self.assertEqual(external_ids, {"game1", "game2"})
 
+    # Test que comprueba el aislamiento entre usuarios( ESTO ES QUE EL USUARIO 2 NO VE LAS ENTRADAS DEL USUARIO 1)
     def test_list_two_users_isolated(self):
         # Login user2
         self.client.post(
@@ -123,6 +130,9 @@ class LibraryEntriesListTests(TestCase):
 # EJERCICIO 5 — DETALLE DE ENTRADAS
 # -----------------------------
 class LibraryEntryDetailTests(TestCase):
+    
+    # Crea dos usuarios y una entrada para cada uno
+    # para comprobar acceso permitido y acceso prohibido
     def setUp(self):
         self.user1 = User.objects.create_user(username="pilar", password="12345678")
         self.user2 = User.objects.create_user(username="juan", password="12345678")
@@ -142,7 +152,8 @@ class LibraryEntryDetailTests(TestCase):
             status="completed",
             hours_played=20
         )   
-        
+    
+    # Test que comprueba que sin autenticación:
     def test_detail_without_authentication(self):
         # Llamada sin login
         response = self.client.get(f"/api/library/entries/{self.entry1.id}/")
@@ -151,7 +162,8 @@ class LibraryEntryDetailTests(TestCase):
         self.assertEqual(response.status_code, 401)
         self.assertEqual(response.json()["error"], "unauthorized")
         self.assertEqual(response.json()["message"], "No autenticado")        
-        
+    
+    # Test que comprueba que un usuario autenticado puede ver su propia entrada:  
     def test_detail_authenticated_user1(self): 
         # Login user1
         self.client.post("/api/auth/login/", data={"username": "pilar", "password": "12345678"}, content_type="application/json")
@@ -165,7 +177,9 @@ class LibraryEntryDetailTests(TestCase):
         self.assertEqual(data["external_game_id"], "game1")
         self.assertEqual(data["status"], "playing")
         self.assertEqual(data["hours_played"], 10)
-        
+     
+    
+    # Test que comprueba que un usuario autenticado NO puede ver entradas de otros:   
     def test_detail_authenticated_other_user_entry(self):           
         # Login user1
         self.client.post("/api/auth/login/", data={"username": "pilar", "password": "12345678"}, content_type="application/json")
@@ -183,11 +197,13 @@ class LibraryEntryDetailTests(TestCase):
 # EJERCICIO 6— CADA ENTRADA ASOCIADA AL USUARIO REGISTRADO
 # -----------------------------
 
+# Crea dos usuarios para probar autenticación y aislamiento
 class LibraryEntryCreateTests(TestCase):
     def setUp(self):
         self.user1 = User.objects.create_user(username="pilar", password="12345678")
         self.user2 = User.objects.create_user(username="juan", password="12345678")
-        
+    
+    # Test que comprueba que sin autenticación:   
     def test_create_without_authentication(self):
         data = {
             "external_game_id": "game5",
@@ -201,7 +217,8 @@ class LibraryEntryCreateTests(TestCase):
         self.assertEqual(response.json()["error"], "unauthorized")
         self.assertEqual(response.json()["message"], "No autenticado")
         
-        
+    
+    # Test que comprueba que un usuario autenticado:    
     def test_create_authenticated_user1(self):
         self.client.post("/api/auth/login/", data={"username": "pilar", "password": "12345678"}, content_type="application/json")
         
@@ -219,7 +236,10 @@ class LibraryEntryCreateTests(TestCase):
         entry = LibraryEntry.objects.get(external_game_id="game5")
         self.assertEqual(entry.user, self.user1)
         
-        
+    # Test que comprueba el aislamiento entre usuarios:
+    # - user1 crea una entrada
+    # - user2 inicia sesión después
+    # - user2 NO ve la entrada creada por user1
     def test_create_isolated_users(self):
         # Login user1
         self.client.post("/api/auth/login/", data={"username": "pilar", "password": "12345678"}, content_type="application/json")
