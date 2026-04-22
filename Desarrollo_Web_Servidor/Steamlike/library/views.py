@@ -1,5 +1,7 @@
 from django.http import JsonResponse
 from django.views.decorators.http import require_GET
+
+from auth_api.utils import require_auth
 from .models import LibraryEntry    
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
@@ -10,6 +12,7 @@ from django.db import IntegrityError
 from .errores import error_response
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
+  
 
 
 
@@ -27,12 +30,9 @@ def library_entries(request):
 
     # Comprobación de autenticación (para GET y POST)
     # si el usuaruio no está autenticado, devolvemos un error 401 Unauthorized
-    if not request.user.is_authenticated:
-        return error_response(
-            "unauthorized",
-            "No autenticado",
-            status=401
-        )
+    auth_error = require_auth(request)
+    if auth_error:
+        return auth_error
 
     # GET: listar SOLO los juegos del usuario autenticado
     if request.method == "GET":
@@ -124,16 +124,13 @@ def library_entries(request):
 
 #usamos PATCH porque solo queremos actualizar algunos campos de la entrada, no todos como haria PUT
 @csrf_exempt
-@require_http_methods(["GET", "PATCH"])
+@require_http_methods(["GET", "PATCH", "PUT"])
 def library_entry_detail(request, entry_id):
 
     # comprobar que el usuario está autenticado
-    if not request.user.is_authenticated:
-        return error_response(
-            "unauthorized",
-            "No autenticado",
-            status=401
-        )
+    auth_error = require_auth(request)
+    if auth_error:
+        return auth_error
 
     # comprobar que existe por el id, si no existe devolvemos un error 404
     try:
@@ -232,8 +229,92 @@ def library_entry_detail(request, entry_id):
             },
             status=200
         )
-
     
+    #------------------------------------------------------------------------------    
+#EJERCICIO 4
+#------------------------------------------------------------------------------    
+    #ejercicio 4 - añadimos metodo PUT para actualizar toda la entrada de la biblioteca, en este caso el cliente debe enviar todos los campos (external_game_id, status y hours_played) y se actualizan todos los campos de la entrada, si falta algún campo se devuelve un error de validación
+    if request.method == "PUT":
+        try:
+            data = json.loads(request.body)
+        except json.JSONDecodeError:
+            return error_response(
+                "validation_error",
+                "Datos de entrada inválidos"
+            )
+
+        #deben aparecer todos los campos
+        required_fields = {"external_game_id", "status", "hours_played"}
+
+        if not all(field in data for field in required_fields):
+            return error_response(
+                "validation_error",
+                "Datos de entrada inválidos",
+                {"missing_fields": "Faltan campos obligatorios"}
+            )
+        
+        errors = {}
+
+        #validar external_game_id
+        if not isinstance(data["external_game_id"], str) or not data["external_game_id"].strip():
+            errors["external_game_id"] = "Campo obligatorio"
+        
+        #validar status
+        if not isinstance(data["status"], str):
+            errors["status"] = "Debe ser una cadena de texto"
+        elif data["status"] not in LibraryEntry.ALLOWED_STATUSES:
+            errors["status"] = "Valor no permitido"
+        
+        #validar hours_played
+        if not isinstance(data["hours_played"], int):
+            errors["hours_played"] = "Debe ser un número entero"
+        elif data["hours_played"] < 0:
+            errors["hours_played"] = "Debe ser mayor o igual que 0"
+        
+        if errors:
+            return error_response(
+                "validation_error",
+                "Datos de entrada inválidos",
+                errors
+            )
+        #Actualizar todos los campos de la entrada
+        entry.external_game_id = data["external_game_id"]
+        entry.status = data["status"]
+        entry.hours_played = data["hours_played"]
+        entry.save()
+
+        # Devolvemos la entrada actualizada
+        return JsonResponse(
+            {
+                "id": entry.id,
+                "external_game_id": entry.external_game_id,
+                "status": entry.status,
+                "hours_played": entry.hours_played,
+            },
+            status=200
+        )
+
+##------------------------------------------------------------------------------    
+#EJERCICIO 5
+#------------------------------------------------------------------------------    
+'''Ejercicio 5 Análisis del endpoint PATCH
+
+Este endpoint usa PATCH porque solo actualiza algunos campos, no toda la entrada
+(como haría PUT). Es correcto comprobar que el usuario esté autenticado y que la
+entrada le pertenezca, para evitar accesos indebidos. Los códigos de estado usados
+(200, 400, 401, 404) son apropiados según cada situación. También se valida que los
+campos enviados sean permitidos y tengan valores correctos, lo cual mantiene la
+coherencia con el resto de la API. En general, el diseño es adecuado; solo podría
+mejorarse añadiendo alguna validación extra opcional, pero el comportamiento es
+correcto y consistente.'''
+
+'''Si tuviera que cambiar algo, añadiria ya opcion de en el metodo PATCH poder tambien
+actualizar el campo external_game_id, no solo status y hours_played, porque aunque no es tan común,
+ puede haber casos en los que el usuario quiera corregir el id del juego asociado a la entrada de la biblioteca. 
+ Para eso habría que añadir validación extra para comprobar que el nuevo external_game_id no esté vacío y sea una cadena de texto, 
+ igual que se hace en el método PUT.'''
+
+
     
     
 

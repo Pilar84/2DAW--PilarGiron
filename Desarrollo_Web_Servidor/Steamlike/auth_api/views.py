@@ -7,6 +7,9 @@ from django.contrib.auth import authenticate, login
 from django.views.decorators.http import require_GET
 from django.db import IntegrityError
 import json
+from .utils import load_json
+from .utils import require_auth
+from django.contrib.auth import logout 
 
 from library.errores import error_response
 
@@ -15,19 +18,9 @@ from library.errores import error_response
 @require_POST
 def register(request):
     #  aqui vamos aleer el JSON
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
-
-    if not data:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
+    data, error = load_json(request)
+    if error:
+        return error
 
     # en este punto Extraemos los campos usuario y contraseña del JSON recibido
     username = data.get("username")
@@ -78,18 +71,11 @@ def register(request):
 @require_POST
 def login_view(request):
     #  aqui vamos a leer el JSON
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
-    if not data:
-        return error_response(
-            "validation_error",
-            "Datos de entrada inválidos"
-        )
+    data, error = load_json(request)
+    if error:
+        return error
+
+        
     # Extraemos los campos usuario y contraseña del JSON recibido
     username = data.get("username")
     password = data.get("password")
@@ -122,10 +108,25 @@ def login_view(request):
         },
         status=200
     )
-    
-    
-#aqui vamos a crear la vista para obtener los datos del usuario logueado, que recibira una petición GET y devolvera una respuesta con los datos del usuario logueado (id y username) si el usuario está autenticado, o un error si no lo está
 
+#------------------------------------------------------------------------------    
+#EJERCICIO 6
+#------------------------------------------------------------------------------    
+
+# Vamos a implementar el logout
+@csrf_exempt
+@require_POST
+def logout_view(request):
+    # Da igual si está autenticado o no: siempre cerramos sesión
+    logout(request)
+
+    # 204 → No Content (respuesta vacía)
+    return JsonResponse({}, status=204)
+
+
+
+
+#aqui vamos a crear la vista para obtener los datos del usuario logueado, que recibira una petición GET y devolvera una respuesta con los datos del usuario logueado (id y username) si el usuario está autenticado, o un error si no lo está
 @require_GET
 def me(request):
     if not request.user.is_authenticated:
@@ -143,8 +144,61 @@ def me(request):
         status=200
     )
 
+#--------------------------------------------------
+#EJERCICIO 2
+#--------------------------------------------------
+
+@csrf_exempt
+@require_POST
+
+def change_password(request): 
     
+    # Ejercicio 2 - Comprobar autenticacion
+    auth_error = require_auth(request)
+    if auth_error:
+        return auth_error
+        
+    # Ejercicio 2 - Leer JSON
+    data, error = load_json(request)
+    if error:
+        return error
+
+        
+    current_password = data.get("current_password")
+    new_password = data.get("new_password")
     
+    errors = {}
     
+    #Validar campos obligatorios
+    if not isinstance(current_password, str) or not current_password.strip():
+        errors["current_password"] = "Campo obligatorio"
+        
+    if not isinstance(new_password, str) or not new_password.strip():
+        errors["new_password"] = "Campo obligatorio"
+    elif len(new_password) < 8:
+        errors["new_password"] = "Debe tener al menos 8 caracteres"
+        
+    if errors:
+        return error_response(
+            "validation_error",
+            "Datos de entrada inválidos",
+            errors
+        )
+        
+    # Comprobar contraseña actual 
+    if not request.user.check_password(current_password):
+        return error_response(
+            "validation_error",
+            "Contraseña actual incorrecta",
+            {"current_password": "Contraseña actual incorrecta"}
+        )   
+        
+    #Actuaizar contraseña
+    request.user.set_password(new_password)
+    request.user.save()
+    
+    #Respuesta correcta
+    return JsonResponse ({"ok": True}, status=200)
+
 
 

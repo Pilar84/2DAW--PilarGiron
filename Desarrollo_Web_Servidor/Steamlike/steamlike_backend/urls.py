@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from auth_api.views import me 
+from auth_api.views import change_password
 from library.views import (
     health,
     library_entries,    
@@ -20,7 +21,9 @@ urlpatterns = [
     #aqui añadimos la ruta para el registro de usuarios
     path("api/auth/", include("auth_api.urls")),
     
-    path("api/users/me/", me), 
+    path("api/users/me/", me),
+    
+    path("api/users/me/password/", change_password),
     
     
 ]
