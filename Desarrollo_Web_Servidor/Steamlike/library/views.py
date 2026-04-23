@@ -12,6 +12,7 @@ from django.db import IntegrityError
 from .errores import error_response
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
+
   
 
 
@@ -315,13 +316,81 @@ actualizar el campo external_game_id, no solo status y hours_played, porque aunq
  igual que se hace en el método PUT.'''
 
 
-    
-    
+#SEMANA 4 CONEXIÓN A UNA API
+#--------------------------------------------------------------
+#EJERCICIO 1
+#--------------------------------------------------------------
+# A traves de la API cheapshark podemos consultar los juegos por titulo
+#GET https://www.cheapshark.com/api/1.0/games?title=<texto>
+
+#Qué endpoint permite consultar información de varios juegos por ID. 
+https://www.cheapshark.com/api/1.0/games?ids=128,129,130
+
+
+# Esta API es publica y no requiere API KEy ni autenticación, pero si hay que tener en cuenta;
+# User-Agent de la petición
+# Rate limiting(numero de peticiones que hace el usuario)Si haces muchas devuelve HTTP 429 y te bloquea temporalmente.
 
     
-    
-    
-    
-    
-    
+# A external_game_id se le asignará el valor del gameID de CheapShark.
+#external_game_id = gameID
 
+#Por qué el frontend solo recibe información mínima del juego
+#POrque el usuario solo quiere ver el juego, no quiere ver la información completa de la API de CheapShark.
+    
+    
+#Por qué el catálogo NO se almacena en vuestra base de datos
+#Cheapshark es una API publica y no se almacena en nuestra base de datos, prohibe descargar el catalogo completo
+#Reducimos el tamaño de nuestra BBDD, ya este es un catalogo externo y dinamico.
+
+
+#--------------------------------------------------------
+#EJERCICIO 2
+#--------------------------------------------------------
+
+#VISTA PARA BUSCAR VIDEOJUEGOS POR NOMBRE
+@require_GET
+
+def catalog_search(request):
+    # Leer el parámetro 'q' de la solicitud GET
+    query = request.GET.get('q')
+    
+    # Validar q
+    if not isinstance(query, str) or not query.strip():
+        return error_response(
+            "validation_error",
+            "Datos de entrada inválidos"
+        )
+    
+    # 3. Llamar a CheapShark
+    try:
+        response = request.get(
+            "https://www.cheapshark.com/api/1.0/games",
+            params={"title": query},
+            headers={"User-Agent": "PipayPlata-StudentProject"}
+        )
+    except request.RequestException:
+        return error_response(
+            "external_api_error",
+            "No se pudo contactar con el catálogo externo"
+        )
+
+    if response.status_code != 200:
+        return error_response(
+            "external_api_error",
+            "Error al consultar el catálogo externo"
+        )
+
+    cheapshark_data = response.json()
+
+    # 4. Transformar datos → formato estable
+    results = []
+    for game in cheapshark_data:
+        results.append({
+            "external_game_id": game.get("gameID"),
+            "title": game.get("external", game.get("title")),
+            "thumb": game.get("thumb")
+        })
+
+    # 5. Devolver lista (vacía o con elementos)
+    return JsonResponse(results, safe=False, status=200)
