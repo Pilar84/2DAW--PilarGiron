@@ -12,6 +12,7 @@ from django.db import IntegrityError
 from .errores import error_response
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
+import requests
 
   
 
@@ -30,7 +31,6 @@ def health(request):
 def library_entries(request):
 
     # Comprobación de autenticación (para GET y POST)
-    # si el usuaruio no está autenticado, devolvemos un error 401 Unauthorized
     auth_error = require_auth(request)
     if auth_error:
         return auth_error
@@ -48,12 +48,12 @@ def library_entries(request):
                 "hours_played": entry.hours_played,
                 "user": entry.user.username
             })
-            
 
         return JsonResponse(result, safe=False, status=200)
 
     # POST: crear entrada de juego asociada al usuario autenticado
     if request.method == "POST":
+        # Intentamos leer el JSON
         try:
             data = json.loads(request.body)
         except json.JSONDecodeError:
@@ -74,6 +74,7 @@ def library_entries(request):
 
         errors = {}
 
+        # Validaciones básicas
         if not isinstance(external_game_id, str) or not external_game_id.strip():
             errors["external_game_id"] = "Campo obligatorio"
 
@@ -94,6 +95,55 @@ def library_entries(request):
                 errors
             )
 
+        # ---------------------------------------------------------
+        # EJERCICIO 4: Validación externa del external_game_id
+        # ---------------------------------------------------------
+
+        # Llamamos a CheapShark para comprobar si el ID existe
+        try:
+            response = requests.get(
+                "https://www.cheapshark.com/api/1.0/games",
+                params={"ids": external_game_id},
+                headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
+                timeout=5
+            )
+        except requests.RequestException:
+            # Caso A: CheapShark no responde
+            return JsonResponse(
+                {
+                    "error": "external_service_unavailable",
+                    "message": "El catálogo externo no está disponible. Inténtalo más tarde."
+                },
+                status=503
+            )
+
+        # Caso B: CheapShark responde con error
+        if response.status_code != 200:
+            return JsonResponse(
+                {
+                    "error": "external_service_error",
+                    "message": "Error al consultar el catálogo externo."
+                },
+                status=502
+            )
+
+        cheapshark_data = response.json()
+
+        # Caso C: el ID no existe en CheapShark
+        if external_game_id not in cheapshark_data:
+            return JsonResponse(
+                {
+                    "error": "invalid_external_game_id",
+                    "message": "El juego indicado no existe en el catálogo externo.",
+                    "details": {"external_game_id": "not_found"}
+                },
+                status=400
+            )
+
+        # ---------------------------------------------------------
+        # Si todo está bien, creamos la entrada en la BD
+        # ---------------------------------------------------------
+
         try:
             entry = LibraryEntry.objects.create(
                 user=request.user,
@@ -101,14 +151,15 @@ def library_entries(request):
                 status=status,
                 hours_played=hours_played
             )
-        #si el juego ya existe en la biblioteca, devolvemos un error 409 Conflict
         except IntegrityError:
+            # Si ya existe → 409 Conflict
             return error_response(
                 "duplicate_entry",
                 "El juego ya existe en la biblioteca",
                 {"external_game_id": "duplicate"}
             )
 
+        # Respuesta final
         return JsonResponse(
             {
                 "id": entry.id,
@@ -119,6 +170,7 @@ def library_entries(request):
             },
             status=201
         )
+
         
 '''///////////////////////////////////////////////////////////'''
 #vista para actualizar una entrada de la biblioteca 
@@ -350,47 +402,133 @@ https://www.cheapshark.com/api/1.0/games?ids=128,129,130
 
 #VISTA PARA BUSCAR VIDEOJUEGOS POR NOMBRE
 @require_GET
-
 def catalog_search(request):
     # Leer el parámetro 'q' de la solicitud GET
     query = request.GET.get('q')
-    
-    # Validar q
+
+    # Validar que q exista y no esté vacío
     if not isinstance(query, str) or not query.strip():
         return error_response(
             "validation_error",
             "Datos de entrada inválidos"
         )
-    
-    # 3. Llamar a CheapShark
+
+    # Llamar a CheapShark (puede fallar → Caso A)
     try:
-        response = request.get(
+        response = requests.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"title": query},
-            headers={"User-Agent": "PipayPlata-StudentProject"}
+            headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
+            timeout=5  # evita que la petición se quede colgada
         )
-    except request.RequestException:
-        return error_response(
-            "external_api_error",
-            "No se pudo contactar con el catálogo externo"
+    except requests.RequestException:
+        # Caso A: CheapShark no responde (timeout, red caída…)
+        return JsonResponse(
+            {
+                "error": "external_service_unavailable",
+                "message": "El catálogo externo no está disponible. Inténtalo más tarde."
+            },
+            status=503
         )
 
+    # Caso B: CheapShark responde con error (500, 404, etc.)
     if response.status_code != 200:
-        return error_response(
-            "external_api_error",
-            "Error al consultar el catálogo externo"
+        return JsonResponse(
+            {
+                "error": "external_service_error",
+                "message": "Error al consultar el catálogo externo."
+            },
+            status=502
         )
 
+    # Convertimos la respuesta a JSON
     cheapshark_data = response.json()
 
-    # 4. Transformar datos → formato estable
+    # Transformar datos → formato estable para el frontend
     results = []
     for game in cheapshark_data:
         results.append({
             "external_game_id": game.get("gameID"),
-            "title": game.get("external", game.get("title")),
-            "thumb": game.get("thumb")
+            "title": game.get("external"),  # título del juego
+            "thumb": game.get("thumb")      # miniatura
         })
 
-    # 5. Devolver lista (vacía o con elementos)
+    # Devolver lista (vacía o con elementos)
     return JsonResponse(results, safe=False, status=200)
+
+#--------------------------------------------------------
+#EJERCICIO 3
+#--------------------------------------------------------
+'''Este endpoint sirve para que el frontend pueda obtener título y miniatura de varios juegos 
+a partir de sus external_game_id, sin guardar nada en tu base de datos.'''
+
+@require_POST
+def catalog_resolve(request):
+    # Intentamos leer el JSON del body
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        # JSON mal formado → error 400
+        return error_response(
+            "validation_error",
+            "Datos de entrada inválidos"
+        )
+
+    # Extraemos la lista de IDs
+    external_ids = data.get("external_game_ids")
+
+    # Validamos que sea una lista válida y no vacía
+    if (
+        not isinstance(external_ids, list) or
+        len(external_ids) == 0 or
+        any(not isinstance(x, str) or not x.strip() for x in external_ids)
+    ):
+        return error_response(
+            "validation_error",
+            "Datos de entrada inválidos"
+        )
+
+    # Llamamos a CheapShark para obtener info de varios juegos por ID
+    try:
+        response = requests.get(
+            "https://www.cheapshark.com/api/1.0/games",
+            params={"ids": ",".join(external_ids)},  # Convertimos la lista en "1,2,3"
+            headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
+            timeout=5  # evita que la petición se quede colgada
+        )
+    except requests.RequestException:
+        # Caso A: CheapShark no responde (timeout, red caída…)
+        return JsonResponse(
+            {
+                "error": "external_service_unavailable",
+                "message": "El catálogo externo no está disponible. Inténtalo más tarde."
+            },
+            status=503
+        )
+
+    # Caso B: CheapShark responde con error (500, 404, etc.)
+    if response.status_code != 200:
+        return JsonResponse(
+            {
+                "error": "external_service_error",
+                "message": "Error al consultar el catálogo externo."
+            },
+            status=502
+        )
+
+    # Convertimos la respuesta a JSON
+    cheapshark_data = response.json()
+
+    # Transformamos la respuesta al formato estable que pide el frontend
+    results = []
+    for game_id, game_info in cheapshark_data.items():
+        info = game_info.get("info", {})  # CheapShark mete los datos dentro de "info"
+        results.append({
+            "external_game_id": game_id,
+            "title": info.get("title"),
+            "thumb": info.get("thumb")
+        })
+
+    # Devolvemos la lista final (vacía o con elementos)
+    return JsonResponse(results, safe=False, status=200)
+

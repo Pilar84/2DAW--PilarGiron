@@ -6,6 +6,8 @@ from library.views import (
     health,
     library_entries,    
     library_entry_detail,
+    catalog_search,
+    catalog_resolve
 )
 
 
@@ -24,6 +26,10 @@ urlpatterns = [
     path("api/users/me/", me),
     
     path("api/users/me/password/", change_password),
+
+    path("api/library/catalog/search/", catalog_search),
+
+     path("api/library/catalog/resolve/", catalog_resolve),
     
     
 ]
