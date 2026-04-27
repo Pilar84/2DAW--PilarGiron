@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+<<<<<<< HEAD
 from django.views.decorators.http import require_GET
 
 from auth_api.utils import require_auth
@@ -7,12 +8,21 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 import json
 from django.db import models
+=======
+from django.views.decorators.http import require_GET, require_POST, require_http_methods
+>>>>>>> optativa-semana3
 from django.views.decorators.csrf import csrf_exempt
-from django.db import IntegrityError
-from .errores import error_response
-from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
+<<<<<<< HEAD
   
+=======
+from django.db import IntegrityError
+import json
+
+from .models import LibraryEntry
+from .errores import error_response
+
+>>>>>>> optativa-semana3
 
 
 
