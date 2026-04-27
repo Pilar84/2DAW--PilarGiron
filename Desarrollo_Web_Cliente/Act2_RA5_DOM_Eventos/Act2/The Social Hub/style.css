@@ -1,0 +1,127 @@
+:root {
+    --primary: #4a90e2;
+    --bg: #f0f2f5;
+    --white: #ffffff;
+    --text: #1c1e21;
+    --gray: #65676b;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+}
+
+.navbar {
+    background-color: var(--white);
+    padding: 10px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.container {
+    display: flex;
+    max-width: 1000px;
+    margin: 20px auto;
+    gap: 20px;
+    padding: 0 15px;
+}
+
+.sidebar { width: 30%; }
+.feed { width: 70%; }
+
+.card-perfil, .post, .crear-post {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.card-perfil { text-align: center; }
+#foto-perfil { border-radius: 50%; margin-bottom: 10px; }
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#btn-publicar { background: var(--primary); color: white; }
+#btn-seguir { width: 100%; margin-top: 10px; }
+.siguiendo { background: #e4e6eb; color: black; }
+.no-siguiendo { background: var(--primary); color: white; }
+
+textarea {
+    width: 100%;
+    height: 80px;
+    border: none;
+    resize: none;
+    font-size: 1.1rem;
+    outline: none;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+.post-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.btn-borrar { background: #fee2e2; color: #dc2626; }
+.btn-like.liked { color: #dc2626; transform: scale(1.1); }
+
+/* --- Estilos para las Fotos de Perfil --- */
+
+/* La foto grande de la Sidebar */
+#foto-perfil {
+    width: 120px;          /* Tamaño fijo */
+    height: 120px;         /* Tamaño fijo igual al ancho */
+    border-radius: 50%;    /* La hace circular */
+    object-fit: cover;     /* Recorta la imagen para que rellene el círculo sin deformarse */
+    border: 4px solid var(--bg); /* Un borde para que resalte del fondo */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: block;
+    margin: 0 auto 15px auto; /* Centrada horizontalmente */
+    background-color: #ddd;   /* Color de fondo por si la imagen falla */
+}
+
+/* La foto pequeñita de la Navbar */
+.perfil-mini img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+/* Un efecto sutil al pasar el ratón por la mini foto */
+.perfil-mini img:hover {
+    transform: scale(1.1);
+}
