@@ -146,7 +146,6 @@ def me(request):
         status=200
     )
 
-<<<<<<< HEAD
 #--------------------------------------------------
 #EJERCICIO 2
 #--------------------------------------------------
@@ -204,6 +203,4 @@ def change_password(request):
     return JsonResponse ({"ok": True}, status=200)
 
 
-=======
->>>>>>> optativa-semana3
 
