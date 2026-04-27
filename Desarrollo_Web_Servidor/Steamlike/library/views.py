@@ -12,7 +12,7 @@ from django.db import IntegrityError
 from .errores import error_response
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
-import requests
+
 
   
 
@@ -101,13 +101,13 @@ def library_entries(request):
 
         # Llamamos a CheapShark para comprobar si el ID existe
         try:
-            response = requests.get(
+            response = request.get(
                 "https://www.cheapshark.com/api/1.0/games",
                 params={"ids": external_game_id},
                 headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
                 timeout=5
             )
-        except requests.RequestException:
+        except request.RequestException:
             # Caso A: CheapShark no responde
             return JsonResponse(
                 {
@@ -376,7 +376,7 @@ actualizar el campo external_game_id, no solo status y hours_played, porque aunq
 #GET https://www.cheapshark.com/api/1.0/games?title=<texto>
 
 #Qué endpoint permite consultar información de varios juegos por ID. 
-https://www.cheapshark.com/api/1.0/games?ids=128,129,130
+#https://www.cheapshark.com/api/1.0/games?ids=128,129,130
 
 
 # Esta API es publica y no requiere API KEy ni autenticación, pero si hay que tener en cuenta;
@@ -415,13 +415,13 @@ def catalog_search(request):
 
     # Llamar a CheapShark (puede fallar → Caso A)
     try:
-        response = requests.get(
+        response = request.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"title": query},
             headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
             timeout=5  # evita que la petición se quede colgada
         )
-    except requests.RequestException:
+    except request.RequestException:
         # Caso A: CheapShark no responde (timeout, red caída…)
         return JsonResponse(
             {
@@ -490,13 +490,13 @@ def catalog_resolve(request):
 
     # Llamamos a CheapShark para obtener info de varios juegos por ID
     try:
-        response = requests.get(
+        response = request.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"ids": ",".join(external_ids)},  # Convertimos la lista en "1,2,3"
             headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
             timeout=5  # evita que la petición se quede colgada
         )
-    except requests.RequestException:
+    except request.RequestException:
         # Caso A: CheapShark no responde (timeout, red caída…)
         return JsonResponse(
             {
