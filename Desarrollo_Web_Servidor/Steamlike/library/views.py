@@ -12,6 +12,7 @@ from django.db import IntegrityError
 from .errores import error_response
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
+import requests
 
 
   
@@ -101,7 +102,7 @@ def library_entries(request):
 
         # Llamamos a CheapShark para comprobar si el ID existe
         try:
-            response = request.get(
+            response = requests.get(
                 "https://www.cheapshark.com/api/1.0/games",
                 params={"ids": external_game_id},
                 headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
@@ -415,13 +416,12 @@ def catalog_search(request):
 
     # Llamar a CheapShark (puede fallar → Caso A)
     try:
-        response = request.get(
+        response = requests.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"title": query},
-            headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
             timeout=5  # evita que la petición se quede colgada
         )
-    except request.RequestException:
+    except requests.RequestException:
         # Caso A: CheapShark no responde (timeout, red caída…)
         return JsonResponse(
             {
@@ -461,7 +461,7 @@ def catalog_search(request):
 #--------------------------------------------------------
 '''Este endpoint sirve para que el frontend pueda obtener título y miniatura de varios juegos 
 a partir de sus external_game_id, sin guardar nada en tu base de datos.'''
-
+@csrf_exempt
 @require_POST
 def catalog_resolve(request):
     # Intentamos leer el JSON del body
@@ -490,7 +490,7 @@ def catalog_resolve(request):
 
     # Llamamos a CheapShark para obtener info de varios juegos por ID
     try:
-        response = request.get(
+        response = requests.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"ids": ",".join(external_ids)},  # Convertimos la lista en "1,2,3"
             headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
