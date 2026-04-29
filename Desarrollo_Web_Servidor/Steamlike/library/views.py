@@ -9,8 +9,6 @@ from django.db import IntegrityError
 from auth_api.utils import require_auth
 from .models import LibraryEntry
 from .errores import error_response
-<<<<<<< HEAD
-=======
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
 import requests
@@ -18,7 +16,6 @@ import requests
 
   
 
->>>>>>> dwes-semana4
 
 
 
@@ -92,13 +89,11 @@ def library_entries(request):
         if errors:
             return error_response("validation_error", "Datos de entrada inválidos", errors)
 
-<<<<<<< HEAD
         # ---------------------------
         # FIX: NO llamar a CheapShark
         # Simulamos que el juego existe
         # ---------------------------
         cheapshark_data = {external_game_id: True}
-=======
         # ---------------------------------------------------------
         # EJERCICIO 4: Validación externa del external_game_id
         # ---------------------------------------------------------
@@ -147,7 +142,6 @@ def library_entries(request):
         # ---------------------------------------------------------
         # Si todo está bien, creamos la entrada en la BD
         # ---------------------------------------------------------
->>>>>>> dwes-semana4
 
         # Crear entrada
         try:
@@ -266,10 +260,6 @@ def catalog_search(request):
         response = requests.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"title": query},
-<<<<<<< HEAD
-            headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
-            timeout=5
-=======
             timeout=5  # evita que la petición se quede colgada
         )
     except requests.RequestException:
@@ -280,7 +270,6 @@ def catalog_search(request):
                 "message": "El catálogo externo no está disponible. Inténtalo más tarde."
             },
             status=503
->>>>>>> dwes-semana4
         )
     except requests.RequestException:
         return JsonResponse({
@@ -306,22 +295,14 @@ def catalog_search(request):
 
     return JsonResponse(results, safe=False, status=200)
 
-<<<<<<< HEAD
-
-#-----------------------------------------------------------
-# RESOLVE
-#-----------------------------------------------------------
-=======
 #--------------------------------------------------------
 #EJERCICIO 3
 #--------------------------------------------------------
 '''Este endpoint sirve para que el frontend pueda obtener título y miniatura de varios juegos 
 a partir de sus external_game_id, sin guardar nada en tu base de datos.'''
 @csrf_exempt
->>>>>>> dwes-semana4
 @require_POST
 def catalog_resolve(request):
-
     try:
         data = json.loads(request.body)
     except json.JSONDecodeError:

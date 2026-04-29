@@ -29,6 +29,8 @@ services:
     image: javier08877/steamlike:4.0
     ports:
       - "3000:80"
+    environment:
+      BACKEND_URL: http://localhost:8000
     depends_on:
       - web
 
