@@ -9,6 +9,16 @@ from django.db import IntegrityError
 from auth_api.utils import require_auth
 from .models import LibraryEntry
 from .errores import error_response
+<<<<<<< HEAD
+=======
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.models import User
+import requests
+
+
+  
+
+>>>>>>> dwes-semana4
 
 
 
@@ -82,11 +92,62 @@ def library_entries(request):
         if errors:
             return error_response("validation_error", "Datos de entrada inválidos", errors)
 
+<<<<<<< HEAD
         # ---------------------------
         # FIX: NO llamar a CheapShark
         # Simulamos que el juego existe
         # ---------------------------
         cheapshark_data = {external_game_id: True}
+=======
+        # ---------------------------------------------------------
+        # EJERCICIO 4: Validación externa del external_game_id
+        # ---------------------------------------------------------
+
+        # Llamamos a CheapShark para comprobar si el ID existe
+        try:
+            response = requests.get(
+                "https://www.cheapshark.com/api/1.0/games",
+                params={"ids": external_game_id},
+                headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
+                timeout=5
+            )
+        except request.RequestException:
+            # Caso A: CheapShark no responde
+            return JsonResponse(
+                {
+                    "error": "external_service_unavailable",
+                    "message": "El catálogo externo no está disponible. Inténtalo más tarde."
+                },
+                status=503
+            )
+
+        # Caso B: CheapShark responde con error
+        if response.status_code != 200:
+            return JsonResponse(
+                {
+                    "error": "external_service_error",
+                    "message": "Error al consultar el catálogo externo."
+                },
+                status=502
+            )
+
+        cheapshark_data = response.json()
+
+        # Caso C: el ID no existe en CheapShark
+        if external_game_id not in cheapshark_data:
+            return JsonResponse(
+                {
+                    "error": "invalid_external_game_id",
+                    "message": "El juego indicado no existe en el catálogo externo.",
+                    "details": {"external_game_id": "not_found"}
+                },
+                status=400
+            )
+
+        # ---------------------------------------------------------
+        # Si todo está bien, creamos la entrada en la BD
+        # ---------------------------------------------------------
+>>>>>>> dwes-semana4
 
         # Crear entrada
         try:
@@ -205,8 +266,21 @@ def catalog_search(request):
         response = requests.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"title": query},
+<<<<<<< HEAD
             headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
             timeout=5
+=======
+            timeout=5  # evita que la petición se quede colgada
+        )
+    except requests.RequestException:
+        # Caso A: CheapShark no responde (timeout, red caída…)
+        return JsonResponse(
+            {
+                "error": "external_service_unavailable",
+                "message": "El catálogo externo no está disponible. Inténtalo más tarde."
+            },
+            status=503
+>>>>>>> dwes-semana4
         )
     except requests.RequestException:
         return JsonResponse({
@@ -232,10 +306,19 @@ def catalog_search(request):
 
     return JsonResponse(results, safe=False, status=200)
 
+<<<<<<< HEAD
 
 #-----------------------------------------------------------
 # RESOLVE
 #-----------------------------------------------------------
+=======
+#--------------------------------------------------------
+#EJERCICIO 3
+#--------------------------------------------------------
+'''Este endpoint sirve para que el frontend pueda obtener título y miniatura de varios juegos 
+a partir de sus external_game_id, sin guardar nada en tu base de datos.'''
+@csrf_exempt
+>>>>>>> dwes-semana4
 @require_POST
 def catalog_resolve(request):
 
