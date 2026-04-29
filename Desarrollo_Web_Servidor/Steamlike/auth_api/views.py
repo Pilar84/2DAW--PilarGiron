@@ -1,3 +1,7 @@
+import json
+import requests
+import os
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -13,6 +17,7 @@ from django.contrib.auth import logout
 
 from library.models import LibraryEntry
 from library.errores import error_response
+
 
 
 @csrf_exempt
@@ -202,4 +207,74 @@ def change_password(request):
     return JsonResponse ({"ok": True}, status=200)
 
 
+#--------------------------------------------------
+#ENVIO DE CORREO
+#--------------------------------------------------
+MAILEROO_URL = "https://smtp.maileroo.com/api/v2/emails"
 
+@csrf_exempt
+@require_POST
+def send_email(request):
+    # Leer JSON
+    data, error = load_json(request)
+    if error:
+        return error
+
+    to = data.get("to")
+    subject = data.get("subject")
+    text = data.get("text")
+
+    errors = {}
+
+    # Validaciones
+    if not isinstance(to, str) or not to.strip():
+        errors["to"] = "Campo obligatorio"
+
+    if not isinstance(subject, str) or not subject.strip():
+        errors["subject"] = "Campo obligatorio"
+
+    if not isinstance(text, str) or not text.strip():
+        errors["text"] = "Campo obligatorio"
+
+    if errors:
+        return error_response(
+            "validation_error",
+            "Datos de entrada inválidos",
+            errors
+        )
+
+    # Cabeceras
+    headers = {
+        "Authorization": f"Bearer {os.getenv('MAILEROO_TOKEN')}",
+        "Content-Type": "application/json",
+    }
+
+    # Payload
+    payload = {
+    "from": {"address": os.getenv("MAILEROO_FROM_ADDRESS")},
+    "to": [{"address": data["to"]}],
+    "subject": data["subject"],
+    "plain": data["text"]
+    }
+
+    # Llamada a Maileroo
+    try:
+        r = requests.post(MAILEROO_URL, headers=headers, json=payload, timeout=5)
+    except requests.RequestException:
+        return JsonResponse(
+            {"error": "external_service_unavailable"},
+            status=503
+        )
+
+    # Si Maileroo responde con error
+    if r.status_code >= 400:
+        return JsonResponse(
+        {
+            "error": "external_service_error",
+            "maileroo_status": r.status_code,
+            "maileroo_response": r.text
+        },
+        status=502
+    )
+    # OK
+    return JsonResponse({"ok": True}, status=200)

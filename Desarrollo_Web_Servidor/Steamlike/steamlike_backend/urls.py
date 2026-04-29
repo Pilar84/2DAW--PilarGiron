@@ -26,10 +26,9 @@ urlpatterns = [
     path("api/users/me/", me),
     
     path("api/users/me/password/", change_password),
-
+    
     path("api/catalog/search/", catalog_search),
 
-     path("api/catalog/resolve/", catalog_resolve),
-    
+    path("api/catalog/resolve/", catalog_resolve),
     
 ]
