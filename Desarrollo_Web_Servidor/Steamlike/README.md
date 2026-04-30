@@ -131,3 +131,4 @@ Este comando crea una carpeta llamada `htmlcov/`. Puedes visualizar el archivo `
 
 El coverage es una métrica orientativa,
 pero **no mide la calidad de los tests**.
+
