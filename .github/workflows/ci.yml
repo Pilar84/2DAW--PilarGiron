@@ -1,0 +1,42 @@
+name: CI Django
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Descargar el código del repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+
+    - name: Instalar dependencias
+      working-directory: ./Desarrollo_Web_Servidor/Steamlike
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Ejecutar tests de Django
+      working-directory: ./Desarrollo_Web_Servidor/Steamlike
+      env:
+        DJANGO_SETTINGS_MODULE: steamlike_backend.settings_ci
+        SECRET_KEY: dummy-secret-key
+        DEBUG: "False"
+      run: |
+        python manage.py test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Lanzar despliegue automático en Render
+      run: curl -X POST "https://api.render.com/deploy/srv-d7l0bee47okc73b44ud0?key=hElJZOzudZs"
