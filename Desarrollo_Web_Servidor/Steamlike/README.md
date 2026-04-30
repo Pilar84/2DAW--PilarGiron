@@ -135,4 +135,4 @@ pero **no mide la calidad de los tests**.
 
 ### Añado esta linea de prueba para action
 
-### otra prueba nueva en la rama main ejercicio 2
+### nuevas pruebas

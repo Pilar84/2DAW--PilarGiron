@@ -1,3 +1,5 @@
+import os
+
 import requests
 import json
 
@@ -103,7 +105,7 @@ def library_entries(request):
 # ---------------------------------------------------------
 # FIX: NO llamar a CheapShark en CI
 # ---------------------------------------------------------
-    if settings.DJANGO_SETTINGS_MODULE == "steamlike_backend.settings_ci":
+    if os.environ.get("DJANGO_SETTINGS_MODULE") == "steamlike_backend.settings_ci":
         cheapshark_data = {external_game_id: True}
 
     else:
