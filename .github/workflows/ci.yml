@@ -2,7 +2,7 @@ name: CI Django
 
 on:
   push:
-    
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -31,3 +31,12 @@ jobs:
         DEBUG: "False"
       run: |
         python manage.py test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - name: Lanzar despliegue automático en Render
+      run: curl -X POST "https://api.render.com/deploy/srv-d7l0bee47okc73b44ud0?key=hElJZOzudZs"
