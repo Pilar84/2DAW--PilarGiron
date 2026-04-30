@@ -96,65 +96,63 @@ def library_entries(request):
         # Simulamos que el juego existe
         # ---------------------------
         cheapshark_data = {external_game_id: True}
+
         # ---------------------------------------------------------
         # EJERCICIO 4: Validación externa del external_game_id
         # ---------------------------------------------------------
-        
-        from django.conf import settings
 
-# ---------------------------------------------------------
-# FIX: NO llamar a CheapShark en CI
-# ---------------------------------------------------------
-    if os.environ.get("DJANGO_SETTINGS_MODULE") == "steamlike_backend.settings_ci":
-        cheapshark_data = {external_game_id: True}
+        import os
 
-    else:
-        # Llamamos a CheapShark para comprobar si el ID existe
-        try:
-            response = requests.get(
-                "https://www.cheapshark.com/api/1.0/games",
-                params={"ids": external_game_id},
-                headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
-                timeout=5
-            )
-        except requests.RequestException:
-            # Caso A: CheapShark no responde
-            return JsonResponse(
-                {
-                    "error": "external_service_unavailable",
-                    "message": "El catálogo externo no está disponible. Inténtalo más tarde."
-                },
-                status=503
-            )
+        # ---------------------------------------------------------
+        # FIX: NO llamar a CheapShark en CI
+        # ---------------------------------------------------------
+        if "settings_ci" in os.environ.get("DJANGO_SETTINGS_MODULE", ""):
 
-        # Caso B: CheapShark responde con error
-        if response.status_code != 200:
-            return JsonResponse(
-                {
-                    "error": "external_service_error",
-                    "message": "Error al consultar el catálogo externo."
-                },
-                status=502
-            )
+            # Llamamos a CheapShark para comprobar si el ID existe
+            try:
+                response = requests.get(
+                    "https://www.cheapshark.com/api/1.0/games",
+                    params={"ids": external_game_id},
+                    headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
+                    timeout=5
+                )
+            except requests.RequestException:
+                # Caso A: CheapShark no responde
+                return JsonResponse(
+                    {
+                        "error": "external_service_unavailable",
+                        "message": "El catálogo externo no está disponible. Inténtalo más tarde."
+                    },
+                    status=503
+                )
 
-        cheapshark_data = response.json()
+            # Caso B: CheapShark responde con error
+            if response.status_code != 200:
+                return JsonResponse(
+                    {
+                        "error": "external_service_error",
+                        "message": "Error al consultar el catálogo externo."
+                    },
+                    status=502
+                )
 
-        # Caso C: el ID no existe en CheapShark
-        if external_game_id not in cheapshark_data:
-            return JsonResponse(
-                {
-                    "error": "invalid_external_game_id",
-                    "message": "El juego indicado no existe en el catálogo externo.",
-                    "details": {"external_game_id": "not_found"}
-                },
-                status=400
-            )
+            cheapshark_data = response.json()
+
+            # Caso C: el ID no existe en CheapShark
+            if external_game_id not in cheapshark_data:
+                return JsonResponse(
+                    {
+                        "error": "invalid_external_game_id",
+                        "message": "El juego indicado no existe en el catálogo externo.",
+                        "details": {"external_game_id": "not_found"}
+                    },
+                    status=400
+                )
 
         # ---------------------------------------------------------
         # Si todo está bien, creamos la entrada en la BD
         # ---------------------------------------------------------
 
-        # Crear entrada
         try:
             entry = LibraryEntry.objects.create(
                 user=request.user,
@@ -176,6 +174,7 @@ def library_entries(request):
             "hours_played": entry.hours_played,
             "user": entry.user.username
         }, status=201)
+
 
 
 #-----------------------------------------------------------
