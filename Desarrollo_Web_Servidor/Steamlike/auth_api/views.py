@@ -1,6 +1,9 @@
 import json
 import requests
 import os
+import logging
+
+logger = logging.getLogger(__name__)
 
 from django.shortcuts import render
 from django.http import JsonResponse
@@ -17,24 +20,79 @@ from django.contrib.auth import logout
 
 from library.models import LibraryEntry
 from library.errores import error_response
+from django.conf import settings
+from .services import send_welcome_email    
 
 
+# @csrf_exempt
+# @require_POST
+# def register(request):
+#     #  aqui vamos aleer el JSON
+#     data, error = load_json(request)
+#     if error:
+#         return error
+
+#     # en este punto Extraemos los campos usuario y contraseña del JSON recibido
+#     username = data.get("username")
+#     password = data.get("password")
+
+#     errors = {}
+
+#     # Validamos los datos recibidos (que sean cadenas de texto y que la contraseña tenga al menos 8 caracteres)
+#     if not isinstance(username, str) or not username.strip():
+#         errors["username"] = "Campo obligatorio"
+
+#     if not isinstance(password, str):
+#         errors["password"] = "Debe ser una cadena de texto"
+#     elif len(password) < 8:
+#         errors["password"] = "Debe tener al menos 8 caracteres"
+
+#     if errors:
+#         return error_response(
+#             "validation_error",
+#             "Datos de entrada inválidos",
+#             errors
+#         )
+
+#     # creamos el usuario en la base de datos (si el nombre de usuario ya existe, se captura la excepción y se devuelve un error)
+#     try:
+#         user = User.objects.create_user(
+#             username=username,
+#             password=password
+#         )
+#     except IntegrityError:
+#         return error_response(
+#             "validation_error",
+#             "Datos de entrada inválidos",
+#             {"username": "Ya está en uso"}
+#         )
+
+#     # devolvemos una respuesta con los datos del usuario creado (id y username)
+#     return JsonResponse(
+#         {
+#             "id": user.id,
+#             "username": user.username
+#         },
+#         status=201
+#     )
+    
 
 @csrf_exempt
 @require_POST
 def register(request):
-    #  aqui vamos aleer el JSON
+    # 1) Leer JSON
     data, error = load_json(request)
     if error:
         return error
 
-    # en este punto Extraemos los campos usuario y contraseña del JSON recibido
+    # 2) Extraer campos
     username = data.get("username")
     password = data.get("password")
+    email = data.get("email")  # ← NUEVO CAMPO
 
     errors = {}
 
-    # Validamos los datos recibidos (que sean cadenas de texto y que la contraseña tenga al menos 8 caracteres)
+    # 3) Validaciones
     if not isinstance(username, str) or not username.strip():
         errors["username"] = "Campo obligatorio"
 
@@ -43,6 +101,12 @@ def register(request):
     elif len(password) < 8:
         errors["password"] = "Debe tener al menos 8 caracteres"
 
+    # Validación del email
+    if not isinstance(email, str) or not email.strip():
+        errors["email"] = "Campo obligatorio"
+    elif "@" not in email:
+        errors["email"] = "Formato inválido"
+
     if errors:
         return error_response(
             "validation_error",
@@ -50,11 +114,12 @@ def register(request):
             errors
         )
 
-    # creamos el usuario en la base de datos (si el nombre de usuario ya existe, se captura la excepción y se devuelve un error)
+    # 4) Crear usuario
     try:
         user = User.objects.create_user(
             username=username,
-            password=password
+            password=password,
+            email=email  # ← GUARDAR EMAIL
         )
     except IntegrityError:
         return error_response(
@@ -63,15 +128,22 @@ def register(request):
             {"username": "Ya está en uso"}
         )
 
-    # devolvemos una respuesta con los datos del usuario creado (id y username)
+    # EJERCICIO 5 → Enviar email de bienvenida (NO afecta al registro si falla)
+    send_welcome_email(user.email)
+    
+    
+    # 5) Respuesta 201 con email incluido
     return JsonResponse(
         {
             "id": user.id,
-            "username": user.username
+            "username": user.username,
+            "email": user.email  # ← DEVOLVER EMAIL
         },
         status=201
     )
-    
+
+
+
 #aqui vamos a crear la vista para  login, que recibira un JSON con el nombre de usuario y la contraseña, y devolvera una respuesta con los datos del usuario logueado (id y username) si las credenciales son correctas, o un error si no lo son
 @csrf_exempt
 @require_POST
@@ -106,6 +178,8 @@ def login_view(request):
     #iniciar sesiion (django recuerda al usuario autenticado en la sesión)
     login(request, user)
     
+    logger.info(f"login_view: login OK para usuario {username}")
+    
     #respuesta correcta
     return JsonResponse(
         {
@@ -123,6 +197,7 @@ def login_view(request):
 @csrf_exempt
 @require_POST
 def logout_view(request):
+    logger.info("logout_view: cierre de sesión solicitado")
     # Da igual si está autenticado o no: siempre cerramos sesión
     logout(request)
 
@@ -278,3 +353,127 @@ def send_email(request):
     )
     # OK
     return JsonResponse({"ok": True}, status=200)
+
+#--------------------------------------------------
+# EJERCICIO 2 + EJERCICIO 3 (COMPLETO)
+#--------------------------------------------------
+@csrf_exempt
+@require_POST
+def debug_send_email(request):
+
+    # 1) Solo disponible en DEBUG
+    if not settings.DEBUG:
+        return JsonResponse({"error": "not_available"}, status=404)
+
+    # 2) Leer JSON
+    data, error = load_json(request)
+    if error:
+        logger.warning(
+            "debug_send_email: JSON inválido",
+            extra={
+                "action": "debug_send_email",
+                "result": "validation_error"
+            }
+        )
+        return error
+
+    to = data.get("to")
+    subject = data.get("subject")
+    text = data.get("text")
+
+    errors = {}
+
+    # 3) Validaciones
+    if not isinstance(to, str) or not to.strip():
+        errors["to"] = "Campo obligatorio"
+
+    if not isinstance(subject, str) or not subject.strip():
+        errors["subject"] = "Campo obligatorio"
+
+    if not isinstance(text, str) or not text.strip():
+        errors["text"] = "Campo obligatorio"
+
+    if errors:
+        logger.warning(
+            "debug_send_email: error de validación",
+            extra={
+                "action": "debug_send_email",
+                "to": to,
+                "result": "validation_error",
+                "errors": errors
+            }
+        )
+        return error_response("validation_error", "Datos de entrada inválidos", errors)
+
+    # LOG: intento de envío
+    logger.info(
+        "debug_send_email: intento de envío",
+        extra={
+            "action": "debug_send_email",
+            "to": to,
+            "result": "attempt"
+        }
+    )
+
+    # 4) Cabeceras
+    headers = {
+        "Authorization": f"Bearer {os.getenv('MAILEROO_TOKEN')}",
+        "Content-Type": "application/json",
+    }
+
+    # 5) Payload
+    payload = {
+        "from": {"address": os.getenv("MAILEROO_FROM_ADDRESS")},
+        "to": [{"address": to}],
+        "subject": subject,
+        "plain": text
+    }
+
+    # 6) Llamada a Maileroo
+    try:
+        r = requests.post(MAILEROO_URL, headers=headers, json=payload, timeout=5)
+    except requests.RequestException as e:
+        logger.error(
+            "debug_send_email: fallo por timeout/red",
+            extra={
+                "action": "debug_send_email",
+                "to": to,
+                "result": "external_service_unavailable",
+                "error": str(e)
+            }
+        )
+        return JsonResponse({"error": "external_service_unavailable"}, status=503)
+
+    # 7) Si Maileroo responde con error
+    if r.status_code >= 400:
+        logger.error(
+            "debug_send_email: fallo por respuesta del proveedor",
+            extra={
+                "action": "debug_send_email",
+                "to": to,
+                "result": "external_service_error",
+                "maileroo_status": r.status_code
+            }
+        )
+        return JsonResponse(
+            {
+                "error": "external_service_error",
+                "maileroo_status": r.status_code,
+                "maileroo_response": r.text
+            },
+            status=502
+        )
+
+    # 8) OK
+    logger.info(
+        "debug_send_email: envío OK",
+        extra={
+            "action": "debug_send_email",
+            "to": to,
+            "result": "ok"
+        }
+    )
+
+    return JsonResponse({"ok": True}, status=200)
+
+
