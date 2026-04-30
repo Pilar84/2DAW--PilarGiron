@@ -135,4 +135,4 @@ pero **no mide la calidad de los tests**.
 
 ### Añado esta linea de prueba para action
 
-### nuevas pruebas 2
+### nuevas pruebas para comprobar los test en render
