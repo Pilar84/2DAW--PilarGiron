@@ -11,7 +11,7 @@ from .models import LibraryEntry
 from .errores import error_response
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
-import requests
+
 
 
   
@@ -97,7 +97,16 @@ def library_entries(request):
         # ---------------------------------------------------------
         # EJERCICIO 4: Validación externa del external_game_id
         # ---------------------------------------------------------
+        
+        from django.conf import settings
 
+# ---------------------------------------------------------
+# FIX: NO llamar a CheapShark en CI
+# ---------------------------------------------------------
+    if settings.DJANGO_SETTINGS_MODULE == "steamlike_backend.settings_ci":
+        cheapshark_data = {external_game_id: True}
+
+    else:
         # Llamamos a CheapShark para comprobar si el ID existe
         try:
             response = requests.get(
@@ -106,7 +115,7 @@ def library_entries(request):
                 headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
                 timeout=5
             )
-        except request.RequestException:
+        except requests.RequestException:
             # Caso A: CheapShark no responde
             return JsonResponse(
                 {
