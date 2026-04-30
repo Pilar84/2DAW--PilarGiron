@@ -106,7 +106,7 @@ def library_entries(request):
         # ---------------------------------------------------------
         # FIX: NO llamar a CheapShark en CI
         # ---------------------------------------------------------
-        if "settings_ci" in os.environ.get("DJANGO_SETTINGS_MODULE", ""):
+        if "settings_ci" not in os.environ.get("DJANGO_SETTINGS_MODULE", ""):
 
             # Llamamos a CheapShark para comprobar si el ID existe
             try:
