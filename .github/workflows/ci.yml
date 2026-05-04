@@ -40,4 +40,4 @@ jobs:
 
     steps:
     - name: Lanzar despliegue automático en Render
-      run: curl -X POST "https://api.render.com/deploy/srv-d7l0bee47okc73b44ud0?key=hElJZOzudZs"
+      run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
