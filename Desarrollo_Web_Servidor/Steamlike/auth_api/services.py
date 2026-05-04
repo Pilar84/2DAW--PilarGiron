@@ -6,6 +6,9 @@ logger = logging.getLogger(__name__)
 
 MAILEROO_URL = "https://smtp.maileroo.com/api/v2/emails"
 
+#esta prueba la realicé para que devolviera un error 503 (timeout/red)
+#MAILEROO_URL = "https://10.255.255.1"
+
 def send_welcome_email(to_email):
     logger.info(
         "send_welcome_email: intento de envío",
