@@ -1,0 +1,26 @@
+{
+  "name": "Proyecto Django + Postgres + Frontend",
+  "dockerComposeFile": [
+    "../docker-compose.yml"
+  ],
+  "service": "web",
+  "workspaceFolder": "/app",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "ms-vscode-remote.remote-containers",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "redhat.java"
+      ]
+    }
+  },
+  "forwardPorts": [
+    8000,
+    3000,
+    5433
+  ],
+  "postCreateCommand": "pip install -r requirements.txt || true"
+}
