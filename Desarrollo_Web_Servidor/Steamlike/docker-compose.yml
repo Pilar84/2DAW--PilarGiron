@@ -16,6 +16,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    environment:
+      MAILEROO_TOKEN: ${MAILEROO_TOKEN}
+      MAILEROO_FROM_ADDRESS: ${MAILEROO_FROM_ADDRESS}
+      DJANGO_DEBUG: "true" 
     depends_on:
       - db
     volumes:
