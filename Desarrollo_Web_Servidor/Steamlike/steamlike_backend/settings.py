@@ -1,6 +1,10 @@
 from pathlib import Path
 import os
 
+
+REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+REDIS_PORT = os.environ.get("REDIS_PORT", 6379)
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 def _env(name: str, default: str | None = None) -> str | None:
@@ -84,6 +88,20 @@ DATABASES = {
     }
 }
 
+# --------------------------------------------------
+# REDIS / CACHE
+# --------------------------------------------------
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{REDIS_HOST}:{REDIS_PORT}/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -136,3 +154,5 @@ LOGGING = {
         },
     },
 }
+
+

@@ -16,18 +16,14 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    environment:
-      MAILEROO_TOKEN: ${MAILEROO_TOKEN}
-      MAILEROO_FROM_ADDRESS: ${MAILEROO_FROM_ADDRESS}
-      DJANGO_DEBUG: "true" 
     depends_on:
       - db
+      - redis
     volumes:
       - .:/app
     ports:
       - "8000:8000"
     command: python manage.py runserver 0.0.0.0:8000
-
 
   frontend:
     image: javier08877/steamlike:4.0
@@ -37,6 +33,12 @@ services:
       BACKEND_URL: http://localhost:8000
     depends_on:
       - web
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
 
 volumes:
   postgres_data:
