@@ -9,7 +9,6 @@ urlpatterns = [
     path("login/", login_view), 
     path("logout/", logout_view),
     path("send-email/", send_email),
-    path("debug/email/test/", debug_send_email),
    
 ]
 
