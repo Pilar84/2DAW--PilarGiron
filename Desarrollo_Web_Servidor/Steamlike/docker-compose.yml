@@ -30,7 +30,7 @@ services:
     ports:
       - "3000:80"
     environment:
-      BACKEND_URL: http://localhost:8000
+      BACKEND_URL: "https://aplicacion-steamlike2.onrender.com"
     depends_on:
       - web
 
