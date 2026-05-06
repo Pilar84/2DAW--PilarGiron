@@ -14,6 +14,8 @@ from .errores import error_response
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
 
+from django.core.cache import cache
+
 
 
   
@@ -266,14 +268,25 @@ def catalog_search(request):
     if not isinstance(query, str) or not query.strip():
         return error_response("validation_error", "Datos de entrada inválidos")
 
+    # 🔑 1. Crear clave de cache
+    cache_key = f"catalog_search:{query.strip().lower()}"
+
+    # 📦 2. Intentar obtener de Redis
+    cached_data = cache.get(cache_key)
+    if cached_data:
+        print("📦 Datos desde Redis")
+        return JsonResponse(cached_data, safe=False, status=200)
+
     try:
+        print("🌐 Llamando a CheapShark")
+
         response = requests.get(
             "https://www.cheapshark.com/api/1.0/games",
             params={"title": query},
-            timeout=5  # evita que la petición se quede colgada
+            timeout=5
         )
+
     except requests.RequestException:
-        # Caso A: CheapShark no responde (timeout, red caída…)
         return JsonResponse(
             {
                 "error": "external_service_unavailable",
@@ -281,11 +294,6 @@ def catalog_search(request):
             },
             status=503
         )
-    except requests.RequestException:
-        return JsonResponse({
-            "error": "external_service_unavailable",
-            "message": "El catálogo externo no está disponible. Inténtalo más tarde."
-        }, status=503)
 
     if response.status_code != 200:
         return JsonResponse({
@@ -302,6 +310,9 @@ def catalog_search(request):
             "title": game.get("external"),
             "thumb": game.get("thumb")
         })
+
+    # 💾 3. Guardar en Redis (TTL 3 min)
+    cache.set(cache_key, results, timeout=60 * 3)
 
     return JsonResponse(results, safe=False, status=200)
 
