@@ -15,6 +15,7 @@ from django.views.decorators.http import require_http_methods
 from django.contrib.auth.models import User
 
 from django.core.cache import cache
+from .catalog_service import CatalogService
 
 
 
@@ -268,51 +269,19 @@ def catalog_search(request):
     if not isinstance(query, str) or not query.strip():
         return error_response("validation_error", "Datos de entrada inválidos")
 
-    # 🔑 1. Crear clave de cache
-    cache_key = f"catalog_search:{query.strip().lower()}"
+    results, error = CatalogService.search(query)
 
-    # 📦 2. Intentar obtener de Redis
-    cached_data = cache.get(cache_key)
-    if cached_data:
-        print("📦 Datos desde Redis")
-        return JsonResponse(cached_data, safe=False, status=200)
+    if error == "external_unavailable":
+        return JsonResponse({
+            "error": "external_service_unavailable",
+            "message": "El catálogo externo no está disponible. Inténtalo más tarde."
+        }, status=503)
 
-    try:
-        print("🌐 Llamando a CheapShark")
-
-        response = requests.get(
-            "https://www.cheapshark.com/api/1.0/games",
-            params={"title": query},
-            timeout=5
-        )
-
-    except requests.RequestException:
-        return JsonResponse(
-            {
-                "error": "external_service_unavailable",
-                "message": "El catálogo externo no está disponible. Inténtalo más tarde."
-            },
-            status=503
-        )
-
-    if response.status_code != 200:
+    if error == "external_error":
         return JsonResponse({
             "error": "external_service_error",
             "message": "Error al consultar el catálogo externo."
         }, status=502)
-
-    cheapshark_data = response.json()
-
-    results = []
-    for game in cheapshark_data:
-        results.append({
-            "external_game_id": game.get("gameID"),
-            "title": game.get("external"),
-            "thumb": game.get("thumb")
-        })
-
-    # 💾 3. Guardar en Redis (TTL 3 min)
-    cache.set(cache_key, results, timeout=60 * 3)
 
     return JsonResponse(results, safe=False, status=200)
 
@@ -334,34 +303,18 @@ def catalog_resolve(request):
     if not isinstance(external_ids, list):
         return error_response("validation_error", "Datos de entrada inválidos")
 
-    try:
-        response = requests.get(
-            "https://www.cheapshark.com/api/1.0/games",
-            params={"ids": ",".join(external_ids)},
-            headers={"User-Agent": "PilarGiron-ProyectoSteamlike"},
-            timeout=5
-        )
-    except requests.RequestException:
+    results, error = CatalogService.resolve(external_ids)
+
+    if error == "external_unavailable":
         return JsonResponse({
             "error": "external_service_unavailable",
             "message": "El catálogo externo no está disponible. Inténtalo más tarde."
         }, status=503)
 
-    if response.status_code != 200:
+    if error == "external_error":
         return JsonResponse({
             "error": "external_service_error",
             "message": "Error al consultar el catálogo externo."
         }, status=502)
-
-    cheapshark_data = response.json()
-
-    results = []
-    for game_id, game_info in cheapshark_data.items():
-        info = game_info.get("info", {})
-        results.append({
-            "external_game_id": game_id,
-            "title": info.get("title"),
-            "thumb": info.get("thumb")
-        })
 
     return JsonResponse(results, safe=False, status=200)
