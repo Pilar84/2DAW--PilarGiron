@@ -1,7 +1,7 @@
 {
   "name": "Proyecto Django + Postgres + Frontend",
   "dockerComposeFile": [
-    "../docker-compose.yml"
+    "../Desarrollo_Web_Servidor/Steamlike/docker-compose.yml"
   ],
   "service": "web",
   "workspaceFolder": "/app",
