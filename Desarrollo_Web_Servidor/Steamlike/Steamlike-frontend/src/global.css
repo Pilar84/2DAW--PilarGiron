@@ -1,0 +1,136 @@
+:root {
+    --bg: #1b2838;
+    --surface: #2a475e;
+    --surface-light: #35516b;
+
+    --primary: #66c0f4;
+    --primary-hover: #8fd3ff;
+
+    --text: #ffffff;
+    --text-muted: #b8c5d3;
+
+    --success: #3cb371;
+    --warning: #ffb547;
+}
+
+/* Fondo general */
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/* Enlaces */
+a {
+    text-decoration: none;
+}
+
+/* Tarjetas */
+.card {
+    background: var(--surface);
+    color: var(--text);
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .18);
+    transition: all .25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .35);
+}
+
+/* Formularios */
+.form-control {
+    background: white;
+    border: 1px solid #3d6a8a;
+    color: #212529;
+    /* texto oscuro */
+}
+
+.form-control::placeholder {
+    color: #6c757d;
+}
+
+.form-control:focus {
+    background: #22384d;
+    color: var(--text);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 .2rem rgba(102, 192, 244, .2);
+}
+
+/* Botón principal */
+.btn-primary {
+    background: var(--primary);
+    border: none;
+    color: #111;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    color: #111;
+}
+
+/* Botón secundario */
+.btn-outline-primary {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary);
+    color: #111;
+}
+
+/* Botón amarillo */
+.btn-warning {
+    font-weight: 600;
+}
+
+/* Footer */
+footer {
+    background: #171a21;
+    color: var(--text-muted);
+}
+
+/* Títulos */
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: var(--text);
+}
+
+/* Texto secundario */
+.text-secondary {
+    color: var(--text-muted) !important;
+}
+
+/* Tablas */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table thead {
+    background: var(--surface-light);
+    color: var(--text);
+}
+
+.table tbody tr:hover {
+    background: rgba(102, 192, 244, .08);
+}
+
+/* Badges */
+.badge {
+    font-size: .8rem;
+    border-radius: 8px;
+}
+
+.text-muted {
+    color: white !important;
+}

@@ -1,21 +1,83 @@
-# Entorno virtual
+# ======================
+# Python / Django
+# ======================
+
 venv/
 env/
+.venv/
+
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 
 # Variables de entorno y claves
 .env
+.env.*
 claves.txt
 
-# Archivos de Python compilados
-__pycache__/
-*.pyc
-
-# Archivos de logs
+# Logs
 *.log
 
-# Bases de datos locales
+# Base de datos local
 db.sqlite3
+*.sqlite3
 
-# Archivos de IDE
+# Migraciones (opcional)
+# Normalmente NO se ignoran en proyectos Django
+# migrations/
+
+
+# Archivos subidos por usuarios
+media/
+
+# Archivos estáticos generados
+staticfiles/
+
+
+# ======================
+# React / Node / Vite
+# ======================
+
+node_modules/
+
+# Compilaciones
+dist/
+build/
+
+# Vite
+.vite/
+
+# Logs npm/yarn
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Variables de entorno React
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+
+# ======================
+# Docker
+# ======================
+
+*.pid
+
+
+# ======================
+# IDE
+# ======================
+
 .vscode/
 .idea/
+
+
+# ======================
+# Sistema
+# ======================
+
+.DS_Store
+Thumbs.db

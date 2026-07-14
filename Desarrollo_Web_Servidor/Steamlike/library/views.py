@@ -184,7 +184,7 @@ def library_entries(request):
 # LIBRARY ENTRY DETAIL
 #-----------------------------------------------------------
 @csrf_exempt
-@require_http_methods(["GET", "PATCH"])
+@require_http_methods(["GET", "PATCH", "DELETE"])
 def library_entry_detail(request, entry_id):
 
     auth_error = require_auth(request)
@@ -255,7 +255,14 @@ def library_entry_detail(request, entry_id):
             "user": entry.user.username
         }, status=200)
 
-
+    # ---------------------------
+    # DELETE → borrar entrada
+    # ---------------------------
+    if request.method == "DELETE":
+        entry.delete()
+        return JsonResponse({
+            "message": "Juego eliminado correctamente"
+        }, status=200)
 
 
 #-----------------------------------------------------------

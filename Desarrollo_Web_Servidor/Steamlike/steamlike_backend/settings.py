@@ -118,10 +118,20 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --- CORS + cookies (SessionAuthentication) ---
-CORS_ALLOWED_ORIGINS = _env_csv("DJANGO_CORS_ALLOWED_ORIGINS", "http://frontend:3000,http://localhost:3000")
-CORS_ALLOW_CREDENTIALS = _env_bool("DJANGO_CORS_ALLOW_CREDENTIALS", True)
+CORS_ALLOWED_ORIGINS = _env_csv(
+    "DJANGO_CORS_ALLOWED_ORIGINS",
+    "http://frontend:3000,http://localhost:3000,http://localhost:5173"
+)
 
-CSRF_TRUSTED_ORIGINS = _env_csv("DJANGO_CSRF_TRUSTED_ORIGINS", "http://frontend:3000,http://localhost:3000")
+CORS_ALLOW_CREDENTIALS = _env_bool(
+    "DJANGO_CORS_ALLOW_CREDENTIALS",
+    True
+)
+
+CSRF_TRUSTED_ORIGINS = _env_csv(
+    "DJANGO_CSRF_TRUSTED_ORIGINS",
+    "http://frontend:3000,http://localhost:3000,http://localhost:5173"
+)
 
 # Dev defaults for cookies (keep simple; hardening can be done later)
 SESSION_COOKIE_SAMESITE = "Lax"
