@@ -99,7 +99,6 @@ if DATABASES["default"]["HOST"] != "db":
 # --------------------------------------------------
 # REDIS / CACHE
 # --------------------------------------------------
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
