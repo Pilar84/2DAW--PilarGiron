@@ -12,6 +12,8 @@ from library.views import (
 
 
 urlpatterns = [
+
+    path("admin/", admin.site.urls),
     path("api/health/", health),
 
     # LISTADO (GET) y CREAR (POST)
