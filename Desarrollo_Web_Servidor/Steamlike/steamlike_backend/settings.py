@@ -76,7 +76,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "steamlike_backend.wsgi.application"
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -85,9 +84,15 @@ DATABASES = {
         "PASSWORD": _env("POSTGRES_PASSWORD", "steamlike"),
         "HOST": _env("POSTGRES_HOST", "db"),
         "PORT": _env("POSTGRES_PORT", "5432"),
+        "OPTIONS": {},
     }
 }
 
+# Solo activar SSL cuando la base de datos NO sea la de Docker
+if DATABASES["default"]["HOST"] != "db":
+    DATABASES["default"]["OPTIONS"] = {
+        "sslmode": "require",
+    }
 # --------------------------------------------------
 # REDIS / CACHE
 # --------------------------------------------------

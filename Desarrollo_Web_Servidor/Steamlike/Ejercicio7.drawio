@@ -1,0 +1,55 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Página-1" id="k6NquDhDM3_C9HHJmSJG">
+    <mxGraphModel dx="2046" dy="1158" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-3" parent="1" style="text;whiteSpace=wrap;align=center;" value="                           ┌──────────────────────┐&#xa;                           CLIENTE         &#xa;                           (Frontend / Bruno)   &#xa;                           └──────────┬───────────┘&#xa;                                      &#xa;                                                                      1. Petición HTTP&#xa;                                      &#xa;                    ┌──────────────────────────────────────┐&#xa;                     VISTAS DJANGO             &#xa;                      /api/catalog/search/                 &#xa;                      /api/catalog/resolve/                &#xa;                     - Validan entrada                     &#xa;                     - Llaman al servicio interno          &#xa;                     - Traducen errores a 200/502/503      &#xa;                    └──────────┬────────────────────────────┘&#xa;                               │&#xa;                                2. Llamada al servicio interno&#xa;                               ▼&#xa;                ┌────────────────────────────────────────────┐&#xa;                            CATALOG SERVICE                &#xa;                 - Genera cache_key                          &#xa;                 - Consulta Redis                            &#xa;                 - Si HIT → devuelve datos cacheados         &#xa;                 - Si MISS → llama a CheapShark              &#xa;                 - Si CheapShark OK → guarda en Redis        &#xa;                 - Si CheapShark falla → fallback a Redis    &#xa;                └───────┬───────────────────────┬────────────┘&#xa;                     3                                           5&#xa;                                               &#xa;                                               &#xa;        ┌──────────────────────────┐   ┌──────────────────────────────┐&#xa;      REDIS                                                           CHEAPSHARK API        &#xa;        - GET cache_key                                                      - Devuelve catálogo externo  &#xa;        - HIT/MISS                                                                           - Puede fallar               &#xa;        └──────────┬──────────────┘   └──────────────┬───────────────┘&#xa;                   4 (HIT)                           6 (OK o ERROR)&#xa;                   ▼                                   ▼&#xa;                ┌────────────────────────────────────────────┐&#xa;                         CATALOG SERVICE                &#xa;                 - Decide qué devolver                      &#xa;                 - Datos finales o error lógico             &#xa;                └──────────┬─────────────────────────────────┘&#xa;                            7. Respuesta al controlador&#xa;                           &#xa;                    ┌──────────────────────────────────────┐&#xa;                         VISTAS DJANGO             &#xa;                     - Devuelven JSON final                &#xa;                     - 200 si OK                           &#xa;                     - 502/503 si error externo            &#xa;                    └──────────┬────────────────────────────┘&#xa;                               8. JSON final&#xa;                               &#xa;                           ┌──────────────────────┐&#xa;                                 CLIENTE         &#xa;                           └──────────────────────┘" vertex="1">
+          <mxGeometry height="840" width="560" x="380" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-9" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="700" y="140" as="sourcePoint" />
+            <mxPoint x="700" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-11" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="780" y="460" as="sourcePoint" />
+            <mxPoint x="780" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-12" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="610" y="460" as="sourcePoint" />
+            <mxPoint x="610" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-13" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="580" y="580" as="sourcePoint" />
+            <mxPoint x="580" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-14" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="700" y="580" as="sourcePoint" />
+            <mxPoint x="700" y="620" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-15" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="670" y="790" as="sourcePoint" />
+            <mxPoint x="670" y="830" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="2XWCbZYDwGSz8atqeUk8-18" edge="1" parent="1" style="endArrow=classic;html=1;rounded=0;fontSize=12;startSize=8;endSize=8;curved=1;" value="">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint x="630" y="680" as="sourcePoint" />
+            <mxPoint x="630" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
