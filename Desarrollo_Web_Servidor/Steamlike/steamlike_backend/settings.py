@@ -143,8 +143,11 @@ CSRF_TRUSTED_ORIGINS = _env_csv(
 )
 
 # Dev defaults for cookies (keep simple; hardening can be done later)
-SESSION_COOKIE_SAMESITE = "Lax"
-CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SAMESITE = "None"
+CSRF_COOKIE_SAMESITE = "None"
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 # --------------------------------------------------
 # LOGGING (para ver logs INFO en consola)
