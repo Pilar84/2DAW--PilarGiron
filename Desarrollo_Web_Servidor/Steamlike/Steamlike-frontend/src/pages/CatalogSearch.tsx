@@ -95,9 +95,6 @@ export default function CatalogSearch() {
             {pending ? "Buscando..." : "Buscar"}
           </button>
         </div>
-        <div className="form-text">
-          Devuelve una lista de resultados mínimos: <code>external_game_id</code>, <code>title</code>, <code>thumb</code>.
-        </div>
       </form>
 
       <div className="row g-3">

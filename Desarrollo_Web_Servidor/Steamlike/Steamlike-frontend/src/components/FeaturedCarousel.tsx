@@ -74,7 +74,7 @@ export default function FeaturedCarousel() {
   if (games.length === 0) return null;
 
   return (
-    <section className="mb-5">
+    <section className="mb-1">
       <ToastMessage
         show={!!success}
         message={success}

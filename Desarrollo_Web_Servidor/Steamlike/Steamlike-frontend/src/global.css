@@ -47,7 +47,6 @@ a {
     background: white;
     border: 1px solid #3d6a8a;
     color: #212529;
-    /* texto oscuro */
 }
 
 .form-control::placeholder {
@@ -110,6 +109,10 @@ h5 {
     color: var(--text-muted) !important;
 }
 
+.text-muted {
+    color: white !important;
+}
+
 /* Tablas */
 .table {
     border-radius: 12px;
@@ -131,6 +134,65 @@ h5 {
     border-radius: 8px;
 }
 
-.text-muted {
-    color: white !important;
+/* =====================================================
+   HERO HOME
+===================================================== */
+
+.hero-section {
+    padding: 2rem;
+}
+
+.hero-logo {
+    max-width: 380px;
+    width: 100%;
+    height: auto;
+}
+
+.hero-image {
+    max-height: 500px;
+    width: 100%;
+    object-fit: contain;
+}
+
+/* Tablets */
+
+@media (max-width: 992px) {
+
+    .hero-section {
+        padding: 1.75rem;
+    }
+
+    .hero-image {
+        max-height: 320px;
+    }
+
+}
+
+/* Móviles */
+
+@media (max-width: 768px) {
+
+    .hero-section {
+        padding: 1.25rem;
+        text-align: center;
+    }
+
+    .hero-logo {
+        max-width: 220px;
+    }
+
+    .hero-image {
+        max-height: 220px;
+        margin-top: 1rem;
+    }
+
+    .hero-section .lead {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-section .btn {
+        width: 100%;
+    }
+
 }

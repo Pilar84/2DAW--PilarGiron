@@ -81,6 +81,19 @@ export default function Layout() {
             />
           </Link>
 
+          {!meLoading && !me && (
+            <div className="d-flex d-lg-none ms-auto me-2 gap-2">
+              <Link className="btn btn-outline-light btn-sm" to="/auth/login">
+                Login
+              </Link>
+
+              <Link className="btn btn-warning btn-sm" to="/auth/register">
+                Registro
+              </Link>
+            </div>
+          )}
+
+
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
             <span className="navbar-toggler-icon"></span>
           </button>
@@ -116,8 +129,15 @@ export default function Layout() {
                 </div>
               ) : (
                 <>
-                  <Link className="btn btn-outline-light btn-sm" to="/auth/login">Login</Link>
-                  <Link className="btn btn-warning btn-sm" to="/auth/register">Registro</Link>
+                  <div className="d-none d-lg-flex gap-2">
+                    <Link className="btn btn-outline-light btn-sm" to="/auth/login">
+                      Login
+                    </Link>
+
+                    <Link className="btn btn-warning btn-sm" to="/auth/register">
+                      Registro
+                    </Link>
+                  </div>
                 </>
               )}
             </div>
