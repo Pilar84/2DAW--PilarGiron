@@ -18,7 +18,7 @@ export default function Home() {
 
           <div
             className="col-lg-6 d-flex flex-column align-items-center align-items-lg-start text-center text-lg-start"
-            style={{ marginTop: "-30px" }}
+            style={{ marginTop: "-50px" }}
           >            <img
               src="/logo-hero.png"
               alt="GameLib"
