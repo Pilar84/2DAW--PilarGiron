@@ -16,8 +16,10 @@ export default function Home() {
       >
         <div className="row align-items-center py-1">
 
-          <div className="col-lg-6 d-flex flex-column align-items-center align-items-lg-start text-center text-lg-start">
-            <img
+          <div
+            className="col-lg-6 d-flex flex-column align-items-center align-items-lg-start text-center text-lg-start"
+            style={{ marginTop: "-30px" }}
+          >            <img
               src="/logo-hero.png"
               alt="GameLib"
               className="img-fluid mb-3"
