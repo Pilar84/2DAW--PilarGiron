@@ -128,28 +128,6 @@ if DATABASES["default"]["HOST"] != "db":
 # REDIS / CACHE
 # --------------------------------------------------
 
-# Prioridad:
-# 1) REDIS_URL -> Render
-# 2) REDIS_HOST + REDIS_PORT -> Docker local
-# 3) localhost -> desarrollo normal
-
-REDIS_URL = os.environ.get("REDIS_URL")
-
-
-if not REDIS_URL:
-    REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
-    REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
-
-    REDIS_URL = (
-        f"redis://{REDIS_HOST}:{REDIS_PORT}/1"
-    )
-
-print("========== REDIS ==========")
-print("ENV REDIS_URL =", os.environ.get("REDIS_URL"))
-print("FINAL REDIS_URL =", REDIS_URL)
-print("===========================")
-
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
