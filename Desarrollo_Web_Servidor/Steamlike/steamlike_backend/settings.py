@@ -128,13 +128,31 @@ if DATABASES["default"]["HOST"] != "db":
 # REDIS / CACHE
 # --------------------------------------------------
 
+# Prioridad:
+# 1) REDIS_URL (Render)
+# 2) REDIS_HOST + REDIS_PORT (Docker)
+# 3) localhost (desarrollo sin Docker)
+
+REDIS_URL = os.environ.get("REDIS_URL")
+
+if not REDIS_URL:
+    REDIS_HOST = os.environ.get("REDIS_HOST", "localhost")
+    REDIS_PORT = os.environ.get("REDIS_PORT", "6379")
+
+    REDIS_URL = f"redis://{REDIS_HOST}:{REDIS_PORT}/1"
+
+print("========== REDIS ==========")
+print("ENV REDIS_URL =", os.environ.get("REDIS_URL"))
+print("FINAL REDIS_URL =", REDIS_URL)
+print("===========================")
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": REDIS_URL,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+        },
     }
 }
 
@@ -184,7 +202,6 @@ STATICFILES_STORAGE = (
     "whitenoise.storage.CompressedManifestStaticFilesStorage"
 )
 
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
@@ -197,26 +214,20 @@ CORS_ALLOWED_ORIGINS = _env_csv(
     "http://frontend:3000,http://localhost:3000,http://localhost:5173"
 )
 
-
 CORS_ALLOW_CREDENTIALS = _env_bool(
     "DJANGO_CORS_ALLOW_CREDENTIALS",
     True
 )
-
 
 CSRF_TRUSTED_ORIGINS = _env_csv(
     "DJANGO_CSRF_TRUSTED_ORIGINS",
     "http://frontend:3000,http://localhost:3000,http://localhost:5173"
 )
 
-
 SESSION_COOKIE_SAMESITE = "None"
-
 CSRF_COOKIE_SAMESITE = "None"
 
-
 SESSION_COOKIE_SECURE = True
-
 CSRF_COOKIE_SECURE = True
 
 
@@ -226,7 +237,6 @@ CSRF_COOKIE_SECURE = True
 
 LOGGING = {
     "version": 1,
-
     "disable_existing_loggers": False,
 
     "handlers": {
