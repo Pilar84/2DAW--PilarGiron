@@ -173,13 +173,13 @@ export default function Library() {
 
       {err && (
         <>
-          <ApiAlert status={err.status} error={err.error} />
-
-          {err.status === 401 && (
+          {err.status === 401 && err.error?.error === "unauthorized" ? (
             <div className="alert alert-info">
               Necesitas{" "}
               <Link to="/auth/login">login</Link> para ver tu biblioteca.
             </div>
+          ) : (
+            <ApiAlert status={err.status} error={err.error} />
           )}
         </>
       )}
@@ -202,8 +202,20 @@ export default function Library() {
             <tbody>
               {filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="text-secondary">
-                    No hay entradas (o el filtro no devuelve resultados).
+                  <td colSpan={5}>
+                    <div className="empty-state">
+                      <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🎮</div>
+                      <div className="fw-semibold mb-1">
+                        {items.length === 0
+                          ? "Tu biblioteca todavía está vacía."
+                          : "No hay resultados para este filtro."}
+                      </div>
+                      <div>
+                        {items.length === 0
+                          ? "Añade tu primer juego desde el catálogo o crea una entrada manualmente."
+                          : "Prueba con otro nombre o limpia el filtro para ver todos tus juegos."}
+                      </div>
+                    </div>
                   </td>
                 </tr>
               ) : (

@@ -42,12 +42,14 @@ export default function DeleteAccount() {
           tus entradas de biblioteca.
         </div>
 
-        {err && <ApiAlert status={err.status} error={err.error} />}
-
-        {err?.status === 401 && (
-          <div className="alert alert-info">
-            Necesitas <Link to="/auth/login">iniciar sesión</Link> para eliminar tu cuenta.
-          </div>
+        {err && (
+          err.status === 401 && err.error?.error === "unauthorized" ? (
+            <div className="alert alert-info">
+              Necesitas <Link to="/auth/login">iniciar sesión</Link> para eliminar tu cuenta.
+            </div>
+          ) : (
+            <ApiAlert status={err.status} error={err.error} />
+          )
         )}
 
         <form className="card card-body border-danger" onSubmit={onSubmit}>

@@ -4,9 +4,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 CHEAPSHARK_URL = "https://www.cheapshark.com/api/1.0/games"
-#esto es para probar un falloCHEAPSHARK_URL = "https://www.cheapshark.com/api/1.0/games"
-#CHEAPSHARK_URL = "https://www.cheapshark.com/api/1.0/gamesxxx"
-
+CHEAPSHARK_HEADERS = {
+    "User-Agent": "Steamlike/1.0 (educational project; contact: student@example.com)",
+    "Accept": "application/json",
+}
 
 
 class CatalogService:
@@ -30,6 +31,7 @@ class CatalogService:
             response = requests.get(
                 CHEAPSHARK_URL,
                 params={"title": query},
+                headers=CHEAPSHARK_HEADERS,
                 timeout=5
             )
         except requests.RequestException:
@@ -76,6 +78,7 @@ class CatalogService:
             response = requests.get(
                 CHEAPSHARK_URL,
                 params={"ids": ",".join(external_ids)},
+                headers=CHEAPSHARK_HEADERS,
                 timeout=5
             )
         except requests.RequestException:

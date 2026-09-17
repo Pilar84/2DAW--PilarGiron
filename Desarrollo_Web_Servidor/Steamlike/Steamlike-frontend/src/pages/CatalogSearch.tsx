@@ -99,7 +99,19 @@ export default function CatalogSearch() {
 
       <div className="row g-3">
         {results.length === 0 ? (
-          <div className="text-secondary">Sin resultados (o aún no has buscado).</div>
+          <div className="col-12">
+            <div className="empty-state">
+              <div style={{ fontSize: "2rem", marginBottom: "0.5rem" }}>🔎</div>
+              <div className="fw-semibold mb-1">
+                {q.trim() ? "No encontramos resultados para esa búsqueda." : "Busca tu próximo juego."}
+              </div>
+              <div>
+                {q.trim()
+                  ? "Prueba con otro título o vuelve a escribir el nombre del juego."
+                  : "Escribe el nombre de un juego para empezar a explorar el catálogo."}
+              </div>
+            </div>
+          </div>
         ) : (
           results.map((x) => (
             <div className="col-md-6 col-lg-4" key={x.external_game_id}>

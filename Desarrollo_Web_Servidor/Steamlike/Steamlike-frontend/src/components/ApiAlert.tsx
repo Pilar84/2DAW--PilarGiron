@@ -24,6 +24,22 @@ export default function ApiAlert({
 
   function renderContenido() {
 
+    const isUnauthorized =
+      status === 401 &&
+      (error?.error === "unauthorized" ||
+        /no autenticado|not authenticated/i.test(String(error?.message ?? "")));
+
+    if (isUnauthorized) {
+      return (
+        <>
+          <strong>Necesitas iniciar sesión.</strong>
+          <div className="mt-1">
+            Inicia sesión para ver tu biblioteca.
+          </div>
+        </>
+      );
+    }
+
     // Login incorrecto
     if (status === 401) {
       return (

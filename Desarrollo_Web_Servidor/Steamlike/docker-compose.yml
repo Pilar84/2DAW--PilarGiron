@@ -26,11 +26,13 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
 
   frontend:
-    image: javier08877/steamlike:4.0
+    build:
+      context: ./Steamlike-frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:80"
     environment:
-      BACKEND_URL: "https://aplicacion-steamlike2.onrender.com"
+      BACKEND_URL: "http://web:8000"
     depends_on:
       - web
 

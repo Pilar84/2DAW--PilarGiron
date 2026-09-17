@@ -18,7 +18,7 @@ COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Entry point to generate /usr/share/nginx/html/env.js from env vars
 COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r$//' /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 80
 ENTRYPOINT ["/entrypoint.sh"]

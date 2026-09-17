@@ -59,7 +59,7 @@ export default function Layout() {
   }
 
   return (
-    <>
+    <div className="app-shell">
       <nav
         className="navbar navbar-expand-lg navbar-dark shadow"
         style={{
@@ -145,7 +145,7 @@ export default function Layout() {
         </div>
       </nav>
 
-      <main className="container my-4">
+      <main className="app-main container my-4">
         {flash && (
           <div className={`alert alert-${flash.type} alert-dismissible`} role="alert">
             {flash.text}
@@ -160,6 +160,6 @@ export default function Layout() {
           Proyecto GameLib — Diseñado por PilarGiron 2026.
         </div>
       </footer>
-    </>
+    </div>
   );
 }
