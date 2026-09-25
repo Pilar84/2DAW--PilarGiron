@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login 
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_http_methods
 from django.db import IntegrityError
 import json
 from .utils import load_json
@@ -208,7 +208,7 @@ def logout_view(request):
 
 
 #aqui vamos a crear la vista para obtener los datos del usuario logueado, que recibira una petición GET y devolvera una respuesta con los datos del usuario logueado (id y username) si el usuario está autenticado, o un error si no lo está
-@require_GET
+@require_http_methods(["GET", "DELETE"])
 def me(request):
     if not request.user.is_authenticated:
         return error_response(
@@ -216,6 +216,11 @@ def me(request):
             "No autenticado",
             status=401
         )
+
+    if request.method == "DELETE":
+        logout(request)
+        request.user.delete()
+        return JsonResponse({}, status=204)
 
     return JsonResponse(
         {

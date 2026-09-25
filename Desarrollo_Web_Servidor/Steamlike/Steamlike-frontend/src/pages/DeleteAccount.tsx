@@ -7,6 +7,7 @@ export default function DeleteAccount() {
   const [confirm, setConfirm] = useState("");
   const [pending, setPending] = useState(false);
   const [err, setErr] = useState<{ status: number; error: any } | null>(null);
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const CONFIRM_WORD = "ELIMINAR";
@@ -22,8 +23,11 @@ export default function DeleteAccount() {
     setPending(false);
 
     if (r.ok) {
-      // 204 — cuenta eliminada, sesión cerrada
-      navigate("/auth/login");
+      setSuccess(true);
+
+      setTimeout(() => {
+        navigate("/");
+      }, 1200);
     } else {
       setErr(r);
     }
@@ -50,6 +54,12 @@ export default function DeleteAccount() {
           ) : (
             <ApiAlert status={err.status} error={err.error} />
           )
+        )}
+
+        {success && (
+          <div className="alert alert-success" role="alert">
+            Tu cuenta se ha eliminado correctamente. Volviendo a la página principal...
+          </div>
         )}
 
         <form className="card card-body border-danger" onSubmit={onSubmit}>

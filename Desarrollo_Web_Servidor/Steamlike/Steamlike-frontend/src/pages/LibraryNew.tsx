@@ -43,13 +43,10 @@ export default function LibraryNew() {
     }
 
     // Juego ya añadido por este usuario
-    if (
-      r.error?.external_game_id === "duplicate" ||
-      r.error?.external_game_id?.includes("duplicate")
-    ) {
+    if (r.error?.details?.external_game_id === "duplicate") {
       setToast({
         show: true,
-        message: "Este juego ya está añadido en tu biblioteca.",
+        message: "Este juego ya está en tu biblioteca.",
       });
 
       return;

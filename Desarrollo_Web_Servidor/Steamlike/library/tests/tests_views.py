@@ -258,3 +258,34 @@ class LibraryEntryCreateTests(TestCase):
         data = response.json()
 
         self.assertEqual(len(data), 0)
+
+    def test_different_users_can_add_the_same_game(self):
+        self.client.force_login(self.user1)
+        first_response = self.client.post(
+            "/api/library/entries/",
+            data={"external_game_id": "shared-game", "status": "wishlist", "hours_played": 0},
+            content_type="application/json",
+        )
+
+        self.client.force_login(self.user2)
+        second_response = self.client.post(
+            "/api/library/entries/",
+            data={"external_game_id": "shared-game", "status": "wishlist", "hours_played": 0},
+            content_type="application/json",
+        )
+
+        self.assertEqual(first_response.status_code, 201)
+        self.assertEqual(second_response.status_code, 201)
+
+    def test_same_user_cannot_add_the_same_game_twice(self):
+        self.client.force_login(self.user1)
+        data = {"external_game_id": "duplicate-game", "status": "wishlist", "hours_played": 0}
+
+        self.assertEqual(
+            self.client.post("/api/library/entries/", data=data, content_type="application/json").status_code,
+            201,
+        )
+        response = self.client.post("/api/library/entries/", data=data, content_type="application/json")
+
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.json()["details"]["external_game_id"], "duplicate")

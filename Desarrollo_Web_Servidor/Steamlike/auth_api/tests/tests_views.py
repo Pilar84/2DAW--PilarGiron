@@ -201,3 +201,12 @@ class AuthMeTests(TestCase):
         data = response.json()
         self.assertEqual(data["id"], self.user.id)
         self.assertEqual(data["username"], self.user.username)
+
+    def test_delete_me_removes_user_and_closes_session(self):
+        self.client.force_login(self.user)
+
+        response = self.client.delete("/api/users/me/")
+
+        self.assertEqual(response.status_code, 204)
+        self.assertFalse(User.objects.filter(id=self.user.id).exists())
+        self.assertEqual(self.client.get("/api/users/me/").status_code, 401)

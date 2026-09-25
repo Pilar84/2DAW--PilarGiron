@@ -22,9 +22,17 @@ class LibraryEntry(models.Model):
         blank=True 
     )
 
-    external_game_id = models.CharField(max_length=100, unique=True)
+    external_game_id = models.CharField(max_length=100)
     status = models.CharField(max_length=20, default=STATUS_WISHLIST)
     hours_played = models.IntegerField(default=0)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["user", "external_game_id"],
+                name="unique_library_game_per_user",
+            )
+        ]
 
     # --- Simple methods for easy unit tests (not used by the exercises) ---
 
