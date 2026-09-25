@@ -218,8 +218,9 @@ def me(request):
         )
 
     if request.method == "DELETE":
+        user = request.user
         logout(request)
-        request.user.delete()
+        user.delete()
         return JsonResponse({}, status=204)
 
     return JsonResponse(
