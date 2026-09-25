@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { apiFetch } from "../lib/api";
 import ApiAlert from "../components/ApiAlert";
 
@@ -9,6 +9,9 @@ export default function DeleteAccount() {
   const [err, setErr] = useState<{ status: number; error: any } | null>(null);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+  const { refreshMe } = useOutletContext<{
+    refreshMe: () => Promise<void>;
+  }>();
 
   const CONFIRM_WORD = "ELIMINAR";
 
@@ -23,6 +26,7 @@ export default function DeleteAccount() {
     setPending(false);
 
     if (r.ok) {
+      await refreshMe();
       setSuccess(true);
 
       setTimeout(() => {
